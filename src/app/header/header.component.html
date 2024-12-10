@@ -11,7 +11,12 @@
         <p-button icon="pi pi-user" class="mr-2" text severity="secondary" />
         <p-iconfield iconPosition="left">
           <p-inputicon styleClass="pi pi-search" />
-          <input type="text" pInputText placeholder="Search" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [(ngModel)]="enteredSearch"
+          />
         </p-iconfield>
       </ng-template>
 
