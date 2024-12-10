@@ -8,6 +8,7 @@ import { InputIcon } from 'primeng/inputicon';
 import { FormsModule, NgModel } from '@angular/forms';
 import { HeaderService } from './header.service';
 import { ProductsService } from '../product/products-service.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,8 @@ import { ProductsService } from '../product/products-service.service';
     IconField,
     InputIcon,
     FormsModule,
+    RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',

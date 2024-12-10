@@ -2,13 +2,22 @@
   <div class="card">
     <p-menubar [model]="items">
       <ng-template #start>
+        <!-- TODO ADD USERID TO SHOPPING CART -->
         <p-button
+          [routerLink]="['userId', 'cart']"
+          routerLinkActive="router-link-active"
           icon="pi pi-shopping-cart"
           class="mr-2"
           text
           severity="secondary"
         />
-        <p-button icon="pi pi-user" class="mr-2" text severity="secondary" />
+        <p-button
+          routerLink="login"
+          icon="pi pi-user"
+          class="mr-2"
+          text
+          severity="secondary"
+        />
         <p-iconfield iconPosition="left">
           <p-inputicon styleClass="pi pi-search" />
           <input
@@ -16,6 +25,7 @@
             pInputText
             placeholder="Search"
             [(ngModel)]="enteredSearch"
+            (submit)="onSearch()"
           />
         </p-iconfield>
       </ng-template>
@@ -23,6 +33,7 @@
       <ng-template #center> </ng-template>
       <ng-template #end>
         <img
+          routerLink=""
           src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
           height="40"
           class="p-mr-2"
