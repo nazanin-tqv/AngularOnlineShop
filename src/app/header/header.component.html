@@ -1,5 +1,29 @@
 <header>
-    <div class="card">
-    <p-menubar [model]="items" />
-</div>
+  <div class="card">
+    <p-menubar [model]="items">
+      <ng-template #start>
+        <p-button
+          icon="pi pi-shopping-cart"
+          class="mr-2"
+          text
+          severity="secondary"
+        />
+        <p-button icon="pi pi-user" class="mr-2" text severity="secondary" />
+        <p-iconfield iconPosition="left">
+          <p-inputicon styleClass="pi pi-search" />
+          <input type="text" pInputText placeholder="Search" />
+        </p-iconfield>
+      </ng-template>
+
+      <ng-template #center> </ng-template>
+      <ng-template #end>
+        <img
+          src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
+          height="40"
+          class="p-mr-2"
+          alt="brand logo"
+        />
+      </ng-template>
+    </p-menubar>
+  </div>
 </header>
