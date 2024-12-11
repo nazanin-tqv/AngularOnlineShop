@@ -1,1 +1,50 @@
-<p>login works!</p>
+<form
+  (ngSubmit)="onLogin()"
+  [formGroup]="loginForm"
+  styleClass="card-container"
+>
+  <p-card styleClass="user-form" class="flex">
+    <div class="field">
+      <label for="email" class="block label">Email</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        pInputText
+        formControlName="email"
+        placeholder="Email"
+      />
+    </div>
+    <small
+      class="p-error block"
+      *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.dirty"
+    >
+      Enter a proper email</small
+    >
+    <div class="field">
+      <label for="password" class="block label">Password</label>
+      <input
+        type="text"
+        id="password"
+        name="password"
+        pInputText
+        formControlName="password"
+        placeholder="Password"
+      />
+    </div>
+    <small
+      class="p-error block"
+      *ngIf="
+        loginForm.get('password')?.invalid && loginForm.get('password')?.dirty
+      "
+    >
+      Password invalid</small
+    >
+    <button
+      pButton
+      type="submit"
+      label="Login"
+      [disabled]="loginForm.invalid"
+    ></button>
+  </p-card>
+</form>

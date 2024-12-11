@@ -8,4 +8,6 @@ export interface User {
   postalCode: string;
   city: string;
   cart: Product[];
+  email: string;
+  password: string;
 }
