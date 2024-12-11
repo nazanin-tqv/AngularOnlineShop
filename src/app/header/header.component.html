@@ -18,16 +18,19 @@
           text
           severity="secondary"
         />
-        <p-iconfield iconPosition="left">
-          <p-inputicon styleClass="pi pi-search" />
-          <input
-            type="text"
-            pInputText
-            placeholder="Search"
-            [(ngModel)]="enteredSearch"
-            (submit)="onSearch()"
-          />
-        </p-iconfield>
+        <form #form>
+          <p-iconfield iconPosition="left">
+            <p-inputicon styleClass="pi pi-search" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              name="searchInput"
+              #searchInput
+              (keydown.enter)="onSearch()"
+            />
+          </p-iconfield>
+        </form>
       </ng-template>
 
       <ng-template #center> </ng-template>
