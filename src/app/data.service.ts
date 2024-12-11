@@ -15,7 +15,7 @@ export class DataService {
   private isFetching = signal<boolean>(false); //TODO for loading
   error = signal<string>('');
   private url =
-    'https://onlineshopdb-49467-default-rtdb.asia-southeast1.firebasedatabase.app/';
+    'https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/';
   private httpClient = inject(HttpClient);
   constructor() {}
   fetchUserList() {
