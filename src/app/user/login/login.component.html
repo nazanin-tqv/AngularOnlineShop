@@ -1,4 +1,5 @@
 <form
+  #form
   (ngSubmit)="onLogin()"
   [formGroup]="loginForm"
   styleClass="card-container"
@@ -17,14 +18,18 @@
     </div>
     <small
       class="p-error block"
-      *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.dirty"
+      *ngIf="
+        loginForm.get('email')?.invalid &&
+        loginForm.get('email')?.dirty &&
+        loginForm.get('email')?.touched
+      "
     >
       Enter a proper email</small
     >
     <div class="field">
       <label for="password" class="block label">Password</label>
       <input
-        type="text"
+        type="password"
         id="password"
         name="password"
         pInputText
@@ -35,7 +40,9 @@
     <small
       class="p-error block"
       *ngIf="
-        loginForm.get('password')?.invalid && loginForm.get('password')?.dirty
+        loginForm.get('password')?.invalid &&
+        loginForm.get('password')?.dirty &&
+        loginForm.get('password')?.touched
       "
     >
       Password invalid</small
@@ -46,5 +53,14 @@
       label="Login"
       [disabled]="loginForm.invalid"
     ></button>
+    <p class="p-error block" *ngIf="!authBoolean">
+      Email or Password Incorrect! Try again.
+    </p>
+    <a
+      routerLink="/signup"
+      styleClass="link"
+      routerLinkActive="router-link-active"
+      >Not a user yet? Sign up!</a
+    >
   </p-card>
 </form>

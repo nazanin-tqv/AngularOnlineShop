@@ -33,3 +33,13 @@
   width: 20%;
   align-self: center;
 }
+a {
+  display: block;
+  margin: 0 auto;
+  text-decoration: none;
+  text-align: center;
+  color: #31aa52;
+}
+a:hover {
+  color: #5dd27c;
+}
