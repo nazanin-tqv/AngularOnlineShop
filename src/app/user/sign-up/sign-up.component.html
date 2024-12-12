@@ -1,9 +1,9 @@
 <form [formGroup]="signupForm" (ngSubmit)="onSignup()" #form>
   <p-card>
-    <h2>Sign up!</h2>
+    <h2>صفحه ثبت نام</h2>
 
     <div class="control">
-      <label for="email">Email</label>
+      <label for="email">ایمیل</label>
       <input
         id="email"
         type="email"
@@ -15,7 +15,7 @@
 
     <div class="control-row" formGroupName="passwords">
       <div class="control">
-        <label for="password">Password</label>
+        <label for="password">رمز عبور</label>
         <input
           id="password"
           type="password"
@@ -26,7 +26,7 @@
       </div>
 
       <div class="control">
-        <label for="confirm-password">Confirm Password</label>
+        <label for="confirm-password">تایید زمز عبور</label>
         <input
           id="confirm-password"
           type="password"
@@ -42,7 +42,7 @@
     <div>
       <div class="control-row">
         <div class="control">
-          <label for="first-name">First Name</label>
+          <label for="first-name">نام</label>
           <input
             type="text"
             id="first-name"
@@ -53,7 +53,7 @@
         </div>
 
         <div class="control">
-          <label for="last-name">Last Name</label>
+          <label for="last-name">نام خانوادگی</label>
           <input
             type="text"
             id="last-name"
@@ -64,10 +64,10 @@
         </div>
       </div>
 
-      <p-fieldset formGroupName="address" legend="Your Address">
+      <p-fieldset formGroupName="address" legend="آدرس شما">
         <div class="control-row">
           <div class="control">
-            <label for="street">Street</label>
+            <label for="street">آدرس دقیق</label>
             <input
               type="text"
               id="street"
@@ -78,7 +78,7 @@
           </div>
 
           <div class="control">
-            <label for="number">Number</label>
+            <label for="number">شماره همراه</label>
             <input
               type="text"
               id="number"
@@ -91,7 +91,7 @@
 
         <div class="control-row">
           <div class="control">
-            <label for="postal-code">Postal Code</label>
+            <label for="postal-code">کد پستی</label>
             <input
               type="text"
               id="postal-code"
@@ -102,7 +102,7 @@
           </div>
 
           <div class="control">
-            <label for="city">City</label>
+            <label for="city">شهر</label>
             <input type="text" id="city" name="city" formControlName="city" />
           </div>
         </div>
@@ -120,17 +120,17 @@
             name="terms"
             formControlName="agree"
           />
-          I agree to the terms and conditions
+          با قوانین سایت موافقم
         </label>
       </div>
     </div>
 
     <p class="form-actions">
-      <p-button label="Reset" [link]="true" (click)="onReset()" />
-      <p-button label="Submit" type="submit" />
+      <p-button label="پاک کردن فرم" [link]="true" (click)="onReset()" />
+      <p-button label="ثبت نام" type="submit" />
     </p>
     @if (signupForm.touched&& signupForm.dirty && signupForm.invalid) {
-    <p class="center">Enter Valid inputs</p>
+    <p class="center">لطفا از ورودیهای معتبر استفاده کنید</p>
     }
   </p-card>
 </form>

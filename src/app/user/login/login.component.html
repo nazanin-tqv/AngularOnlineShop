@@ -6,7 +6,7 @@
 >
   <p-card pStyleClass="user-form">
     <div class="field control">
-      <label for="email" class="block label">Email</label>
+      <label for="email" class="block label">ایمیل</label>
       <input
         type="text"
         id="email"
@@ -17,7 +17,7 @@
     </div>
 
     <div class="field control">
-      <label for="password" class="block label">Password</label>
+      <label for="password" class="block label">رمز عبور</label>
       <input
         type="password"
         id="password"
@@ -30,20 +30,20 @@
     <button
       pButton
       type="submit"
-      label="Login"
+      label="ورود"
       [disabled]="loginForm.invalid"
     ></button>
     <p class="p-error block" *ngIf="!authBoolean">
-      Email or Password Incorrect! Try again.
+      ایمیل یا رمز عبور نامعتبر است
     </p>
     <a
       routerLink="/signup"
       styleClass="link"
       routerLinkActive="router-link-active"
-      >Not a user yet? Sign up!</a
+      >ثبت نام کنید</a
     >
     @if (loginForm.touched&& loginForm.dirty && loginForm.invalid) {
-    <p class="control-form cen">Enter Valid inputs</p>
+    <p class="control-form cen">لطفا از ورودیهای معتبر استفاده کنید</p>
     }
   </p-card>
 </form>
