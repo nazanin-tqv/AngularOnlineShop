@@ -2,10 +2,10 @@
   #form
   (ngSubmit)="onLogin()"
   [formGroup]="loginForm"
-  styleClass="card-container"
+  classs="card-container"
 >
-  <p-card styleClass="user-form" class="flex">
-    <div class="field">
+  <p-card pStyleClass="user-form">
+    <div class="field control">
       <label for="email" class="block label">Email</label>
       <input
         type="text"
@@ -13,20 +13,10 @@
         name="email"
         pInputText
         formControlName="email"
-        placeholder="Email"
       />
     </div>
-    <small
-      class="p-error block"
-      *ngIf="
-        loginForm.get('email')?.invalid &&
-        loginForm.get('email')?.dirty &&
-        loginForm.get('email')?.touched
-      "
-    >
-      Enter a proper email</small
-    >
-    <div class="field">
+
+    <div class="field control">
       <label for="password" class="block label">Password</label>
       <input
         type="password"
@@ -34,19 +24,9 @@
         name="password"
         pInputText
         formControlName="password"
-        placeholder="Password"
       />
     </div>
-    <small
-      class="p-error block"
-      *ngIf="
-        loginForm.get('password')?.invalid &&
-        loginForm.get('password')?.dirty &&
-        loginForm.get('password')?.touched
-      "
-    >
-      Password invalid</small
-    >
+
     <button
       pButton
       type="submit"
@@ -62,5 +42,8 @@
       routerLinkActive="router-link-active"
       >Not a user yet? Sign up!</a
     >
+    @if (loginForm.touched&& loginForm.dirty && loginForm.invalid) {
+    <p class="control-form cen">Enter Valid inputs</p>
+    }
   </p-card>
 </form>

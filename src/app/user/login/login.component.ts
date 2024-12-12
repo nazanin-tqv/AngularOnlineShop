@@ -21,6 +21,7 @@ import { CardModule } from 'primeng/card';
 import { NgIf } from '@angular/common';
 import { AuthService } from './auth.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { StyleClass } from 'primeng/styleclass';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     InputTextModule,
     RouterLink,
     RouterLinkActive,
+    StyleClass,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

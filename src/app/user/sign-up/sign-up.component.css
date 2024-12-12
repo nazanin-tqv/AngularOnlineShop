@@ -1,0 +1,13 @@
+form {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  height: 90%;
+}
+
+.center {
+  display: block;
+  margin: 1rem auto;
+}

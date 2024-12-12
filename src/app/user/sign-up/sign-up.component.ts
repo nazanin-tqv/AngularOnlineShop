@@ -1,20 +1,27 @@
 import { Component } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { FieldsetModule } from 'primeng/fieldset';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { first } from 'rxjs';
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CardModule,
+    ButtonModule,
+    FieldsetModule,
+  ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
 })
@@ -31,19 +38,24 @@ export class SignUpComponent {
         validators: [Validators.required, Validators.min(6)],
       }),
     }),
-    firstName: new FormControl('', {
+    firstname: new FormControl('', {
       validators: [Validators.required, Validators.min(3)],
     }),
-    lastName: new FormControl('', {
+    lastname: new FormControl('', {
       validators: [Validators.required, Validators.min(3)],
     }),
-    number: new FormControl('', {
-      validators: [Validators.min(11), Validators.max(11)],
-    }),
+
     address: new FormGroup({
       city: new FormControl('', { validators: [Validators.required] }),
-      adr: new FormControl('', { validators: [Validators.required] }),
+      street: new FormControl('', { validators: [Validators.required] }),
       postalCode: new FormControl('', { validators: [Validators.required] }),
+      number: new FormControl('', {
+        validators: [Validators.min(11), Validators.max(11)],
+      }),
     }),
+    agree: new FormControl(false, { validators: [Validators.required] }),
   });
+
+  onSignup() {}
+  onReset() {}
 }
