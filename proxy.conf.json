@@ -1,0 +1,10 @@
+{
+  "/firestore-api": {
+    "target": "https://firestore.googleapis.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/firestore-api": ""
+    }
+  }
+}

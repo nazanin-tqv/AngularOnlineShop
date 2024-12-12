@@ -8,6 +8,4 @@ import { User } from './user.model';
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
-export class UserComponent {
-  users?: User[];
-}
+export class UserComponent {}

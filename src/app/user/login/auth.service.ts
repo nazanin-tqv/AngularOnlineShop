@@ -1,16 +1,21 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { UsersService } from '../users.service';
 import { User } from '../user.model';
+import { DataService } from '../../data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private userService = inject(UsersService);
+  private dataSerivce = inject(DataService);
   private userIsValid = signal<boolean>(false);
   private validUser?: User;
   authenticateUser(loginData: { email: string; password: string }) {
-    const match = this.userService.getUsers?.filter(
+    const users = [
+      ...this.dataSerivce.getAdmins,
+      ...this.dataSerivce.getCustomers,
+    ];
+    const match = users?.filter(
       (user) =>
         user.email === loginData.email && user.password === loginData.password
     );

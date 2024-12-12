@@ -1,48 +1,43 @@
 <header>
-  <div class="card">
-    <p-menubar [model]="items">
-      <ng-template #start>
-        <!-- TODO ADD USERID TO SHOPPING CART -->
-        <p-button
-          [routerLink]="['userId', 'cart']"
-          routerLinkActive="router-link-active"
-          icon="pi pi-shopping-cart"
-          class="mr-2"
-          text
-          severity="secondary"
-        />
-        <p-button
-          routerLink="login"
-          icon="pi pi-user"
-          class="mr-2"
-          text
-          severity="secondary"
-        />
-        <form #form>
-          <p-iconfield iconPosition="left">
-            <p-inputicon styleClass="pi pi-search" />
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              name="searchInput"
-              #searchInput
-              (keydown.enter)="onSearch()"
-            />
-          </p-iconfield>
-        </form>
-      </ng-template>
+  <div class="grid-container">
+    <img
+      routerLink=""
+      src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
+      height="40"
+      class="p-mr-2"
+      alt="brand logo"
+    />
 
-      <ng-template #center> </ng-template>
-      <ng-template #end>
-        <img
-          routerLink=""
-          src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
-          height="40"
-          class="p-mr-2"
-          alt="brand logo"
+    <!-- TODO ADD USERID TO SHOPPING CART -->
+    <form #form>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          type="text"
+          pInputText
+          placeholder="جستجو"
+          name="searchInput"
+          #searchInput
+          (keydown.enter)="onSearch()"
         />
-      </ng-template>
-    </p-menubar>
+      </p-iconfield>
+    </form>
+    <div class="access-button">
+      <p-button
+        routerLink="login"
+        icon="pi pi-user"
+        class="mr-2"
+        text
+        severity="secondary"
+      />
+      <p-button
+        [routerLink]="['userId', 'cart']"
+        routerLinkActive="router-link-active"
+        icon="pi pi-shopping-cart"
+        class="mr-2"
+        text
+        severity="secondary"
+      />
+    </div>
   </div>
 </header>

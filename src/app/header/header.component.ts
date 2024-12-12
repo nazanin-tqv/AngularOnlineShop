@@ -25,7 +25,7 @@ import { NgFor } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [
-    Menubar,
+    //Menubar,
     ButtonModule,
     InputTextModule,
     IconField,
@@ -38,7 +38,7 @@ import { NgFor } from '@angular/common';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  items: MenuItem[] | undefined;
+  //items: MenuItem[] | undefined;
   enteredSearch =
     viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
   private form = viewChild<ElementRef<NgForm>>('form'); // added for resetting purpose
