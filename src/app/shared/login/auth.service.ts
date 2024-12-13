@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { UsersService } from '../users.service';
-import { User } from '../user.model';
+import { UsersService } from '../../user/users.service';
+import { User } from '../../user/user.model';
 import { DataService } from '../../data.service';
 
 @Injectable({
@@ -10,11 +10,10 @@ export class AuthService {
   private dataSerivce = inject(DataService);
   private userIsValid = signal<boolean>(false);
   private validUser?: User;
-  authenticateUser(loginData: { email: string; password: string }) {
-    const users = [
-      ...this.dataSerivce.getAdmins,
-      ...this.dataSerivce.getCustomers,
-    ];
+  authenticateUser(
+    loginData: { email: string; password: string },
+    users: User[]
+  ) {
     const match = users?.filter(
       (user) =>
         user.email === loginData.email && user.password === loginData.password

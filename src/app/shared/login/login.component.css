@@ -1,0 +1,50 @@
+:host .user-form {
+  width: 80%;
+  place-self: center;
+}
+form {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+}
+:host .card-container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+:host .p-inputtext {
+  margin-left: 0 1.5rem;
+  width: 90%;
+}
+:host .field {
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+:host .p-button {
+  display: block;
+  margin: 1.5rem auto;
+  background: #31aa52;
+  width: 30%;
+}
+:host .p-button:hover {
+  background-color: #5dd27c;
+}
+:host .label {
+  width: 15%;
+  align-self: center;
+}
+a {
+  display: block;
+  margin: 0 auto;
+  text-decoration: none;
+  text-align: center;
+  color: #31aa52;
+}
+a:hover {
+  color: #5dd27c;
+}

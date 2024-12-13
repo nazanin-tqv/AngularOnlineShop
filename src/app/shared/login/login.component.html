@@ -1,0 +1,44 @@
+<form
+  #form
+  (ngSubmit)="onLogin()"
+  [formGroup]="loginForm"
+  classs="card-container"
+>
+  <p-card pStyleClass="user-form">
+    <h2>صفحه ورود {{ userType() | typeTitle }}</h2>
+    <div class="field control">
+      <label for="email" class="block label">ایمیل</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        pInputText
+        formControlName="email"
+      />
+    </div>
+
+    <div class="field control">
+      <label for="password" class="block label">رمز عبور</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        pInputText
+        formControlName="password"
+      />
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      label="ورود"
+      [disabled]="loginForm.invalid"
+      [routerLink]="[userId()]"
+      routerLinkActive="router-link-active"
+    ></button>
+    <ng-content></ng-content>
+    @if (loginForm.touched&& loginForm.dirty && loginForm.invalid) {
+    <p class="control-form cen">لطفا از ورودیهای معتبر استفاده کنید</p>
+    }
+  </p-card>
+</form>

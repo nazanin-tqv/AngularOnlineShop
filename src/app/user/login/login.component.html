@@ -1,49 +1,8 @@
-<form
-  #form
-  (ngSubmit)="onLogin()"
-  [formGroup]="loginForm"
-  classs="card-container"
->
-  <p-card pStyleClass="user-form">
-    <div class="field control">
-      <label for="email" class="block label">ایمیل</label>
-      <input
-        type="text"
-        id="email"
-        name="email"
-        pInputText
-        formControlName="email"
-      />
-    </div>
-
-    <div class="field control">
-      <label for="password" class="block label">رمز عبور</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        pInputText
-        formControlName="password"
-      />
-    </div>
-
-    <button
-      pButton
-      type="submit"
-      label="ورود"
-      [disabled]="loginForm.invalid"
-    ></button>
-    <p class="p-error block" *ngIf="!authBoolean">
-      ایمیل یا رمز عبور نامعتبر است
-    </p>
-    <a
-      routerLink="/signup"
-      styleClass="link"
-      routerLinkActive="router-link-active"
-      >ثبت نام کنید</a
-    >
-    @if (loginForm.touched&& loginForm.dirty && loginForm.invalid) {
-    <p class="control-form cen">لطفا از ورودیهای معتبر استفاده کنید</p>
-    }
-  </p-card>
-</form>
+<shared-login userType="customer">
+  <a
+    routerLink="/signup"
+    styleClass="link"
+    routerLinkActive="router-link-active"
+    >ثبت نام کنید</a
+  >
+</shared-login>
