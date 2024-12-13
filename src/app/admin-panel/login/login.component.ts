@@ -11,11 +11,16 @@ import { Admin } from '../../user/user.model';
   styleUrl: './login.component.css',
 })
 export class AdminLoginComponent {
-  private authService = inject(AuthService);
-  validUser?: Admin;
-  onAdminLogin() {
-    if (this.authService.userValid) {
-      this.validUser = this.authService.getValidUser as Admin;
-    } else return;
-  }
+  // private authService = inject(AuthService);
+  // validUser?: Admin;
+  // onAdminLogin() {
+  //   if (this.authService.userValid) {
+  //     const log = this.authService.getLoggedInUser;
+  //     if (!log) {
+  //       if (this.authService.isAdmin(log)) {
+  //         this.validUser = log;
+  //       }
+  //     }
+  //   } else return;
+  // }
 }

@@ -1,1 +1,9 @@
-<p>admin panel</p>
+<div class="card panel-container">
+  <div class="side-menu">
+    <p-panelMenu [model]="items" [multiple]="true"></p-panelMenu>
+  </div>
+  <div class="panel-content">
+    <router-outlet />
+  </div>
+</div>
+<!-- TODO fix icon rotation -->

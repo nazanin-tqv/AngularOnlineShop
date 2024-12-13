@@ -33,8 +33,6 @@
       type="submit"
       label="ورود"
       [disabled]="loginForm.invalid"
-      [routerLink]="[userId()]"
-      routerLinkActive="router-link-active"
     ></button>
     <ng-content></ng-content>
     @if (loginForm.touched&& loginForm.dirty && loginForm.invalid) {

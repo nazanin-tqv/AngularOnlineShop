@@ -19,14 +19,12 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { StyleClass } from 'primeng/styleclass';
 import { DataService } from '../../data.service';
 import { AuthService } from './auth.service';
 import { TypeTitlePipe } from './type-title.pipe';
-import { privateDecrypt } from 'crypto';
-import { Router } from 'express';
+import { User } from '../../user/user.model';
 
 @Component({
   selector: 'shared-login',
@@ -50,7 +48,7 @@ export class SharedLoginComponent {
   private authService = inject(AuthService);
   private dataService = inject(DataService);
   userType = input.required<'admin' | 'customer'>();
-  userId = signal<string>('');
+  loggedInUser: User | null = null;
   authBoolean = signal<boolean>(true);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -80,9 +78,11 @@ export class SharedLoginComponent {
       );
       console.log('Authenticated as customer');
     }
-    if (typeof this.authService.getValidUser?.id === 'string') {
-      this.userId.set(this.authService.getValidUser?.id);
+    const log = this.authService.getLoggedInUser();
+    if (log) {
+      this.loggedInUser = log;
     }
+
     this.authBoolean.set(this.authService.userValid);
     if (this.authBoolean()) {
       this.form()?.nativeElement.reset();
