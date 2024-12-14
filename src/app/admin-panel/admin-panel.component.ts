@@ -23,8 +23,12 @@ export class AdminPanelComponent {
       {
         label: 'محصولات',
         icon: 'pi pi-fw pi-box',
-        routerLink: 'products',
         items: [
+          {
+            label: 'محصولات موجود',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: 'products',
+          },
           {
             label: 'اضافه کردن محصول جدید',
             icon: 'pi pi-fw pi-plus',
@@ -45,8 +49,12 @@ export class AdminPanelComponent {
       {
         label: 'ادمین ها',
         icon: 'pi pi-fw pi-user',
-        routerLink: 'admins',
         items: [
+          {
+            label: 'لیست ادمین ها',
+            icon: 'pi pi-fw pi-user-plus',
+            routerLink: 'admins',
+          },
           {
             label: 'اضافه کردن ادمین جدید',
             icon: 'pi pi-fw pi-user-plus',

@@ -8,12 +8,12 @@ import {
 } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { Brand, Category, categoryList } from '../product.model';
 import { Select } from 'primeng/select';
 import { TreeSelect } from 'primeng/treeselect';
 import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
 import { TreeNode } from 'primeng/api';
-import { SharedModule } from './shared.module';
+import { from } from 'rxjs';
+import { Brand, Category, categoryList } from '../../product/product.model';
 @Component({
   selector: 'app-new-product',
   standalone: true,
@@ -26,12 +26,11 @@ import { SharedModule } from './shared.module';
     TreeSelect,
     FormsModule,
     FileUpload,
-    SharedModule,
   ],
-  templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.css',
+  templateUrl: './product-form.component.html',
+  styleUrl: './product-form.component.css',
 })
-export class NewProductComponent {
+export class SharedProductForm {
   brands = ['اپل', 'سامسونگ', 'شیائومی', 'پیکسل', 'سونی'];
   categoryList: TreeNode[] = categoryList;
   selectedCategories: TreeNode[] = [];

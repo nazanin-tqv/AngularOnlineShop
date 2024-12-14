@@ -7,7 +7,7 @@
   grid-column: 1 / span 2;
 }
 .panel-content {
-  grid-column: 3 / span 4;
+  grid-column: 3 / span 5;
 }
 /* Align the submenu arrow to the left and flip it */
 .p-panelmenu .p-panelmenu-submenu-icon::selection {

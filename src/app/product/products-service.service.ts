@@ -27,7 +27,7 @@ export class ProductsService {
       return this.products?.filter(
         (product) =>
           product.name.includes(searchInput) ||
-          product.brand === searchInput ||
+          product.brand.toString() === searchInput ||
           product.categories.includes(searchInput)
       );
     }
