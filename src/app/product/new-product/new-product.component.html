@@ -25,7 +25,7 @@
         <p-fileUpload
           name="image"
           formControlName="image"
-          url="localhost"
+          [url]="url"
           (onUpload)="onUpload($event)"
           formControlName="image"
           accept="image/*"
@@ -61,6 +61,7 @@
             selectionMode="multiple"
             placeholder="دسته‌بندی"
             styleClass="w-full"
+            (onNodeSelect)="onCategoryChange()"
           >
           </p-treeSelect>
         </div>

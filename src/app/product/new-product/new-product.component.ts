@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,12 +8,21 @@ import {
 } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { Brand, Category, categoryList } from '../product.model';
+import {
+  Brand,
+  Category,
+  categoryBrandMapping,
+  categoryList,
+  Product,
+} from '../product.model';
 import { Select } from 'primeng/select';
 import { TreeSelect } from 'primeng/treeselect';
 import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
 import { TreeNode } from 'primeng/api';
 import { SharedModule } from './shared.module';
+import { ProductsService } from '../products-service.service';
+import { pid } from 'process';
+import { DataService } from '../../data.service';
 @Component({
   selector: 'app-new-product',
   standalone: true,
@@ -32,8 +41,16 @@ import { SharedModule } from './shared.module';
   styleUrl: './new-product.component.css',
 })
 export class NewProductComponent {
-  brands = ['اپل', 'سامسونگ', 'شیائومی', 'پیکسل', 'سونی'];
+  createdProduct?: Product;
+
+  private productService = inject(ProductsService);
+  private dataService = inject(DataService);
+  pId = this.productService.genarateProductId();
+  url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/asset/${this.pId}`;
+  // Dynamic list of brands
+  brands: string[] = [];
   categoryList: TreeNode[] = categoryList;
+  categoryBrandMapping = categoryBrandMapping;
   selectedCategories: TreeNode[] = [];
   form = viewChild<HTMLFormElement>('form');
   productForm = new FormGroup({
@@ -42,7 +59,7 @@ export class NewProductComponent {
       validators: [Validators.required],
     }),
     summary: new FormControl<string>('', { validators: [Validators.required] }),
-    brand: new FormControl<Brand>(Brand.Apple, {
+    brand: new FormControl<string>('', {
       validators: Validators.required,
     }),
     description: new FormControl<string>('', {
@@ -50,15 +67,61 @@ export class NewProductComponent {
     }),
     categories: new FormControl<Category[]>([]),
   });
+
+  // Method to update brands when category is selected
+  onCategoryChange() {
+    // Check if event.value is an array of TreeNode and map over it
+    const selectedCategories = this.productForm.value.categories?.map(
+      (category: TreeNode) => category.label
+    );
+
+    this.brands = this.getBrandsForCategories(
+      selectedCategories?.filter((c) => typeof c !== 'undefined') as string[]
+    );
+    console.log('Selected Brands:', this.brands);
+  }
+  getBrandsForCategories(categories: string[]): string[] {
+    let availableBrands: string[] = [];
+    categories.forEach((category) => {
+      console.log(category);
+      if (this.categoryBrandMapping[category]) {
+        availableBrands = [
+          ...availableBrands,
+          ...this.categoryBrandMapping[category],
+        ];
+      }
+    });
+    return [...new Set(availableBrands)]; // Remove duplicates if any
+  }
   onAddProduct() {
     const val = this.productForm.value;
+    const selectedCategories = this.productForm.value.categories?.map(
+      (category: TreeNode) => category.label
+    );
+
+    this.brands = this.getBrandsForCategories(
+      selectedCategories?.filter((c) => typeof c !== 'undefined') as string[]
+    );
+    console.log('Selected Brands:', this.brands);
     const enteredName = val.name;
     const enteredSummary = val.summary;
     const enteredBrand = val.brand;
     const enteredDescription = val.description;
     const enteredCategories = this.productForm.get('categories')?.value;
+    const uploadedImage = this.productForm.get('image')?.value;
     console.log(`Product name: ${enteredName} brand: ${enteredBrand}`);
     console.log(`Categories: ${enteredCategories?.map((v) => v.value)}`);
+    this.createdProduct = {
+      name: enteredName as string,
+      summary: enteredSummary as string,
+      brand: enteredBrand as string,
+      description: enteredDescription as string,
+      categories: enteredCategories as Category[],
+      image: uploadedImage as File,
+      id: this.pId,
+      price: 1000,
+    };
+    this.dataService.addProductHTTP(this.createdProduct);
   }
 
   onReset() {

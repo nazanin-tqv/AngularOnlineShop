@@ -29,7 +29,7 @@ export class ProductsService {
         (product) =>
           product.name.includes(searchInput) ||
           product.brand.toString() === searchInput ||
-          product.categories.includes(searchInput)
+          product.categories.some((c) => c.label === searchInput)
       );
     }
     return;
@@ -47,5 +47,9 @@ export class ProductsService {
       }
     }
     return this.onDisplayProducts;
+  }
+  genarateProductId() {
+    const size = this.products.length;
+    return `p${size + 1}`;
   }
 }

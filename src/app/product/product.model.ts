@@ -1,13 +1,12 @@
 export interface Product {
   id: string;
   name: string;
-  image: string;
+  image: File;
   summary: string;
-  brand: Brand;
+  brand: string;
   description: string;
-  categories: string[];
-  price: number
-
+  categories: Category[];
+  price: number;
 }
 export enum Brand {
   Apple,
@@ -118,6 +117,17 @@ export const categoryList: Category[] = [
     ],
   },
 ];
+
+export const categoryBrandMapping: { [key: string]: string[] } = {
+  موبایل: ['اپل', 'سامسونگ', 'شیائومی', 'سونی'],
+  تبلت: ['اپل', 'سامسونگ', 'لنوو'],
+  لپتاپ: ['دل', 'ایسر', 'لنوو', 'سامسونگ', 'اپل'],
+  کتاب: ['نشر چشمه', 'نشر نو', 'نشر جنگل'],
+  'لوازم تحریر': ['پاپکو', 'زبرا'],
+  پوشاک: ['زارا', 'پول اند بر', 'گوچی', 'لارا'],
+  'کالای دیجیتال': ['اپل', 'سامسونگ', 'شیائومی', 'سونی'],
+  فرهنگ: ['نشر چشمه', 'نشر نو', 'نشر جنگل'],
+};
 
 export interface UploadEvent {
   originalEvent: Event;

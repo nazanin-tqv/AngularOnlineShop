@@ -148,7 +148,29 @@ export class DataService {
       .subscribe({
         next: (response) => {
           this.chosenProduct.set(response.documents);
-          console.log('Customer:', this.chosenProduct());
+          console.log('Product:', this.chosenProduct());
+        },
+        error: (error: Error) => this.error.set(error.message),
+        complete: () => this.isFetching.set(false),
+      });
+  }
+  FetchProductImage(id: string) {
+    return this.firestoreService
+      .getProductImage(id)
+      .pipe(
+        catchError((error) =>
+          throwError(
+            () =>
+              new Error(
+                `Something went wrong while fetching product image with id ${id}`
+              )
+          )
+        )
+      )
+      .subscribe({
+        next: (response) => {
+          this.chosenProduct.set(response.documents);
+          console.log('Product:', this.chosenProduct());
         },
         error: (error: Error) => this.error.set(error.message),
         complete: () => this.isFetching.set(false),
@@ -213,6 +235,10 @@ export class DataService {
       )
       .subscribe((response) => {
         console.log('Product added:', response);
+        // const documentPath = response.name;
+        // const documentId = documentPath.split('/').pop(); // Get the auto-generated ID (last part)
+        // console.log('Document created with ID:', documentId);
+        //product.id = documentId;
         if (!prevProducts.some((p) => p.id === product.id)) {
           this.products.update((prevProducts) => [...prevProducts, product]);
         }
