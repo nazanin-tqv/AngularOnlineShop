@@ -1,11 +1,13 @@
 export interface Product {
   id: string;
   name: string;
-  img_src: string;
+  image: string;
   summary: string;
   brand: Brand;
   description: string;
   categories: string[];
+  price: number
+
 }
 export enum Brand {
   Apple,

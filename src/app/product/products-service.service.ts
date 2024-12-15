@@ -1,19 +1,20 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Product } from './product.model';
 import { HeaderService } from '../header/header.service';
+import { DataService } from '../data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private products?: Product[];
-  readonly productsReadonly = this.products;
+  private dataService = inject(DataService);
+  private products = this.dataService.getProducts;
   private onDisplayProducts?: Product[];
   private foundNothing = signal<boolean>(false);
 
   private headerService = inject(HeaderService);
   get getProducts() {
-    return this.productsReadonly;
+    return this.products;
   }
   set setFoundNothing(b: boolean) {
     this.foundNothing.set(b);
