@@ -31,7 +31,7 @@ export class AuthService {
         console.log('authentication successful');
         localStorage.setItem('loggedInUser', JSON.stringify(match)); // Store user info
         if (userType === 'admin') {
-          this.router.navigate(['admin-gitpanel']);
+          this.router.navigate(['admin-panel']);
         } else {
           this.router.navigate(['/']);
         }
