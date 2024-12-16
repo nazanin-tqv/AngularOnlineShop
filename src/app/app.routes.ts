@@ -35,7 +35,7 @@ export const routes: Routes = [
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
-    //canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       {

@@ -13,7 +13,9 @@ export class FirestoreService {
   private firestoreBaseUrl =
     'https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/';
   constructor(private http: HttpClient) {}
-
+  get getBaseUrl() {
+    return this.firestoreBaseUrl;
+  }
   // Method to get all documents from the collection
   getProducts(): Observable<any> {
     const url = `${this.firestoreBaseUrl}products`;
@@ -22,34 +24,36 @@ export class FirestoreService {
 
   // Method to get all documents from the collection
   getCustomers(): Observable<any> {
-    const url = `${this.firestoreBaseUrl}customers/customer`;
+    const url = `${this.firestoreBaseUrl}customers`;
     return this.http.get(url);
   }
   getAdmins(): Observable<any> {
-    const url = `${this.firestoreBaseUrl}admins/admin`;
+    const url = `${this.firestoreBaseUrl}admins`;
     return this.http.get(url);
   }
   // get by id
   getProductById(documentId: string): Observable<any> {
-    const url = `${this.firestoreBaseUrl}products/product/${documentId}`;
+    const url = `${this.firestoreBaseUrl}products/${documentId}`;
     return this.http.get(url);
   }
   getCustomerById(documentId: string): Observable<any> {
-    const url = `${this.firestoreBaseUrl}customers/customer/${documentId}`;
+    const url = `${this.firestoreBaseUrl}customers/${documentId}`;
     return this.http.get(url);
   }
   getAdminById(documentId: string): Observable<any> {
-    const url = `${this.firestoreBaseUrl}admins/admin/${documentId}`;
+    const url = `${this.firestoreBaseUrl}admins/${documentId}`;
     return this.http.get(url);
   }
   getProductImage(documentId: string): Observable<any> {
-    const url = `${this.firestoreBaseUrl}assets/asset/${documentId}`;
+    const baseUrl =
+      'https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/';
+    const url = `${baseUrl}products/${documentId}`;
     return this.http.get(url);
   }
 
   // Method to add a new document to the collection
   addProduct(product: Product): Observable<any> {
-    const url = `${this.firestoreBaseUrl}products/product/${product.id}`;
+    const url = `${this.firestoreBaseUrl}products/${product.id}`;
     const body = {
       fields: {
         name: { stringValue: product.name },
@@ -72,17 +76,24 @@ export class FirestoreService {
     });
   }
   addCustomer(customer: Customer): Observable<any> {
-    const url = `${this.firestoreBaseUrl}customers/customer`;
+    const url = `${this.firestoreBaseUrl}customers/${customer.id}}`;
     const body = {
       fields: {
-        id: { stringValue: customer.id },
         fname: { stringValue: customer.name['fname'] },
         lname: { stringValue: customer.name['lname'] },
         address: { stringValue: customer.address },
+        postalCode: { stringValue: customer.postalCode },
         email: { stringValue: customer.email },
+        number: { stringValue: customer.number },
         balance: { doubleValue: customer.balance },
         password: { stringValue: customer.password },
-        cart: { arrayValue: customer.cart },
+        cart: {
+          arrayValue: {
+            values: customer.cart.map((p) => ({
+              stringValue: p.id,
+            })),
+          },
+        },
       },
     };
 
@@ -91,7 +102,7 @@ export class FirestoreService {
     });
   }
   addAdmin(admin: Admin): Observable<any> {
-    const url = `${this.firestoreBaseUrl}admins/admin`;
+    const url = `${this.firestoreBaseUrl}admins/${admin.id}`;
     const body = {
       fields: {
         id: { stringValue: admin.id },
@@ -102,14 +113,14 @@ export class FirestoreService {
       },
     };
 
-    return this.http.post(url, body, {
+    return this.http.patch(url, body, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     });
   }
 
   // Method to update an existing document
   updateProduct(documentId: string, product: Product): Observable<any> {
-    const url = `${this.firestoreBaseUrl}products/product/${documentId}`;
+    const url = `${this.firestoreBaseUrl}products/${documentId}`;
     const body = {
       fields: {
         name: { stringValue: product.name },
@@ -132,7 +143,7 @@ export class FirestoreService {
     });
   }
   updateCustomer(documentId: string, customer: Customer): Observable<any> {
-    const url = `${this.firestoreBaseUrl}customers/customer/${documentId}`;
+    const url = `${this.firestoreBaseUrl}customers/${documentId}`;
     const body = {
       fields: {
         fname: { stringValue: customer.name['fname'] },
@@ -152,7 +163,7 @@ export class FirestoreService {
 
   // Method to delete a document from the collection
   deleteProduct(documentId: string): Observable<any> {
-    const url = `${this.firestoreBaseUrl}products/product/${documentId}`;
+    const url = `${this.firestoreBaseUrl}products/${documentId}`;
     return this.http.delete(url);
   }
 }

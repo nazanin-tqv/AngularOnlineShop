@@ -24,7 +24,8 @@ import { StyleClass } from 'primeng/styleclass';
 import { DataService } from '../../data.service';
 import { AuthService } from './auth.service';
 import { TypeTitlePipe } from './type-title.pipe';
-import { User } from '../../user/user.model';
+import { Admin, Customer, User } from '../../user/user.model';
+import { response } from 'express';
 
 @Component({
   selector: 'shared-login',
@@ -60,22 +61,38 @@ export class SharedLoginComponent {
     console.log(`Email: ${enteredEmail} password: ${enteredPassword}`);
 
     if (this.userType() === 'admin') {
-      this.authService.authenticateUser(
-        {
-          email: enteredEmail,
-          password: enteredPassword,
+      const observable = this.dataService.fetchAdminListObservable();
+      observable.subscribe({
+        next: (response) => {
+          this.dataService.setAdmins(response as Admin[]);
+          this.authService.authenticateUser(
+            {
+              email: enteredEmail,
+              password: enteredPassword,
+            },
+            this.dataService.getAdmins,
+            'admin'
+          );
         },
-        this.dataService.getAdmins
-      );
+      });
+
       console.log('Authenticated as admin');
     } else {
-      this.authService.authenticateUser(
-        {
-          email: enteredEmail,
-          password: enteredPassword,
+      this.dataService.fetchCustomerListObservable().subscribe({
+        next: (response) => {
+          this.dataService.setCustomers(response as Customer[]);
+
+          this.authService.authenticateUser(
+            {
+              email: enteredEmail,
+              password: enteredPassword,
+            },
+            this.dataService.getCustomers,
+            'customer'
+          );
         },
-        this.dataService.getCustomers
-      );
+      });
+
       console.log('Authenticated as customer');
     }
     const log = this.authService.getLoggedInUser();

@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Admin, Customer, User } from './user/user.model';
 import { catchError, map, throwError } from 'rxjs';
-import { Product } from './product/product.model';
+import { Category, categoryList, Product } from './product/product.model';
 import { error } from 'console';
 import { pid } from 'process';
 import { FirestoreService } from './firestore.service';
+import { DocumentData } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,14 @@ export class DataService {
   get getAdmins() {
     return this.admins();
   }
+  setAdmins(admins: Admin[]) {
+    this.admins.set(admins);
+  }
   get getCustomers() {
     return this.customers();
+  }
+  setCustomers(customers: Customer[]) {
+    this.customers.set(customers);
   }
   get getProducts() {
     return this.products();
@@ -54,6 +61,43 @@ export class DataService {
                 `Something went wrong while fetching customer with id ${id}`
               )
           )
+        ),
+        map((response) =>
+          response.documents.map(
+            (doc: {
+              name: string;
+              fields: {
+                fname: { stringValue: string };
+                lname: { stringValue: string };
+                email: { stringValue: string };
+                password: { stringValue: string };
+                address: { stringValue: string };
+                city: { stringValue: string };
+                balance: { doubleValue: number };
+                cart: { arrayValue: string[] };
+                number: { stringValue: string };
+              };
+            }) => {
+              return {
+                id: doc['name'].split('/').pop(),
+                name: {
+                  fname: doc['fields'].fname.stringValue,
+                  lname: doc['fields'].lname.stringValue,
+                },
+                email: doc['fields'].email.stringValue,
+                password: doc['fields'].password.stringValue,
+                address: doc['fields'].address.stringValue,
+                city: doc['fields'].city.stringValue,
+                balance: doc['fields'].balance.doubleValue,
+                cart: doc['fields'].cart.arrayValue.map((pId) =>
+                  this.products().find((p) => p.id === pId)
+                ),
+                postalCode: '',
+                godMode: false,
+                number: doc['fields'].number.stringValue,
+              } as Customer;
+            }
+          )
         )
       )
       .subscribe({
@@ -67,24 +111,61 @@ export class DataService {
   }
   // fetch all customers
   fetchCustomerList() {
+    this.fetchCustomerListObservable().subscribe({
+      next: (response) => {
+        this.customers.set(response);
+        console.log('Products:', this.customers());
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
+  }
+  fetchCustomerListObservable() {
     this.isFetching.set(true);
-    return this.firestoreService
-      .getCustomers()
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () => new Error('Something went wrong while fetching customers')
-          )
+    return this.firestoreService.getCustomers().pipe(
+      catchError((error) =>
+        throwError(
+          () => new Error('Something went wrong while fetching customers')
+        )
+      ),
+      map((response) =>
+        response.documents.map(
+          (doc: {
+            name: string;
+            fields: {
+              fname: { stringValue: string };
+              lname: { stringValue: string };
+              email: { stringValue: string };
+              password: { stringValue: string };
+              address: { stringValue: string };
+              city: { stringValue: string };
+              balance: { doubleValue: number };
+              cart: { arrayValue: string[] };
+              number: { stringValue: string };
+            };
+          }) => {
+            return {
+              id: doc['name'].split('/').pop(),
+              name: {
+                fname: doc['fields'].fname.stringValue,
+                lname: doc['fields'].lname.stringValue,
+              },
+              email: doc['fields'].email.stringValue,
+              password: doc['fields'].password.stringValue,
+              address: doc['fields'].address.stringValue,
+              city: doc['fields'].city.stringValue,
+              balance: doc['fields'].balance.doubleValue,
+              cart: doc['fields'].cart.arrayValue.map((pId) =>
+                this.products().find((p) => p.id === pId)
+              ),
+              postalCode: '',
+              godMode: false,
+              number: doc['fields'].number.stringValue,
+            } as Customer;
+          }
         )
       )
-      .subscribe({
-        next: (response) => {
-          this.customers.set(response.documents);
-          console.log('Products:', this.customers());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+    );
   }
 
   FetchAdminById(id: string) {
@@ -99,11 +180,34 @@ export class DataService {
                 `Something went wrong while fetching admin with id ${id}`
               )
           )
+        ),
+        map((response) =>
+          response.documents.map(
+            (doc: {
+              name: string;
+              fields: {
+                fname: { stringValue: string };
+                lname: { stringValue: string };
+                email: { stringValue: string };
+                password: { stringValue: string };
+              };
+            }) => {
+              return {
+                id: doc['name'].split('/').pop(),
+                name: {
+                  fname: doc['fields'].fname.stringValue,
+                  lname: doc['fields'].lname.stringValue,
+                },
+                email: doc['fields'].email.stringValue,
+                password: doc['fields'].password.stringValue,
+              } as Admin;
+            }
+          )
         )
       )
       .subscribe({
         next: (response) => {
-          this.chosenCustomer.set(response.documents);
+          this.chosenCustomer.set(response);
           console.log('Admin:', this.chosenAdmin());
         },
         error: (error: Error) => this.error.set(error.message),
@@ -112,25 +216,47 @@ export class DataService {
   }
 
   fetchAdminList() {
+    this.fetchAdminListObservable().subscribe({
+      next: (response) => {
+        this.admins.set(response);
+        console.log('Admins:', this.admins());
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
+  }
+  fetchAdminListObservable() {
     this.isFetching.set(true);
-
-    return this.firestoreService
-      .getAdmins()
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () => new Error('Something went wrong while fetching admins')
-          )
+    return this.firestoreService.getAdmins().pipe(
+      catchError((error) =>
+        throwError(
+          () => new Error('Something went wrong while fetching admins')
+        )
+      ),
+      map((response) =>
+        response.documents.map(
+          (doc: {
+            name: string;
+            fields: {
+              fname: { stringValue: string };
+              lname: { stringValue: string };
+              email: { stringValue: string };
+              password: { stringValue: string };
+            };
+          }) => {
+            return {
+              id: doc['name'].split('/').pop(),
+              name: {
+                fname: doc['fields'].fname.stringValue,
+                lname: doc['fields'].lname.stringValue,
+              },
+              email: doc['fields'].email.stringValue,
+              password: doc['fields'].password.stringValue,
+            } as Admin;
+          }
         )
       )
-      .subscribe({
-        next: (response) => {
-          this.admins.set(response.documents);
-          console.log('Admins:', this.admins());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+    );
   }
   FetchProductById(id: string) {
     return this.firestoreService
@@ -165,6 +291,36 @@ export class DataService {
                 `Something went wrong while fetching product image with id ${id}`
               )
           )
+        ),
+        map((response) =>
+          response.documents.map(
+            (doc: {
+              name: string;
+              fields: {
+                name: { stringValue: string };
+                summary: { stringValue: string };
+                description: { stringValue: string };
+                brand: { stringValue: string };
+                price: { doubleValue: number };
+                categories: { arrayValue: Category[] };
+              };
+            }) => {
+              return {
+                id: doc['name'].split('/').pop(),
+                name: doc['fields'].name.stringValue,
+                summary: doc['fields'].summary.stringValue,
+                description: doc['fields'].description.stringValue,
+                price: doc['fields'].price.doubleValue,
+                brand: doc['fields'].brand.stringValue,
+                image: `${this.firestoreService.getBaseUrl}${doc['name']
+                  .split('/')
+                  .pop()}`,
+                categories: doc['fields'].categories.arrayValue.map((l) =>
+                  categoryList.find((c) => c.label === l.label)
+                ),
+              } as Product;
+            }
+          )
         )
       )
       .subscribe({
@@ -185,11 +341,42 @@ export class DataService {
           throwError(
             () => new Error('Something went wrong while fetching products')
           )
+        ),
+        map((response) =>
+          response.documents.map(
+            (doc: {
+              name: string;
+              fields: {
+                name: { stringValue: string };
+                summary: { stringValue: string };
+                description: { stringValue: string };
+                brand: { stringValue: string };
+                price: { doubleValue: number };
+                categories: { arrayValue: Category[] };
+              };
+            }) => {
+              return {
+                id: doc['name'].split('/').pop(),
+                name: doc['fields'].name.stringValue,
+                summary: doc['fields'].summary.stringValue,
+                description: doc['fields'].description.stringValue,
+                price: doc['fields'].price.doubleValue,
+                brand: doc['fields'].brand.stringValue,
+                image: `${this.firestoreService.getBaseUrl}${doc['name']
+                  .split('/')
+                  .pop()}`,
+                categories: doc['fields'].categories.arrayValue.map((l) =>
+                  categoryList.find((c) => c.label === l.label)
+                ),
+              } as Product;
+            }
+          )
         )
       )
       .subscribe({
         next: (response) => {
-          this.products.set(response.documents);
+          console.log(response.fields);
+          this.products.set(response.fields);
           console.log('Products:', this.products);
         },
         error: (error: Error) => this.error.set(error.message),

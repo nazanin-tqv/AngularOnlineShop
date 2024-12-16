@@ -109,9 +109,11 @@ export class SignUpComponent implements OnInit {
       postalCode: enteredPostalCode,
       number: enteredNumber,
       cart: cart,
+      balance: 1000000,
     } as Customer;
+    console.log(newCustomer);
     this.subscription = this.dataService.addCustomerHTTP(newCustomer);
-    // this.destroyRef.nativeElement.OnDestroy(this.subscription.unsubscribe());
+    //this.destroyRef.nativeElement.OnDestroy(this.subscription.unsubscribe());
   }
   onReset() {
     this.form()?.nativeElement.reset();

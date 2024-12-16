@@ -14,20 +14,30 @@ export class AuthService {
   constructor(private router: Router) {}
   authenticateUser(
     loginData: { email: string; password: string },
-    users: User[]
+    users: User[],
+    userType: string
   ) {
-    const match = users?.find(
-      (user) =>
-        user.email === loginData.email && user.password === loginData.password
-    );
-    if (typeof match == 'undefined') {
-      this.userIsValid.set(false);
-      return;
+    if (users.length > 0) {
+      const match = users?.find(
+        (user) =>
+          user.email === loginData.email && user.password === loginData.password
+      );
+      if (typeof match == 'undefined') {
+        this.userIsValid.set(false);
+        console.log('didnt find a match');
+      } else {
+        this.userIsValid.set(true);
+        this.validUser = match;
+        console.log('authentication successful');
+        localStorage.setItem('loggedInUser', JSON.stringify(match)); // Store user info
+        if (userType === 'admin') {
+          this.router.navigate(['admin-gitpanel']);
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
     } else {
-      this.userIsValid.set(true);
-      this.validUser = match;
-      localStorage.setItem('loggedInUser', JSON.stringify(match)); // Store user info
-      this.router.navigate(['/']);
+      console.log('data not fetched yet!');
     }
   }
   getLoggedInUser(): User | null {

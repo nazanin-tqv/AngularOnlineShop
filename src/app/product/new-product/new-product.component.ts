@@ -46,7 +46,7 @@ export class NewProductComponent {
   private productService = inject(ProductsService);
   private dataService = inject(DataService);
   pId = this.productService.genarateProductId();
-  url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/asset/${this.pId}`;
+  url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/${this.pId}`;
   // Dynamic list of brands
   brands: string[] = [];
   categoryList: TreeNode[] = categoryList;
@@ -117,7 +117,7 @@ export class NewProductComponent {
       brand: enteredBrand as string,
       description: enteredDescription as string,
       categories: enteredCategories as Category[],
-      image: uploadedImage as File,
+      image: this.url,
       id: this.pId,
       price: 1000,
     };
