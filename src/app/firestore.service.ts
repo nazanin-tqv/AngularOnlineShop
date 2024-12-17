@@ -71,7 +71,7 @@ export class FirestoreService {
       },
     };
 
-    return this.http.post(url, body, {
+    return this.http.patch(url, body, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     });
   }
@@ -97,7 +97,7 @@ export class FirestoreService {
       },
     };
 
-    return this.http.post(url, body, {
+    return this.http.patch(url, body, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     });
   }

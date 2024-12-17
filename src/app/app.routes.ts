@@ -14,6 +14,7 @@ import { AdminListComponent } from './users/admin/admin-list/admin-list.componen
 import { AddAdminComponent } from './users/admin/add-admin/add-admin.component';
 import { RemoveAdminComponent } from './users/admin/remove-admin/remove-admin.component';
 import { CustomerListComponent } from './users/customer/customer-list/customer-list.component';
+import { ProductDisplayComponent } from './product/product-display/product-display.component';
 
 export const routes: Routes = [
   { path: '', component: WebsiteComponent, canActivate: [AuthGuard] },
@@ -42,6 +43,7 @@ export const routes: Routes = [
         path: 'products',
         component: ProductsListComponent,
         children: [
+          { path: 'display-products', component: ProductDisplayComponent },
           { path: 'add-product', component: NewProductComponent },
           { path: 'remove-product', component: RemoveProductComponent },
           { path: 'edit-product', component: EditProductComponent },

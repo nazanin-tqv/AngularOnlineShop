@@ -39,6 +39,9 @@ export class DataService {
   get getProducts() {
     return this.products();
   }
+  setProducts(products: Product[]) {
+    this.products.set(products);
+  }
   get getChosenAdmin() {
     return this.chosenAdmin();
   }
@@ -333,55 +336,55 @@ export class DataService {
       });
   }
   fetchProductList() {
+    this.fetchProductObservable().subscribe({
+      next: (response) => {
+        console.log(response.fields);
+        this.products.set(response.fields);
+        console.log('Products:', this.products);
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
+  }
+  fetchProductObservable() {
     this.isFetching.set(true);
-    return this.firestoreService
-      .getProducts()
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () => new Error('Something went wrong while fetching products')
-          )
-        ),
-        map((response) =>
-          response.documents.map(
-            (doc: {
-              name: string;
-              fields: {
-                name: { stringValue: string };
-                summary: { stringValue: string };
-                description: { stringValue: string };
-                brand: { stringValue: string };
-                price: { doubleValue: number };
-                categories: { arrayValue: Category[] };
-              };
-            }) => {
-              return {
-                id: doc['name'].split('/').pop(),
-                name: doc['fields'].name.stringValue,
-                summary: doc['fields'].summary.stringValue,
-                description: doc['fields'].description.stringValue,
-                price: doc['fields'].price.doubleValue,
-                brand: doc['fields'].brand.stringValue,
-                image: `${this.firestoreService.getBaseUrl}${doc['name']
-                  .split('/')
-                  .pop()}`,
-                categories: doc['fields'].categories.arrayValue.map((l) =>
-                  categoryList.find((c) => c.label === l.label)
-                ),
-              } as Product;
-            }
-          )
+    return this.firestoreService.getProducts().pipe(
+      catchError((error) =>
+        throwError(
+          () => new Error('Something went wrong while fetching products')
+        )
+      ),
+      map((response) =>
+        response.documents.map(
+          (doc: {
+            name: string;
+            fields: {
+              name: { stringValue: string };
+              summary: { stringValue: string };
+              description: { stringValue: string };
+              brand: { stringValue: string };
+              price: { doubleValue: number };
+              categories: { arrayValue: Category[] };
+            };
+          }) => {
+            return {
+              id: doc['name'].split('/').pop(),
+              name: doc['fields'].name.stringValue,
+              summary: doc['fields'].summary.stringValue,
+              description: doc['fields'].description.stringValue,
+              price: doc['fields'].price.doubleValue,
+              brand: doc['fields'].brand.stringValue,
+              image: `${this.firestoreService.getBaseUrl}${doc['name']
+                .split('/')
+                .pop()}`,
+              categories: doc['fields'].categories.arrayValue.map((l) =>
+                categoryList.find((c) => c.label === l.label)
+              ),
+            } as Product;
+          }
         )
       )
-      .subscribe({
-        next: (response) => {
-          console.log(response.fields);
-          this.products.set(response.fields);
-          console.log('Products:', this.products);
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+    );
   }
   addCustomerHTTP(customer: Customer) {
     const prev = this.customers();

@@ -1,0 +1,97 @@
+<div class="table-container">
+  <p-table
+    #dt2
+    [value]="products"
+    dataKey="id"
+    [rows]="5"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'brand', 'categories']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            type="text"
+            (input)="filterGlobal($event)"
+            placeholder="جستجوی همگانی"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 22%">نام محصول</th>
+        <th style="width: 22%">برند</th>
+        <th style="width: 22%">دسته‌بندی</th>
+        <th style="width: 22%">خلاصه</th>
+        <th style="width: 12%">تعداد</th>
+      </tr>
+      <tr>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="name"
+            placeholder="جستجو بر اساس نام"
+            ariaLabel="Filter Name"
+          ></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="brand"
+            placeholder="جستجو بر اساس برند"
+            ariaLabel="Filter "
+          ></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="brand"
+            placeholder="جستجو بر اساس دسته‌بندی"
+            ariaLabel="Filter Category"
+          ></p-columnFilter>
+        </th>
+        <th></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body">
+      @for (product of products; track product.id) {
+      <tr>
+        <td>
+          <div class="flex items-center gap-2">
+            <img [src]="product.image" style="width: 20px" />
+            <span>{{ product.name }}</span>
+          </div>
+        </td>
+        <td>
+          {{ product.brand }}
+        </td>
+        <td>
+          {{ product.categories | categoryFormat }}
+        </td>
+        <td>
+          {{ product.summary }}
+        </td>
+        <td>
+          {{ quantites[products.indexOf(product)] }}
+        </td>
+      </tr>
+      }
+    </ng-template>
+  </p-table>
+  @if (isEmpty()) {
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">محصولی یافت نشد</td>
+    </tr>
+  </ng-template>
+
+  }
+</div>
