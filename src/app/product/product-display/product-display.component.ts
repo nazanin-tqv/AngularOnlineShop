@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { StockService } from '../stock.service';
@@ -40,11 +40,6 @@ export class ProductDisplayComponent {
   private dt = viewChild<Table>('dt');
   products: Product[] = [];
   private stockService = inject(StockService);
-  names!: string[];
-  brands!: string[];
-  summaries!: string[];
-  descriptions!: string[];
-  categoriesList!: string[];
   quantites!: number[];
 
   cols!: Column[];
@@ -56,7 +51,6 @@ export class ProductDisplayComponent {
       next: (response) => {
         this.dataService.setProducts(response);
         this.products = this.dataService.getProducts;
-        this.mapProductData();
       },
     });
 
@@ -74,15 +68,6 @@ export class ProductDisplayComponent {
     table.clear();
   }
 
-  mapProductData() {
-    const rawProducts = this.products;
-    this.names = rawProducts.map((p) => p.name);
-    this.brands = rawProducts.map((p) => p.brand);
-    this.summaries = rawProducts.map((p) => p.summary);
-    this.descriptions = rawProducts.map((p) => p.description);
-    this.categoriesList = rawProducts.map((p) => p.categories.join('،'));
-    this.quantites = this.stockService.getStockList().map((s) => s.quantity);
-  }
   filterGlobal(event: Event) {
     const input = event.target as HTMLInputElement; // Cast to HTMLInputElement
     this.dt()?.filterGlobal(input.value, 'contains');

@@ -7,6 +7,7 @@ export interface Product {
   description: string;
   categories: Category[];
   price: number;
+  quantity:number;
 }
 export enum Brand {
   Apple,

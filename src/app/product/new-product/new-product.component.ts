@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  numberAttribute,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -17,7 +23,11 @@ import {
 } from '../product.model';
 import { Select } from 'primeng/select';
 import { TreeSelect } from 'primeng/treeselect';
-import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
+import {
+  FileUpload,
+  FileUploadEvent,
+  FileUploadHandlerEvent,
+} from 'primeng/fileupload';
 import { TreeNode } from 'primeng/api';
 import { SharedModule } from './shared.module';
 import { ProductsService } from '../products-service.service';
@@ -45,7 +55,7 @@ export class NewProductComponent {
 
   private productService = inject(ProductsService);
   private dataService = inject(DataService);
-  pId = this.productService.genarateProductId();
+  pId?: string;
   url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/${this.pId}`;
   // Dynamic list of brands
   brands: string[] = [];
@@ -53,6 +63,7 @@ export class NewProductComponent {
   categoryBrandMapping = categoryBrandMapping;
   selectedCategories: TreeNode[] = [];
   form = viewChild<HTMLFormElement>('form');
+  fileupload = viewChild<FileUpload>('fileUpload');
   productForm = new FormGroup({
     name: new FormControl<string>('', { validators: [Validators.required] }),
     image: new FormControl<File | null>(null, {
@@ -108,9 +119,14 @@ export class NewProductComponent {
     const enteredBrand = val.brand;
     const enteredDescription = val.description;
     const enteredCategories = this.productForm.get('categories')?.value;
-    const uploadedImage = this.productForm.get('image')?.value;
+    this.pId = this.productService.generateProductId(
+      enteredName ?? '',
+      enteredBrand ?? '',
+      enteredCategories?.join(',') ?? ''
+    );
     console.log(`Product name: ${enteredName} brand: ${enteredBrand}`);
     console.log(`Categories: ${enteredCategories?.map((v) => v.value)}`);
+    console.log(`Description: ${enteredDescription}`);
     this.createdProduct = {
       name: enteredName as string,
       summary: enteredSummary as string,
@@ -120,7 +136,9 @@ export class NewProductComponent {
       image: this.url,
       id: this.pId,
       price: 1000,
+      quantity: 10,
     };
+    this.fileupload()?.upload();
     this.dataService.addProductHTTP(this.createdProduct);
   }
 
@@ -136,13 +154,10 @@ export class NewProductComponent {
     reader.readAsDataURL(file);
   }
 
-  onUpload(event: FileUploadEvent) {
-    const uploadedFiles = event.files;
+  onUpload(event: FileUploadHandlerEvent) {
+    //const uploadedFiles = event.files;
 
-    // Set the uploaded file to the corresponding FormControl
-    this.productForm.get('image')?.setValue(uploadedFiles[0]);
-
-    // You can also handle image preview here if required
-    this.previewImage(uploadedFiles[0]);
+    //this.previewImage(uploadedFiles[0]);
+    this.dataService.uploadProductImg(event, this.pId ?? '');
   }
 }

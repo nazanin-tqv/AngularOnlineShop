@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Product } from './product/product.model';
 import { Admin, Customer } from './user/user.model';
+import {
+  FileUploadEvent,
+  FileUploadHandlerEvent,
+  UploadEvent,
+} from 'primeng/fileupload';
 
 // Define the Product interface (or other document type based on your Firestore structure)
 
@@ -68,6 +73,7 @@ export class FirestoreService {
             })),
           },
         },
+        quantity: { doubleValue: product.quantity },
       },
     };
 
@@ -135,6 +141,7 @@ export class FirestoreService {
             })),
           },
         },
+        quantity: { doubleValue: product.quantity },
       },
     };
 
@@ -166,4 +173,19 @@ export class FirestoreService {
     const url = `${this.firestoreBaseUrl}products/${documentId}`;
     return this.http.delete(url);
   }
+  uploadFile(event: FileUploadHandlerEvent, pId: string) {
+    const file = event.files[0]; // Assuming only one file is selected
+
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    const headers = new HttpHeaders({
+      // 'Content-Type': 'application/json',
+    });
+
+    return this.http.patch(`${this.firestoreBaseUrl}assets/${pId}`, formData, {
+      headers,
+    });
+  }
+  
 }

@@ -23,17 +23,18 @@
       </div>
       <div class="card flex flex-col gap-6 items-center justify-center upload">
         <p-fileUpload
+          #fileUpload
           name="image"
           formControlName="image"
           [url]="url"
-          (onUpload)="onUpload($event)"
           formControlName="image"
           accept="image/*"
-          [auto]="true"
+          [auto]="false"
           appImgUpload
           chooseLabel="آپلود تصویر"
+          [customUpload]="true"
+          (uploadHandler)="onUpload($event)"
         >
-          <!-- Apply the directive here -->
         </p-fileUpload>
       </div>
     </div>
@@ -77,6 +78,7 @@
         cols="30"
         pInputTextarea
         name="description"
+        formControlName="description"
         id="description"
       ></textarea>
     </div>

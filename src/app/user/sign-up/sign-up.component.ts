@@ -97,7 +97,7 @@ export class SignUpComponent implements OnInit {
     const enteredNumber = addressValues?.number;
     const enteredPostalCode = addressValues?.postalCode;
     const enteredCity = addressValues?.city;
-    const id = this.userService.generateCId();
+    const id = this.userService.generateCustomerId(enteredEmail ?? 'invalid');
     const cart: Product[] = [];
     const newCustomer = {
       id: id,

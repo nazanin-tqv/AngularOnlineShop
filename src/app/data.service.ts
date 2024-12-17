@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, OnChanges, OnInit, signal } from '@angular/core';
 import { Admin, Customer, User } from './user/user.model';
 import { catchError, map, throwError } from 'rxjs';
 import { Category, categoryList, Product } from './product/product.model';
@@ -7,6 +7,7 @@ import { error } from 'console';
 import { pid } from 'process';
 import { FirestoreService } from './firestore.service';
 import { DocumentData } from 'firebase/firestore';
+import { FileUploadEvent, FileUploadHandlerEvent } from 'primeng/fileupload';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +20,26 @@ export class DataService {
   private chosenAdmin = signal<Admin | null>(null);
   private chosenProduct = signal<Product | null>(null);
   private isFetching = signal<boolean>(false); //TODO for loading
+  private productCount = signal<number>(0);
+  private customerCount = signal<number>(0);
+  private adminCount = signal<number>(0);
+
   error = signal<string>('');
 
-  private httpClient = inject(HttpClient);
   constructor(private firestoreService: FirestoreService) {}
+
   // getters
   get getAdmins() {
     return this.admins();
+  }
+  get getProductCount() {
+    return this.productCount();
+  }
+  get getCustomerCount() {
+    return this.customerCount();
+  }
+  get getAdminCount() {
+    return this.adminCount();
   }
   setAdmins(admins: Admin[]) {
     this.admins.set(admins);
@@ -318,8 +332,8 @@ export class DataService {
                 image: `${this.firestoreService.getBaseUrl}${doc['name']
                   .split('/')
                   .pop()}`,
-                categories: doc['fields'].categories.arrayValue.map((l) =>
-                  categoryList.find((c) => c.label === l.label)
+                categories: Array.from(doc['fields'].categories.arrayValue).map(
+                  (l) => categoryList.find((c) => c.label === l.label)
                 ),
               } as Product;
             }
@@ -365,6 +379,7 @@ export class DataService {
               brand: { stringValue: string };
               price: { doubleValue: number };
               categories: { arrayValue: Category[] };
+              quantity: { doubleValue: number };
             };
           }) => {
             return {
@@ -374,12 +389,13 @@ export class DataService {
               description: doc['fields'].description.stringValue,
               price: doc['fields'].price.doubleValue,
               brand: doc['fields'].brand.stringValue,
-              image: `${this.firestoreService.getBaseUrl}${doc['name']
+              image: `${this.firestoreService.getBaseUrl}assets/${doc['name']
                 .split('/')
                 .pop()}`,
-              categories: doc['fields'].categories.arrayValue.map((l) =>
-                categoryList.find((c) => c.label === l.label)
+              categories: Array.from(doc['fields'].categories.arrayValue).map(
+                (l) => categoryList.find((c) => c.label === l.label)
               ),
+              quantity: doc['fields'].quantity.doubleValue,
             } as Product;
           }
         )
@@ -409,11 +425,9 @@ export class DataService {
   }
   addProductHTTP(product: Product) {
     const prevProducts = this.products();
-
     return this.firestoreService
       .addProduct(product)
       .pipe(
-        map((resData) => resData.users),
         catchError((error) =>
           throwError(
             () =>
@@ -425,10 +439,7 @@ export class DataService {
       )
       .subscribe((response) => {
         console.log('Product added:', response);
-        // const documentPath = response.name;
-        // const documentId = documentPath.split('/').pop(); // Get the auto-generated ID (last part)
-        // console.log('Document created with ID:', documentId);
-        //product.id = documentId;
+
         if (!prevProducts.some((p) => p.id === product.id)) {
           this.products.update((prevProducts) => [...prevProducts, product]);
         }
@@ -479,5 +490,15 @@ export class DataService {
           this.products.update((prev) => [...prev, updatedProduct]);
         }
       });
+  }
+  uploadProductImg(event: FileUploadHandlerEvent, pId: string) {
+    this.firestoreService.uploadFile(event, pId).subscribe(
+      (response) => {
+        console.log('File uploaded successfully', response);
+      },
+      (error) => {
+        console.error('Error uploading file', error);
+      }
+    );
   }
 }

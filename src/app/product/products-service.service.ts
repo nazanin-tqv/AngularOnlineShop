@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Product } from './product.model';
 import { HeaderService } from '../header/header.service';
 import { DataService } from '../data.service';
+import CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +49,18 @@ export class ProductsService {
     }
     return this.onDisplayProducts;
   }
-  genarateProductId() {
-    const size = this.products.length;
-    return `p${size + 1}`;
+  generateProductId(name: string, brand: string, categories: string): string {
+    // Concatenate name and brand with a separator to avoid ambiguity
+    const input = `${name.trim().toLowerCase()}-${brand
+      .trim()
+      .toLowerCase()}-${categories.trim().toLowerCase()}`;
+
+    // Generate a SHA-256 hash of the input
+    const hash = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);
+
+    // Optionally, shorten the hash for readability (e.g., first 12 characters)
+    const shortHash = hash.substring(0, 12).toUpperCase();
+
+    return `PROD-${shortHash}`;
   }
 }
