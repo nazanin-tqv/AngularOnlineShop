@@ -319,7 +319,8 @@ export class DataService {
                 description: { stringValue: string };
                 brand: { stringValue: string };
                 price: { doubleValue: number };
-                categories: { arrayValue: Category[] };
+                categories: { arrayValue: { stringValue: string }[] };
+                quantity: { doubleValue: number };
               };
             }) => {
               return {
@@ -329,12 +330,13 @@ export class DataService {
                 description: doc['fields'].description.stringValue,
                 price: doc['fields'].price.doubleValue,
                 brand: doc['fields'].brand.stringValue,
-                image: `${this.firestoreService.getBaseUrl}${doc['name']
+                image: `${this.firestoreService.getBaseUrl}assets/${doc['name']
                   .split('/')
                   .pop()}`,
                 categories: Array.from(doc['fields'].categories.arrayValue).map(
-                  (l) => categoryList.find((c) => c.label === l.label)
+                  (l) => categoryList.find((c) => c.label === l.stringValue)
                 ),
+                quantity: doc['fields'].quantity.doubleValue,
               } as Product;
             }
           )
@@ -378,7 +380,7 @@ export class DataService {
               description: { stringValue: string };
               brand: { stringValue: string };
               price: { doubleValue: number };
-              categories: { arrayValue: Category[] };
+              categories: { arrayValue: { stringValue: string }[] };
               quantity: { doubleValue: number };
             };
           }) => {
@@ -392,16 +394,23 @@ export class DataService {
               image: `${this.firestoreService.getBaseUrl}assets/${doc['name']
                 .split('/')
                 .pop()}`,
-              categories: Array.from(doc['fields'].categories.arrayValue).map(
-                (l) => categoryList.find((c) => c.label === l.label)
+              // Fixing categories mapping
+              categories: Array.from(
+                doc['fields'].categories.arrayValue.values as unknown as Array<{
+                  stringValue: string;
+                }>
+              ).map(
+                (l) =>
+                  ({ label: l.stringValue, value: l.stringValue } as Category) // Add fallback
               ),
               quantity: doc['fields'].quantity.doubleValue,
-            } as Product;
+            } as unknown as Product;
           }
         )
       )
     );
   }
+
   addCustomerHTTP(customer: Customer) {
     const prev = this.customers();
     return this.firestoreService

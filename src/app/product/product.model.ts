@@ -1,3 +1,5 @@
+import { fork } from 'child_process';
+
 export interface Product {
   id: string;
   name: string;
@@ -7,7 +9,7 @@ export interface Product {
   description: string;
   categories: Category[];
   price: number;
-  quantity:number;
+  quantity: number;
 }
 export enum Brand {
   Apple,
