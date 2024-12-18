@@ -1,9 +1,30 @@
-<div class="card panel-container">
+<!-- <div class="card panel-container">
   <div class="side-menu">
     <p-panelMenu [model]="items" [multiple]="true"></p-panelMenu>
   </div>
   <div class="panel-content">
     <router-outlet />
   </div>
-</div>
+</div> -->
 <!-- TODO fix icon rotation -->
+<div class="wrapper">
+  <!-- Sidebar -->
+  <app-sidebar class="w-sidebar">
+    <p-panelMenu [model]="items" [multiple]="true"></p-panelMenu>
+  </app-sidebar>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <app-navbar></app-navbar>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="container-fluid">
+        <router-outlet />
+      </div>
+    </div>
+
+    <!-- Footer -->
+  </div>
+</div>

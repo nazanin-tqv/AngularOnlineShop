@@ -1,0 +1,32 @@
+<div class="product-details">
+  <!-- Product Image -->
+  <div class="product-image">
+    <img [src]="product?.image" alt="{{ product?.name }}" />
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <h2>{{ product?.name }}</h2>
+    <h4>برند {{ product?.brand }}</h4>
+    <p><strong>خلاصه</strong> {{ product?.summary }}</p>
+
+    <!-- Categories -->
+    <p>
+      <strong>دسته‌بندی</strong>
+    </p>
+
+    <p class="mr-2">{{ product?.categories ?? [] | categoryFormat }}</p>
+
+    <!-- Price and Quantity -->
+    <p>
+      <strong>قیمت</strong> <span class="price">${{ product?.price }}</span>
+    </p>
+    <p><strong>تعداد موجود در انبار</strong> {{ product?.quantity }}</p>
+
+    <!-- Description -->
+    <div class="description">
+      <h3>توضیحات</h3>
+      <p>{{ product?.description }}</p>
+    </div>
+  </div>
+</div>

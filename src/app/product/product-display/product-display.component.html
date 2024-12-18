@@ -8,6 +8,9 @@
     [paginator]="true"
     [globalFilterFields]="['name', 'brand', 'categories']"
     [tableStyle]="{ 'min-width': '75rem' }"
+    selectionMode="single"
+    [(selection)]="selectedProduct"
+    (onRowSelect)="onProductSelection($event)"
   >
     <ng-template pTemplate="caption">
       <div class="flex">
@@ -65,7 +68,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
-      <tr>
+      <tr [pSelectableRow]="product">
         <td>
           <div class="flex items-center gap-2">
             <img [src]="product.image" style="width: 20px" />

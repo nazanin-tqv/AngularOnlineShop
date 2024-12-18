@@ -2,10 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { SidebarComponent } from "./sidebar/sidebar.component";
+import { NavbarComponent } from "./navbar/navbar.component";
+import { FooterComponent } from "../footer/footer.component";
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [PanelMenuModule, RouterOutlet],
+  imports: [PanelMenuModule, RouterOutlet, SidebarComponent, NavbarComponent, FooterComponent],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation

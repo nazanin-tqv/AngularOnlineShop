@@ -37,11 +37,12 @@ export const appConfig: ApplicationConfig = {
         preset: Aura,
         options: {
           prefix: 'p',
-          darkModeSelector: 'system',
+          darkModeSelector: 'off',
           cssLayer: false,
           ripple: true,
         },
       },
     }),
+    provideAnimationsAsync(),
   ],
 };

@@ -12,8 +12,16 @@ export class ProductsService {
   private products = this.dataService.getProducts;
   private onDisplayProducts?: Product[];
   private foundNothing = signal<boolean>(false);
-
+  private selectedTableProduct = signal<Product | null>(null);
   private headerService = inject(HeaderService);
+  get selectedProduct() {
+    return this.selectedTableProduct();
+  }
+
+  setSelectedProduct(v: Product) {
+    this.selectedTableProduct.set(v);
+  }
+
   get getProducts() {
     return this.products;
   }

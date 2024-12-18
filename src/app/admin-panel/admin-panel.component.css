@@ -1,26 +1,25 @@
 .panel-container {
+  /* width: 80%;
   display: grid;
-  grid-template-columns: repeat(8, auto);
-  margin-top: 3rem;
+  grid-template-columns: repeat(8, auto); */
 }
-.panel-sidemenu {
+.wrapper {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+}
+.w-sidebar {
+  width: 100%;
+  grid-column: 0 / span 2;
+}
+.content-wrapper {
+  width: 100%;
+  margin-right: 2rem;
+  grid-column: 2 / span 4;
+}
+/* .panel-sidemenu {
   grid-column: 1 / span 2;
 }
 .panel-content {
   grid-column: 3 / span 5;
-}
-/* Align the submenu arrow to the left and flip it */
-.p-panelmenu .p-panelmenu-submenu-icon::selection {
-  right: auto; /* Remove default right alignment */
-  left: 1rem; /* Align to the left */
-}
-.p-panelmenu .p-panelmenu-submenu-icon {
-  right: auto; /* Remove default right alignment */
-  left: 1rem; /* Align to the left */
-}
-/* Ensure overall RTL alignment for text and icons */
-.p-panelmenu .p-panelmenu-header-icon::selection {
-  direction: rtl;
-  text-align: right; /* Align text to the right */
-  transform: rotate(180deg); /* Flip the arrow direction */
-}
+} */

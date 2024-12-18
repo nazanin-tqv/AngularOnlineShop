@@ -7,6 +7,7 @@ import { Category } from '../product.model';
 })
 export class CategoryFormatPipe implements PipeTransform {
   transform(categories: Category[]): string {
+    console.log(categories);
     return categories.map((c) => c.label).join(' ،');
   }
 }
