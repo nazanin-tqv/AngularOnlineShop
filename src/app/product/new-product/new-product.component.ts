@@ -3,6 +3,7 @@ import {
   inject,
   numberAttribute,
   OnInit,
+  signal,
   viewChild,
 } from '@angular/core';
 import {
@@ -33,6 +34,8 @@ import { SharedModule } from './shared.module';
 import { ProductsService } from '../products-service.service';
 import { pid } from 'process';
 import { DataService } from '../../data.service';
+import { sign } from 'crypto';
+import { read } from 'fs';
 @Component({
   selector: 'app-new-product',
   standalone: true,
@@ -56,6 +59,7 @@ export class NewProductComponent {
   private productService = inject(ProductsService);
   private dataService = inject(DataService);
   pId?: string;
+  base64 = signal<string>('');
   url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/${this.pId}`;
   // Dynamic list of brands
   brands: string[] = [];
@@ -66,7 +70,7 @@ export class NewProductComponent {
   fileupload = viewChild<FileUpload>('fileUpload');
   productForm = new FormGroup({
     name: new FormControl<string>('', { validators: [Validators.required] }),
-    image: new FormControl<File | null>(null, {
+    image: new FormControl<string>('', {
       validators: [Validators.required],
     }),
     summary: new FormControl<string>('', { validators: [Validators.required] }),
@@ -105,6 +109,25 @@ export class NewProductComponent {
     return [...new Set(availableBrands)]; // Remove duplicates if any
   }
   onAddProduct() {
+    this.fileupload()?.upload();
+  }
+
+  onReset() {
+    this.form()?.reset();
+  }
+  private previewImage(file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      // Store base64 data for image preview (useful for showing the uploaded image immediately)
+      console.log('Image preview', reader.result);
+      this.productForm.get('image')?.setValue(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    return reader.result?.toString();
+  }
+
+  onUpload(event: FileUploadHandlerEvent): void {
+    const uploadedFiles = event.files;
     const val = this.productForm.value;
     const selectedCategories = this.productForm.value.categories?.map(
       (category: TreeNode) => category.label
@@ -127,37 +150,53 @@ export class NewProductComponent {
     console.log(`Product name: ${enteredName} brand: ${enteredBrand}`);
     console.log(`Categories: ${enteredCategories?.map((v) => v.value)}`);
     console.log(`Description: ${enteredDescription}`);
-    this.createdProduct = {
-      name: enteredName as string,
-      summary: enteredSummary as string,
-      brand: enteredBrand as string,
-      description: enteredDescription as string,
-      categories: enteredCategories as Category[],
-      image: this.url,
-      id: this.pId,
-      price: 1000,
-      quantity: 10,
-    };
-    this.fileupload()?.upload();
-    this.dataService.addProductHTTP(this.createdProduct);
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      const file = uploadedFiles[0];
+
+      // Convert file to Base64
+      this.fileToBase64(file).then((base64: string) => {
+        this.productForm.get('image')?.setValue(base64);
+
+        // Call the backend service to upload the file
+        this.dataService.uploadProductImg(event, this.pId ?? '').subscribe({
+          next: (response) => {
+            console.log(`Image upload response: ${response}`);
+            const enteredImage = this.productForm.get('image')?.value;
+            if (!enteredImage) {
+              console.error('Image upload is not complete.');
+              return;
+            }
+
+            // Create the product object
+            this.createdProduct = {
+              name: enteredName as string,
+              summary: enteredSummary as string,
+              brand: enteredBrand as string,
+              description: enteredDescription as string,
+              categories: enteredCategories as Category[],
+              image: enteredImage as string,
+              id: this.pId,
+              price: 1000,
+              quantity: 10,
+            } as Product;
+
+            this.dataService.addProductHTTP(this.createdProduct);
+          },
+          error: (err) => {
+            console.error('Error uploading image:', err);
+          },
+        });
+      });
+    }
   }
 
-  onReset() {
-    this.form()?.reset();
-  }
-  private previewImage(file: File) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      // Store base64 data for image preview (useful for showing the uploaded image immediately)
-      console.log('Image preview', reader.result);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  onUpload(event: FileUploadHandlerEvent) {
-    //const uploadedFiles = event.files;
-
-    //this.previewImage(uploadedFiles[0]);
-    this.dataService.uploadProductImg(event, this.pId ?? '');
+  // Helper to convert a File to Base64
+  private fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 }

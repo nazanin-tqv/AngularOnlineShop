@@ -1,1 +1,15 @@
-<p>slider works!</p>
+<div class="card">
+  <p-galleria
+    [value]="images"
+    [numVisible]="5"
+    [circular]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{ 'max-width': '640px' }"
+  >
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.itemImageSrc" style="width: 100%; display: block" />
+    </ng-template>
+  </p-galleria>
+</div>

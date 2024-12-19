@@ -93,6 +93,7 @@ export class DataService {
                 balance: { doubleValue: number };
                 cart: { arrayValue: string[] };
                 number: { stringValue: string };
+                image: { stringValue: string };
               };
             }) => {
               return {
@@ -110,6 +111,7 @@ export class DataService {
                   this.products().find((p) => p.id === pId)
                 ),
                 postalCode: '',
+                image: doc['fields'].image.stringValue,
                 godMode: false,
                 number: doc['fields'].number.stringValue,
               } as Customer;
@@ -297,60 +299,7 @@ export class DataService {
         complete: () => this.isFetching.set(false),
       });
   }
-  FetchProductImage(id: string) {
-    return this.firestoreService
-      .getProductImage(id)
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () =>
-              new Error(
-                `Something went wrong while fetching product image with id ${id}`
-              )
-          )
-        ),
-        map((response) =>
-          response.documents.map(
-            (doc: {
-              name: string;
-              fields: {
-                name: { stringValue: string };
-                summary: { stringValue: string };
-                description: { stringValue: string };
-                brand: { stringValue: string };
-                price: { doubleValue: number };
-                categories: { arrayValue: { stringValue: string }[] };
-                quantity: { doubleValue: number };
-              };
-            }) => {
-              return {
-                id: doc['name'].split('/').pop(),
-                name: doc['fields'].name.stringValue,
-                summary: doc['fields'].summary.stringValue,
-                description: doc['fields'].description.stringValue,
-                price: doc['fields'].price.doubleValue,
-                brand: doc['fields'].brand.stringValue,
-                image: `${this.firestoreService.getBaseUrl}assets/${doc['name']
-                  .split('/')
-                  .pop()}`,
-                categories: Array.from(doc['fields'].categories.arrayValue).map(
-                  (l) => categoryList.find((c) => c.label === l.stringValue)
-                ),
-                quantity: doc['fields'].quantity.doubleValue,
-              } as Product;
-            }
-          )
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          this.chosenProduct.set(response.documents);
-          console.log('Product:', this.chosenProduct());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
-  }
+
   fetchProductList() {
     this.fetchProductObservable().subscribe({
       next: (response) => {
@@ -380,10 +329,12 @@ export class DataService {
               description: { stringValue: string };
               brand: { stringValue: string };
               price: { doubleValue: number };
+              image: { stringValue: string };
               categories: { arrayValue: { stringValue: string }[] };
               quantity: { doubleValue: number };
             };
           }) => {
+            const base64Image = doc['fields'].image?.stringValue;
             return {
               id: doc['name'].split('/').pop(),
               name: doc['fields'].name.stringValue,
@@ -391,9 +342,7 @@ export class DataService {
               description: doc['fields'].description.stringValue,
               price: doc['fields'].price.doubleValue,
               brand: doc['fields'].brand.stringValue,
-              image: `${this.firestoreService.getBaseUrl}assets/${doc['name']
-                .split('/')
-                .pop()}`,
+              image: base64Image,
               // Fixing categories mapping
               categories: Array.from(
                 doc['fields'].categories.arrayValue.values as unknown as Array<{
@@ -501,13 +450,6 @@ export class DataService {
       });
   }
   uploadProductImg(event: FileUploadHandlerEvent, pId: string) {
-    this.firestoreService.uploadFile(event, pId).subscribe(
-      (response) => {
-        console.log('File uploaded successfully', response);
-      },
-      (error) => {
-        console.error('Error uploading file', error);
-      }
-    );
+    return this.firestoreService.uploadFile(event, pId);
   }
 }

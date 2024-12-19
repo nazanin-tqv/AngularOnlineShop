@@ -66,6 +66,7 @@ export class FirestoreService {
         summary: { stringValue: product.summary },
         price: { doubleValue: product.price },
         brand: { stringValue: product.brand },
+        Image: {stringValue: product.image},
         categories: {
           arrayValue: {
             values: product.categories.map((category) => ({
