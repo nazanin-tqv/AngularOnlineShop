@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { ProductsService } from '../products-service.service';
 import { CategoryFormatPipe } from './category-format.pipe';
+import { Router } from '@angular/router';
+import { Product } from '../product.model';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-product-details',
@@ -10,11 +12,20 @@ import { CategoryFormatPipe } from './category-format.pipe';
   styleUrl: './product-details.component.css',
 })
 export class ProductDetailsComponent {
-  private productService = inject(ProductsService);
-  product = this.productService.selectedProduct;
-  ngOnInit() {
-    this.product = this.productService.selectedProduct;
+  constructor(private router: Router) {}
 
+  private dataService = inject(DataService);
+  product?: Product;
+  ngOnInit() {
+    const url = this.router.url;
+    const id = url.split('/').pop();
+    this.dataService.fetchProductObservableById(id ?? '').subscribe({
+      next: (response) => {
+        console.log(`product response: ${response}`);
+        this.product = response;
+      },
+    });
+    console.log(this.product?.image);
     console.log(this.product);
   }
 }

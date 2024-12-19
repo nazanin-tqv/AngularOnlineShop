@@ -278,28 +278,49 @@ export class DataService {
     );
   }
   FetchProductById(id: string) {
-    return this.firestoreService
-      .getCustomerById(id)
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () =>
-              new Error(
-                `Something went wrong while fetching customer with id ${id}`
-              )
-          )
-        )
-      )
-      .subscribe({
-        next: (response) => {
-          this.chosenProduct.set(response.documents);
-          console.log('Product:', this.chosenProduct());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+    this.fetchProductObservableById(id).subscribe({
+      next: (response) => {
+        this.chosenProduct.set(response);
+        console.log('Product:', this.chosenProduct());
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
   }
-
+  fetchProductObservableById(id: string) {
+    return this.firestoreService.getProductById(id).pipe(
+      catchError((error) =>
+        throwError(
+          () =>
+            new Error(
+              `Something went wrong while fetching customer with id ${id}`
+            )
+        )
+      ),
+      map((response) => {
+        console.log(response);
+        return {
+          id: response['name'].split('/').pop(),
+          name: response['fields'].name.stringValue,
+          summary: response['fields'].summary.stringValue,
+          description: response['fields'].description.stringValue,
+          price: response['fields'].price.doubleValue,
+          brand: response['fields'].brand.stringValue,
+          image: response['fields'].image?.stringValue ?? '',
+          // Fixing categories mapping
+          categories: Array.from(
+            response['fields'].categories.arrayValue
+              .values as unknown as Array<{
+              stringValue: string;
+            }>
+          ).map(
+            (l) => ({ label: l.stringValue, value: l.stringValue } as Category) // Add fallback
+          ),
+          quantity: response['fields'].quantity.doubleValue,
+        } as Product;
+      })
+    );
+  }
   fetchProductList() {
     this.fetchProductObservable().subscribe({
       next: (response) => {
@@ -334,7 +355,6 @@ export class DataService {
               quantity: { doubleValue: number };
             };
           }) => {
-            const base64Image = doc['fields'].image?.stringValue;
             return {
               id: doc['name'].split('/').pop(),
               name: doc['fields'].name.stringValue,
@@ -342,7 +362,7 @@ export class DataService {
               description: doc['fields'].description.stringValue,
               price: doc['fields'].price.doubleValue,
               brand: doc['fields'].brand.stringValue,
-              image: base64Image,
+              image: doc['fields'].image?.stringValue ?? '',
               // Fixing categories mapping
               categories: Array.from(
                 doc['fields'].categories.arrayValue.values as unknown as Array<{

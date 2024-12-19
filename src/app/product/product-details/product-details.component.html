@@ -1,32 +1,56 @@
-<div class="product-details">
-  <!-- Product Image -->
-  <div class="product-image">
-    <img [src]="product?.image" alt="{{ product?.name }}" />
-  </div>
+<div class="container card p-3">
+  <div class="product-details row">
+    <!-- Product Image -->
+    <div class="col-sm-6">
+      <img
+        class="w-100"
+        src="https://i0.wp.com/sigmamaleimage.com/wp-content/uploads/2023/03/placeholder-1-1.png?ssl=1"
+        alt="test"
+      />
+    </div>
 
-  <!-- Product Info -->
-  <div class="product-info">
-    <h2>{{ product?.name }}</h2>
-    <h4>برند {{ product?.brand }}</h4>
-    <p><strong>خلاصه</strong> {{ product?.summary }}</p>
+    <!-- Product Info -->
+    <div class="product-info col-sm-6">
+      <div class="w-100">
+        <h4>
+          <strong>{{ product?.name }}</strong>
+        </h4>
+      </div>
+      <p><strong>خلاصه</strong> {{ product?.summary }}</p>
 
-    <!-- Categories -->
-    <p>
-      <strong>دسته‌بندی</strong>
-    </p>
+      <div class="row">
+        <div class="col-sm-4">
+          <p><strong>برند</strong> {{ product?.brand }}</p>
+        </div>
 
-    <p class="mr-2">{{ product?.categories ?? [] | categoryFormat }}</p>
+        <!-- Categories -->
+        <div class="col-sm-8">
+          <p>
+            <strong>دسته‌بندی</strong>
+          </p>
 
-    <!-- Price and Quantity -->
-    <p>
-      <strong>قیمت</strong> <span class="price">${{ product?.price }}</span>
-    </p>
-    <p><strong>تعداد موجود در انبار</strong> {{ product?.quantity }}</p>
+          <p class="mr-2">{{ product?.categories ?? [] | categoryFormat }}</p>
+        </div>
+      </div>
 
-    <!-- Description -->
-    <div class="description">
-      <h3>توضیحات</h3>
-      <p>{{ product?.description }}</p>
+      <!-- Price and Quantity -->
+      <div class="row">
+        <div class="col-sm-4">
+          <p>
+            <strong>قیمت</strong>
+            <span class="price">${{ product?.price }}</span>
+          </p>
+        </div>
+        <div class="col-sm-8">
+          <p><strong>تعداد موجود در انبار</strong> {{ product?.quantity }}</p>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="description">
+        <p><strong>توضیحات</strong></p>
+        <p>{{ product?.description }}</p>
+      </div>
     </div>
   </div>
 </div>

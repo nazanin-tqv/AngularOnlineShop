@@ -1,3 +1,4 @@
+/* 
 .product-details {
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +36,7 @@
 .description h3 {
   margin: 20px 0 10px;
 }
-
-p-chip {
-  margin-right: 5px;
+ */
+strong {
+  color: darkslategray;
 }
