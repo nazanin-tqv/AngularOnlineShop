@@ -11,23 +11,23 @@ export class SliderComponent {
   images: { id: string; src: string }[] = [
     {
       id: 's1',
-      src: 'https://drive.google.com/file/d/1xnrEqXZHo3T1m19D6WFyNsyJnT1RWw2e/view?usp=sharing',
+      src: 'https://ps.w.org/woo-product-slider/assets/banner-772x250.png?rev=2646089',
     },
     {
       id: 's2',
-      src: 'https://drive.google.com/file/d/1ZglgmqCXJh4_Da4Zo02LA0wl5Qmd5p-f/view?usp=sharing',
+      src: 'https://www.digikala.com/landing/zarinyalda03/?&promo_name=%D9%BE%D8%A7%D8%B1%D8%AA%D9%86%D8%B1%D8%B4%DB%8C%D9%BE-%D8%B2%D8%B1%DB%8C%D9%86&promo_position=home_slider_new_v2&promo_creative=191047&bCode=191047',
     },
     {
       id: 's3',
-      src: 'https://drive.google.com/file/d/1o6udPytozvYs4eZn9K4e-mzxrB3FY8yb/view?usp=sharing',
+      src: 'https://www.digikala.com/landing/mother-day/?&promo_name=%D8%B1%D9%88%D8%B2+%D9%85%D8%A7%D8%AF%D8%B1+%D8%AF%DB%8C%D8%AC%DB%8C%DA%A9%D8%A7%D9%84%D8%A7&promo_position=home_slider_new_v2&promo_creative=190708&bCode=190708',
     },
     {
       id: 's4',
-      src: 'https://drive.google.com/file/d/1MlJ0K2x6W27GlKdresDmRQs5KLD-vqyo/view?usp=sharing',
+      src: 'https://www.digikala.com/landing/fmcg-brands/?&promo_name=%D9%BE%D8%A7%D8%B1%D8%AA%D9%86%D8%B1%D8%B4%DB%8C%D9%BE-%D9%81%D8%B1%D8%B4+%DA%A9%D9%85%D9%BE%DB%8C%D9%86&promo_position=home_slider_new_v2&promo_creative=190724&bCode=190724',
     },
     {
       id: 's5',
-      src: 'https://drive.google.com/file/d/12ndqUtY9kjPsQu7r76GKD-G8a8jis9kj/view?usp=sharing',
+      src: 'https://www.digikala.com/landing/charme-mashhad/?&promo_name=%D9%BE%D8%A7%D8%B1%D8%AA%D9%86%D8%B1%D8%B4%DB%8C%D9%BE-%DA%86%D8%B1%D9%85+%D9%85%D8%B4%D9%87%D8%AF-1&promo_position=home_slider_new_v2&promo_creative=190684&bCode=190684',
     },
   ];
 

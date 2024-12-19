@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MenuItem } from 'primeng/api';
@@ -5,7 +6,7 @@ import { Menubar } from 'primeng/menubar';
 @Component({
   selector: 'website-navbar',
   standalone: true,
-  imports: [Menubar, RouterLink],
+  imports: [Menubar, RouterLink, NgIf],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

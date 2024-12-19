@@ -1,11 +1,4 @@
-import {
-  Component,
-  inject,
-  numberAttribute,
-  OnInit,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,18 +17,11 @@ import {
 } from '../product.model';
 import { Select } from 'primeng/select';
 import { TreeSelect } from 'primeng/treeselect';
-import {
-  FileUpload,
-  FileUploadEvent,
-  FileUploadHandlerEvent,
-} from 'primeng/fileupload';
+import { FileUpload, FileUploadHandlerEvent } from 'primeng/fileupload';
 import { TreeNode } from 'primeng/api';
 import { SharedModule } from './shared.module';
 import { ProductsService } from '../products-service.service';
-import { pid } from 'process';
 import { DataService } from '../../data.service';
-import { sign } from 'crypto';
-import { read } from 'fs';
 @Component({
   selector: 'app-new-product',
   standalone: true,
@@ -59,7 +45,6 @@ export class NewProductComponent {
   private productService = inject(ProductsService);
   private dataService = inject(DataService);
   pId?: string;
-  base64 = signal<string>('');
   url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/${this.pId}`;
   // Dynamic list of brands
   brands: string[] = [];
@@ -83,9 +68,7 @@ export class NewProductComponent {
     categories: new FormControl<Category[]>([]),
   });
 
-  // Method to update brands when category is selected
   onCategoryChange() {
-    // Check if event.value is an array of TreeNode and map over it
     const selectedCategories = this.productForm.value.categories?.map(
       (category: TreeNode) => category.label
     );
@@ -114,16 +97,6 @@ export class NewProductComponent {
 
   onReset() {
     this.form()?.reset();
-  }
-  private previewImage(file: File) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      // Store base64 data for image preview (useful for showing the uploaded image immediately)
-      console.log('Image preview', reader.result);
-      this.productForm.get('image')?.setValue(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-    return reader.result?.toString();
   }
 
   onUpload(event: FileUploadHandlerEvent): void {
@@ -187,6 +160,7 @@ export class NewProductComponent {
           },
         });
       });
+      this.form()?.reset();
     }
   }
 

@@ -51,7 +51,7 @@ export const routes: Routes = [
           { path: 'display-products/:id', component: ProductDetailsComponent },
           { path: 'add-product', component: NewProductComponent },
           { path: 'remove-product', component: RemoveProductComponent },
-          { path: 'edit-product', component: EditProductComponent },
+          { path: 'edit-product/:id', component: EditProductComponent },
         ],
       },
       {

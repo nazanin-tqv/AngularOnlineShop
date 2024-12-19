@@ -1,47 +1,49 @@
-<div class="card">
+<div class="card m-2">
   <p-carousel
     [value]="products"
     [numVisible]="3"
     [numScroll]="1"
     [responsiveOptions]="responsiveOptions"
+    class="content"
   >
-    <ng-template let-product #item>
-      <div
-        class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
-      >
-        <div class="mb-4">
-          <div class="relative mx-auto">
-            <img
-              src="https://primefaces.org/cdn/primeng/images/demo/product/{{
-                product.image
-              }}"
-              [alt]="product.name"
-              class="w-full rounded-border"
-            />
-            <p-tag
-              [value]="product.brand"
-              class="absolute"
-              styleClass="dark:!bg-surface-900"
-            />
+    <div class="row">
+      <ng-template let-product #item>
+        <div
+          class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
+        >
+          <div class="mb-4">
+            <div class="relative mx-auto">
+              <img
+                src="https://i0.wp.com/sigmamaleimage.com/wp-content/uploads/2023/03/placeholder-1-1.png?ssl=1"
+                [alt]="product.name"
+                class="rounded-border img-fluid mb-1"
+              />
+              <p-tag
+                [value]="product.brand"
+                class="absolute"
+                styleClass="dark:!bg-surface-900"
+              />
+            </div>
+          </div>
+          <div class="mb-4">
+            <strong> {{ product.name }}</strong>
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="mt-0 font-semibold text-xl">
+              {{ "$" + product.price }}
+            </div>
+            <span>
+              <p-button
+                icon="pi pi-heart"
+                severity="secondary"
+                [outlined]="true"
+                class="m-1"
+              />
+              <p-button icon="pi pi-shopping-cart" styleClass="m-1" />
+            </span>
           </div>
         </div>
-        <div class="mb-4 font-medium">
-          {{ product.name }}
-        </div>
-        <div class="flex justify-between items-center">
-          <div class="mt-0 font-semibold text-xl">
-            {{ "$" + product.price }}
-          </div>
-          <span>
-            <p-button
-              icon="pi pi-heart"
-              severity="secondary"
-              [outlined]="true"
-            />
-            <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
-          </span>
-        </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
   </p-carousel>
 </div>

@@ -1,0 +1,3 @@
+::ng-deep .p-carousel-content {
+  flex-direction: row-reverse !important;
+}

@@ -1,1 +1,95 @@
-<p>edit-product works!</p>
+<form [formGroup]="editForm" (ngSubmit)="onEditProduct()" #form class="card">
+  <p-card>
+    <div class="control">
+      <label for="name">نام محصول</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        pInputText
+        [value]="product?.name"
+        [disabled]="true"
+      />
+    </div>
+    <div class="upload-container">
+      <div class="control summary">
+        <label for="summary">خلاصه</label>
+        <input
+          id="summary"
+          type="text"
+          name="summary"
+          formControlName="summary"
+          pInputText
+          [value]="product?.summary"
+        />
+      </div>
+      <div class="card flex flex-col gap-6 items-center justify-center upload">
+        <p-fileUpload
+          #fileUpload
+          name="image"
+          formControlName="image"
+          [url]="url"
+          accept="image/*"
+          [auto]="false"
+          appImgUpload
+          chooseLabel="آپلود تصویر"
+          [customUpload]="true"
+          (uploadHandler)="onUpload($event)"
+        >
+        </p-fileUpload>
+      </div>
+    </div>
+
+    <div>
+      <div class="control-row select-container">
+        <div class="control brand">
+          <label for="brand">برند</label>
+          <p-select
+            [options]="brands"
+            id="brands"
+            name="brands"
+            placeholder="برند محصول"
+            styleClass="w-full"
+            [disabled]="true"
+          />
+        </div>
+        <div class="category control">
+          <label for="categories">دسته بندی</label>
+          <p-treeSelect
+            [options]="categoryList"
+            id="categories"
+            [metaKeySelection]="false"
+            selectionMode="multiple"
+            placeholder="دسته‌بندی"
+            styleClass="w-full"
+            [disabled]="true"
+          >
+          </p-treeSelect>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="description">توضیحات</label>
+
+      <textarea
+        class="control"
+        rows="5"
+        cols="30"
+        pInputTextarea
+        name="description"
+        formControlName="description"
+        id="description"
+        [value]="product?.summary"
+      ></textarea>
+    </div>
+
+    <p class="form-actions">
+      <p-button label="پاک کردن فرم" [link]="true" (click)="onReset()" />
+      <p-button label="تغییر محصول" type="submit" />
+    </p>
+    @if (editForm.touched&& editForm.dirty && editForm.invalid) {
+    <p class="center">لطفا از ورودیهای معتبر استفاده کنید</p>
+    }
+  </p-card>
+</form>

@@ -1,0 +1,27 @@
+.select-container {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
+.brand {
+  grid-column: 1 / span 1;
+}
+.category {
+  grid-column: 3 / span 2;
+
+  width: 100%;
+}
+.p-treeSelect {
+  width: 100% !important;
+}
+.upload-container {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+}
+
+.summary {
+  grid-column: 1 / span 3;
+}
+
+.upload {
+  grid-column: 5 / span 1;
+}

@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { CategoryFormatPipe } from './category-format.pipe';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Product } from '../product.model';
 import { DataService } from '../../data.service';
-
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CategoryFormatPipe],
+  imports: [CategoryFormatPipe, ButtonModule, RouterLink],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
 })
@@ -27,5 +27,13 @@ export class ProductDetailsComponent {
     });
     console.log(this.product?.image);
     console.log(this.product);
+  }
+  onEditProduct() {
+    this.router.navigate([
+      'admin-panel',
+      'products',
+      'edit-product',
+      this.product?.id,
+    ]);
   }
 }
