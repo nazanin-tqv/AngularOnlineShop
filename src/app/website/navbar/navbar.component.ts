@@ -16,48 +16,56 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Home',
+        label: 'خانه',
         icon: 'pi pi-home',
+        routerLink: ['/'],
       },
       {
-        label: 'Features',
+        label: 'محصولات',
         icon: 'pi pi-star',
+        routerLink: ['/product-list'],
       },
       {
-        label: 'Projects',
+        label: 'دسته بندی',
         icon: 'pi pi-search',
         items: [
           {
-            label: 'Components',
+            label: 'کالای دیجیتال',
             icon: 'pi pi-bolt',
-          },
-          {
-            label: 'Blocks',
-            icon: 'pi pi-server',
-          },
-          {
-            label: 'UI Kit',
-            icon: 'pi pi-pencil',
-          },
-          {
-            label: 'Templates',
-            icon: 'pi pi-palette',
             items: [
-              {
-                label: 'Apollo',
-                icon: 'pi pi-palette',
-              },
-              {
-                label: 'Ultima',
-                icon: 'pi pi-palette',
-              },
+              { label: 'موبایل', icon: 'pi pi-phone' },
+              { label: 'تبلت', icon: 'pi pi-phone' },
+              { label: 'لپتاپ', icon: 'pi pi-phone' },
             ],
+          },
+          {
+            label: 'پوشاک',
+            icon: 'pi pi-server',
+            items: [
+              { label: 'زنانه', icon: 'pi pi-phone' },
+              { label: 'مردانه', icon: 'pi pi-phone' },
+              { label: 'بجگانه', icon: 'pi pi-phone' },
+            ],
+          },
+          {
+            label: 'فرهنگی',
+            icon: 'pi pi-pencil',
+            items: [
+              { label: 'کتاب', icon: 'pi pi-phone' },
+              { label: 'لوازم تحریر', icon: 'pi pi-phone' },
+            ],
+          },
+          {
+            label: 'درباره ما',
+            icon: 'pi pi-palette',
+            routerLink: [''],
           },
         ],
       },
       {
-        label: 'Contact',
+        label: 'تماس با ما',
         icon: 'pi pi-envelope',
+        routerLink: [''],
       },
     ];
   }

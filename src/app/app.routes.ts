@@ -15,7 +15,9 @@ import { AddAdminComponent } from './users/admin/add-admin/add-admin.component';
 import { RemoveAdminComponent } from './users/admin/remove-admin/remove-admin.component';
 import { CustomerListComponent } from './users/customer/customer-list/customer-list.component';
 import { ProductDisplayComponent } from './product/product-display/product-display.component';
-import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { AdminProductDetails } from './product/product-details/product-details.component';
+import { ThumnailListComponent } from './website/thumnail-list/thumnail-list.component';
+import { WebsiteProductDetails } from './website/product-detail/product-detail.component';
 
 export const routes: Routes = [
   { path: '', component: WebsiteComponent, canActivate: [AuthGuard] },
@@ -35,6 +37,11 @@ export const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'customers', component: WebsiteComponent },
   {
+    path: 'product-list',
+    component: ThumnailListComponent,
+  },
+  { path: 'product/:id', component: WebsiteProductDetails },
+  {
     path: 'admin-panel',
     component: AdminPanelComponent,
     // canActivate: [AuthGuard],
@@ -48,7 +55,7 @@ export const routes: Routes = [
             path: 'display-products',
             component: ProductDisplayComponent,
           },
-          { path: 'display-products/:id', component: ProductDetailsComponent },
+          { path: 'display-products/:id', component: AdminProductDetails },
           { path: 'add-product', component: NewProductComponent },
           { path: 'remove-product', component: RemoveProductComponent },
           { path: 'edit-product/:id', component: EditProductComponent },

@@ -1,0 +1,64 @@
+<p-dataview [value]="products()" [rows]="5" [paginator]="true">
+  <ng-template #list let-items>
+    <div class="row g-3">
+      <!-- Loop through each item in the list -->
+      <div class="col-12" *ngFor="let item of items; let first = first">
+        <!-- Wrap each item in a clickable div -->
+        <div
+          class="container border-top clickable"
+          [ngClass]="{ 'border-top-0': first }"
+          (click)="onProductSelect(item)"
+        >
+          <div class="row align-items-center py-3">
+            <!-- Image container -->
+            <div class="col-12 col-md-3 position-relative">
+              <img
+                class="img-fluid rounded mx-auto d-block"
+                style="height: 30vh"
+                src="https://i0.wp.com/sigmamaleimage.com/wp-content/uploads/2023/03/placeholder-1-1.png?ssl=1"
+                [alt]="item.name"
+              />
+            </div>
+            <!-- Details and actions section -->
+            <div class="col-12 col-md-9">
+              <div class="row g-3">
+                <!-- Details section -->
+                <div class="col-12 col-md-8">
+                  <div>
+                    <span class="text-secondary small fw-bold">{{
+                      item.categories | categoryFormat
+                    }}</span>
+                    <div class="mt-2 text-dark fw-bold h5">{{ item.name }}</div>
+                  </div>
+                  <div class="p-1 mt-3">
+                    <span class="text-secondary small fw-bold">{{
+                      item.summary
+                    }}</span>
+                  </div>
+                </div>
+                <!-- Actions section -->
+                <div class="col-12 col-md-4 text-md-end">
+                  <span class="h5 fw-semibold text-dark">{{
+                    "$" + item.price
+                  }}</span>
+                  <div class="row g-2 mt-2">
+                    <div class="col-6 col-md-12">
+                      <p-button icon="pi pi-heart" [outlined]="true"></p-button>
+                    </div>
+                    <div class="col-6 col-md-12">
+                      <p-button
+                        icon="pi pi-shopping-cart"
+                        class="w-100"
+                        label="افزودن به سبد خرید"
+                      ></p-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dataview>

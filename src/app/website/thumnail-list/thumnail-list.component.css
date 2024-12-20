@@ -1,0 +1,15 @@
+::ng-deep .p-paginator {
+  flex-direction: row-reverse;
+}
+
+::ng-deep .p-button {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+.clickable {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.clickable:hover {
+  background-color: #f8f9fa; /* Light gray on hover */
+}

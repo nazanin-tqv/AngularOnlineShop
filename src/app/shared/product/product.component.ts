@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { Product } from '../product.model';
+import { Router } from '@angular/router';
 import { DataService } from '../../data.service';
 import { ButtonModule } from 'primeng/button';
-import { SharedProductDetails } from '../../shared/product/product.component';
+import { CategoryFormatPipe } from '../../product/product-details/category-format.pipe';
+import { Product } from '../../product/product.model';
 @Component({
-  selector: 'app-product-details',
+  selector: 'shared-product-details',
   standalone: true,
-  imports: [ButtonModule, RouterLink, SharedProductDetails],
-  templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css',
+  imports: [CategoryFormatPipe, ButtonModule],
+  templateUrl: './product.component.html',
+  styleUrl: './product.component.css',
 })
-export class AdminProductDetails {
+export class SharedProductDetails {
   constructor(private router: Router) {}
 
   private dataService = inject(DataService);
@@ -27,13 +27,5 @@ export class AdminProductDetails {
     });
     console.log(this.product?.image);
     console.log(this.product);
-  }
-  onEditProduct() {
-    this.router.navigate([
-      'admin-panel',
-      'products',
-      'edit-product',
-      this.product?.id,
-    ]);
   }
 }
