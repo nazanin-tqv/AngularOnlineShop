@@ -18,6 +18,7 @@ import { ProductDisplayComponent } from './product/product-display/product-displ
 import { AdminProductDetails } from './product/product-details/product-details.component';
 import { ThumnailListComponent } from './website/thumnail-list/thumnail-list.component';
 import { WebsiteProductDetails } from './website/product-detail/product-detail.component';
+import { WebsiteProductsComponent } from './website/products/products.component';
 
 export const routes: Routes = [
   { path: '', component: WebsiteComponent, canActivate: [AuthGuard] },
@@ -38,7 +39,7 @@ export const routes: Routes = [
   { path: 'customers', component: WebsiteComponent },
   {
     path: 'product-list',
-    component: ThumnailListComponent,
+    component: WebsiteProductsComponent,
   },
   { path: 'product/:id', component: WebsiteProductDetails },
   {

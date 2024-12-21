@@ -9,7 +9,6 @@ import {
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import {
-  Brand,
   Category,
   categoryBrandMapping,
   categoryList,

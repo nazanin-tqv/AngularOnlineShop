@@ -1,0 +1,63 @@
+<div class="container">
+  <website-navbar></website-navbar>
+
+  <!-- Search and Filter Controls -->
+  <form
+    (ngSubmit)="onFilter()"
+    [formGroup]="filterForm"
+    #form
+    class="row g-1 mb-4 filterForm"
+  >
+    <span class="col-md-3">
+      <input
+        type="text"
+        id="name"
+        placeholder="جستجو بر اساس نام"
+        formControlName="search"
+        pInputText
+      />
+    </span>
+    <span class="col-md-3">
+      <p-treeSelect
+        [options]="categoryList"
+        id="categories"
+        #categories
+        [metaKeySelection]="false"
+        selectionMode="multiple"
+        placeholder="دسته‌بندی"
+        styleClass="w-full"
+        (onNodeSelect)="onCategoryChange()"
+        formControlName="categories"
+      >
+      </p-treeSelect>
+    </span>
+    <span class="col-md-3">
+      <p-select
+        [options]="brands"
+        id="brands"
+        name="brands"
+        #brand
+        placeholder="برند محصول"
+        styleClass="w-full"
+        formControlName="brand"
+      />
+    </span>
+
+    <span class="col-md-1">
+      <p-button pButtonLabel="فیلتر" icon="pi pi-filter" type="submit"
+        >فیلتر</p-button
+      >
+    </span>
+    <span class="col-md-2">
+      <p-button
+        pButtonLabel="برداشتن فیلتر"
+        icon="pi pi-filter"
+        (onClick)="reset()"
+        >برداشتن فیلتر</p-button
+      >
+    </span>
+  </form>
+
+  <!-- DataView Component -->
+  <website-thumnail-list [products]="products()"></website-thumnail-list>
+</div>

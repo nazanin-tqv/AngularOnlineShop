@@ -1,0 +1,20 @@
+::ng-deep .p-button {
+  padding: 0.5rem;
+  width: fit-content;
+  margin: 0.5rem;
+}
+::ng-deep .filterForm {
+  width: 70%;
+  align-items: center; /* Vertically centers items */
+}
+/* TODO not done yet! gotta use the right arrow*/
+::ng-deep /* Target the tree node toggle button icons */
+.p-tree-node-toggle-button {
+  font-size: 1.5rem; /* Adjust the size */
+  color: blue; /* Change the color */
+  content: "\f078"; /* Add a new icon (using Unicode for a custom font, like FontAwesome) */
+}
+
+::ng-deep .p-tree-node-toggle-button[aria-expanded="true"] {
+  content: "\f077"; /* Custom icon for expanded state */
+}
