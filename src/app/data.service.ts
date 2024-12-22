@@ -306,7 +306,7 @@ export class DataService {
           description: response['fields'].description.stringValue,
           price: response['fields'].price.doubleValue,
           brand: response['fields'].brand.stringValue,
-          image: response['fields'].image?.stringValue ?? '',
+          image: response['fields'].Image?.stringValue ?? '',
           // Fixing categories mapping
           categories: Array.from(
             response['fields'].categories.arrayValue
@@ -350,7 +350,7 @@ export class DataService {
               description: { stringValue: string };
               brand: { stringValue: string };
               price: { doubleValue: number };
-              image: { stringValue: string };
+              Image: { stringValue: string };
               categories: { arrayValue: { stringValue: string }[] };
               quantity: { doubleValue: number };
             };
@@ -362,7 +362,7 @@ export class DataService {
               description: doc['fields'].description.stringValue,
               price: doc['fields'].price.doubleValue,
               brand: doc['fields'].brand.stringValue,
-              image: doc['fields'].image?.stringValue ?? '',
+              image: doc['fields'].Image?.stringValue ?? '',
               // Fixing categories mapping
               categories: Array.from(
                 doc['fields'].categories.arrayValue.values as unknown as Array<{
@@ -373,7 +373,7 @@ export class DataService {
                   ({ label: l.stringValue, value: l.stringValue } as Category) // Add fallback
               ),
               quantity: doc['fields'].quantity.doubleValue,
-            } as unknown as Product;
+            } as Product;
           }
         )
       )
