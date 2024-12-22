@@ -66,74 +66,55 @@ export class DataService {
     return this.chosenProduct();
   }
   // fetch specific by id
-  FetchCustomerById(id: string) {
+  FetchCustomerObservableById(id: string) {
     this.isFetching.set(true);
-    return this.firestoreService
-      .getCustomerById(id)
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () =>
-              new Error(
-                `Something went wrong while fetching customer with id ${id}`
-              )
-          )
-        ),
-        map((response) =>
-          response.documents.map(
-            (doc: {
-              name: string;
-              fields: {
-                fname: { stringValue: string };
-                lname: { stringValue: string };
-                email: { stringValue: string };
-                password: { stringValue: string };
-                address: { stringValue: string };
-                city: { stringValue: string };
-                balance: { doubleValue: number };
-                cart: { arrayValue: string[] };
-                number: { stringValue: string };
-                image: { stringValue: string };
-              };
-            }) => {
-              return {
-                id: doc['name'].split('/').pop(),
-                name: {
-                  fname: doc['fields'].fname.stringValue,
-                  lname: doc['fields'].lname.stringValue,
-                },
-                email: doc['fields'].email.stringValue,
-                password: doc['fields'].password.stringValue,
-                address: doc['fields'].address.stringValue,
-                city: doc['fields'].city.stringValue,
-                balance: doc['fields'].balance.doubleValue,
-                cart: doc['fields'].cart.arrayValue.map((pId) =>
-                  this.products().find((p) => p.id === pId)
-                ),
-                postalCode: '',
-                image: doc['fields'].image.stringValue,
-                godMode: false,
-                number: doc['fields'].number.stringValue,
-              } as Customer;
-            }
-          )
+    return this.firestoreService.getCustomerById(id).pipe(
+      catchError((error) =>
+        throwError(
+          () =>
+            new Error(
+              `Something went wrong while fetching customer with id ${id}`
+            )
         )
-      )
-      .subscribe({
-        next: (response) => {
-          this.chosenCustomer.set(response.documents);
-          console.log('Customer:', this.chosenCustomer());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+      ),
+      map((response) => {
+        console.log(response);
+        return {
+          id: response.name.split('/').pop(),
+          name: {
+            fname: response.fields.fname.stringValue,
+            lname: response.fields.lname.stringValue,
+          },
+          email: response.fields.email.stringValue,
+          password: response.fields.password.stringValue,
+          address: response.fields.address.stringValue,
+          city: response.fields.city.stringValue,
+          balance: response.fields.balance.doubleValue,
+          cart: [],
+          postalCode: '',
+          image: '',
+          godMode: false,
+          number: response.fields.number.stringValue,
+        } as Customer;
+      })
+    );
+  }
+  FetchCustomerById(id: string) {
+    this.FetchCustomerObservableById(id).subscribe({
+      next: (response) => {
+        this.chosenCustomer.set(response);
+        console.log('Customer:', this.chosenCustomer());
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
   }
   // fetch all customers
   fetchCustomerList() {
     this.fetchCustomerListObservable().subscribe({
       next: (response) => {
         this.customers.set(response);
-        console.log('Products:', this.customers());
+        console.log('Customers:', this.customers());
       },
       error: (error: Error) => this.error.set(error.message),
       complete: () => this.isFetching.set(false),
@@ -174,9 +155,7 @@ export class DataService {
               address: doc['fields'].address.stringValue,
               city: doc['fields'].city.stringValue,
               balance: doc['fields'].balance.doubleValue,
-              cart: doc['fields'].cart.arrayValue.map((pId) =>
-                this.products().find((p) => p.id === pId)
-              ),
+              cart: [],
               postalCode: '',
               godMode: false,
               number: doc['fields'].number.stringValue,
@@ -188,50 +167,48 @@ export class DataService {
   }
 
   FetchAdminById(id: string) {
+    this.FetchAdminObservableById(id).subscribe({
+      next: (response) => {
+        this.chosenCustomer.set(response);
+        console.log('Admin:', this.chosenAdmin());
+      },
+      error: (error: Error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false),
+    });
+  }
+  FetchAdminObservableById(id: string) {
     this.isFetching.set(true);
-    return this.firestoreService
-      .getAdminById(id)
-      .pipe(
-        catchError((error) =>
-          throwError(
-            () =>
-              new Error(
-                `Something went wrong while fetching admin with id ${id}`
-              )
-          )
-        ),
-        map((response) =>
-          response.documents.map(
-            (doc: {
-              name: string;
-              fields: {
-                fname: { stringValue: string };
-                lname: { stringValue: string };
-                email: { stringValue: string };
-                password: { stringValue: string };
-              };
-            }) => {
-              return {
-                id: doc['name'].split('/').pop(),
-                name: {
-                  fname: doc['fields'].fname.stringValue,
-                  lname: doc['fields'].lname.stringValue,
-                },
-                email: doc['fields'].email.stringValue,
-                password: doc['fields'].password.stringValue,
-              } as Admin;
-            }
-          )
+    return this.firestoreService.getAdminById(id).pipe(
+      catchError((error) =>
+        throwError(
+          () =>
+            new Error(`Something went wrong while fetching admin with id ${id}`)
+        )
+      ),
+      map((response) =>
+        response.documents.map(
+          (doc: {
+            name: string;
+            fields: {
+              fname: { stringValue: string };
+              lname: { stringValue: string };
+              email: { stringValue: string };
+              password: { stringValue: string };
+            };
+          }) => {
+            return {
+              id: doc['name'].split('/').pop(),
+              name: {
+                fname: doc['fields'].fname.stringValue,
+                lname: doc['fields'].lname.stringValue,
+              },
+              email: doc['fields'].email.stringValue,
+              password: doc['fields'].password.stringValue,
+            } as Admin;
+          }
         )
       )
-      .subscribe({
-        next: (response) => {
-          this.chosenCustomer.set(response);
-          console.log('Admin:', this.chosenAdmin());
-        },
-        error: (error: Error) => this.error.set(error.message),
-        complete: () => this.isFetching.set(false),
-      });
+    );
   }
 
   fetchAdminList() {
@@ -272,6 +249,34 @@ export class DataService {
               email: doc['fields'].email.stringValue,
               password: doc['fields'].password.stringValue,
             } as Admin;
+          }
+        )
+      )
+    );
+  }
+  fetchLogInObservable() {
+    this.isFetching.set(true);
+    return this.firestoreService.getLoggedIn().pipe(
+      catchError((error) =>
+        throwError(
+          () => new Error('Something went wrong while fetching admins')
+        )
+      ),
+      map((response) =>
+        response.documents.map(
+          (doc: {
+            name: string;
+            fields: {
+              email: { stringValue: string };
+              password: { stringValue: string };
+              type: { stringValue: 'admin' | 'customer' };
+            };
+          }) => {
+            return {
+              email: doc['fields'].email.stringValue,
+              password: doc['fields'].password.stringValue,
+              type: doc['fields'].type.stringValue,
+            };
           }
         )
       )
@@ -379,7 +384,28 @@ export class DataService {
       )
     );
   }
-
+  addLoggedInHTTP(login: {
+    email: string;
+    password: string;
+    type: 'admin' | 'customer';
+  }) {
+    const prev = this.customers();
+    return this.firestoreService
+      .addLoggedInUser(login)
+      .pipe(
+        catchError((error) =>
+          throwError(
+            () =>
+              new Error(
+                `Something went wrong while adding login ${login.email}`
+              )
+          )
+        )
+      )
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
   addCustomerHTTP(customer: Customer) {
     const prev = this.customers();
     return this.firestoreService
@@ -443,6 +469,20 @@ export class DataService {
         if (prevProducts.some((p) => p.id === pId)) {
           this.products.set(prevProducts.filter((pr) => pr.id !== pId));
         }
+      });
+  }
+  logOut() {
+    const prevProducts = this.products();
+    return this.firestoreService
+      .deleteLogIn()
+      .pipe(
+        map((resData) => resData.users),
+        catchError((error) =>
+          throwError(() => new Error(`Something went wrong while logging out`))
+        )
+      )
+      .subscribe((response) => {
+        console.log(response);
       });
   }
   editProductHTML(pId: string, updatedProduct: Product) {

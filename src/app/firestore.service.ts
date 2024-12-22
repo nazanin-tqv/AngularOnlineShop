@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Product } from './product/product.model';
-import { Admin, Customer } from './user/user.model';
+import { Admin, Customer, User } from './user/user.model';
 import {
   FileUploadEvent,
   FileUploadHandlerEvent,
@@ -49,6 +49,10 @@ export class FirestoreService {
     const url = `${this.firestoreBaseUrl}admins/${documentId}`;
     return this.http.get(url);
   }
+  getLoggedIn(): Observable<any> {
+    const url = `${this.firestoreBaseUrl}metadata/loggedInUser`;
+    return this.http.get(url);
+  }
   getProductImage(documentId: string): Observable<any> {
     const baseUrl =
       'https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/';
@@ -66,7 +70,7 @@ export class FirestoreService {
         summary: { stringValue: product.summary },
         price: { doubleValue: product.price },
         brand: { stringValue: product.brand },
-        Image: {stringValue: product.image},
+        Image: { stringValue: product.image },
         categories: {
           arrayValue: {
             values: product.categories.map((category) => ({
@@ -83,7 +87,7 @@ export class FirestoreService {
     });
   }
   addCustomer(customer: Customer): Observable<any> {
-    const url = `${this.firestoreBaseUrl}customers/${customer.id}}`;
+    const url = `${this.firestoreBaseUrl}customers/${customer.id}`;
     const body = {
       fields: {
         fname: { stringValue: customer.name['fname'] },
@@ -94,6 +98,7 @@ export class FirestoreService {
         number: { stringValue: customer.number },
         balance: { doubleValue: customer.balance },
         password: { stringValue: customer.password },
+        city: { stringValue: customer.city },
         cart: {
           arrayValue: {
             values: customer.cart.map((p) => ({
@@ -117,6 +122,24 @@ export class FirestoreService {
         lname: { stringValue: admin.name['lname'] },
         email: { stringValue: admin.email },
         password: { stringValue: admin.password },
+      },
+    };
+
+    return this.http.patch(url, body, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    });
+  }
+  addLoggedInUser(user: {
+    email: string;
+    password: string;
+    type: string;
+  }): Observable<any> {
+    const url = `${this.firestoreBaseUrl}metadata/loggedInUser`;
+    const body = {
+      fields: {
+        type: { stringValue: user.type },
+        email: { stringValue: user.email },
+        password: { stringValue: user.password },
       },
     };
 
@@ -174,6 +197,10 @@ export class FirestoreService {
     const url = `${this.firestoreBaseUrl}products/${documentId}`;
     return this.http.delete(url);
   }
+  deleteLogIn(): Observable<any> {
+    const url = `${this.firestoreBaseUrl}metadata/loggedInUser`;
+    return this.http.delete(url);
+  }
   uploadFile(event: FileUploadHandlerEvent, pId: string) {
     const file = event.files[0]; // Assuming only one file is selected
 
@@ -188,5 +215,4 @@ export class FirestoreService {
       headers,
     });
   }
-  
 }

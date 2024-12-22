@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, OnInit, signal } from '@angular/core';
 import { UsersService } from '../../user/users.service';
 import { Admin, Customer, User } from '../../user/user.model';
 import { DataService } from '../../data.service';
@@ -7,52 +7,73 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit {
   private dataSerivce = inject(DataService);
   private userIsValid = signal<boolean>(false);
+  private userService = inject(UsersService);
+
   private validUser?: User;
+  private loggedInUser?: {
+    email: string;
+    password: string;
+    type: 'admin' | 'customer';
+  };
   constructor(private router: Router) {}
-  authenticateUser(
-    loginData: { email: string; password: string },
-    users: User[],
-    userType: string
-  ) {
-    if (users.length > 0) {
-      const match = users?.find(
-        (user) =>
-          user.email === loginData.email && user.password === loginData.password
-      );
-      if (typeof match == 'undefined') {
-        this.userIsValid.set(false);
-        console.log('didnt find a match');
-      } else {
-        this.userIsValid.set(true);
-        this.validUser = match;
-        console.log('authentication successful');
-        localStorage.setItem('loggedInUser', JSON.stringify(match)); // Store user info
-        if (userType === 'admin') {
-          this.router.navigate(['admin-panel']);
-        } else {
-          this.router.navigate(['/']);
-        }
-      }
+  ngOnInit(): void {
+    this.dataSerivce.fetchLogInObservable().subscribe({
+      next: (response) => {
+        console.log('Login response:', response);
+        this.loggedInUser = response;
+      },
+    });
+  }
+  authenticateUser(loginData: {
+    email: string;
+    password: string;
+    type: 'admin' | 'customer';
+  }) {
+    if (loginData.type === 'customer') {
+      var customer: Customer;
+      const id = this.userService.generateCustomerId(loginData.email);
+      this.dataSerivce.FetchCustomerObservableById(id).subscribe({
+        next: (response) => {
+          customer = response;
+          if (
+            customer.email === loginData.email &&
+            customer.password === loginData.password
+          ) {
+            this.dataSerivce.addLoggedInHTTP(loginData);
+            console.log('authentication successful');
+            this.router.navigate(['/']);
+            this.userIsValid.set(true);
+          }
+        },
+      });
+    } else if (loginData.type === 'admin') {
+      var admin: Admin;
+      const id = this.userService.generateAdminId(loginData.email);
+      this.dataSerivce.FetchAdminObservableById(id).subscribe({
+        next: (response) => {
+          admin = response;
+          if (
+            admin.email === loginData.email &&
+            admin.password === loginData.password
+          ) {
+            this.dataSerivce.addLoggedInHTTP(loginData);
+            console.log('authentication successful');
+            this.userIsValid.set(true);
+            this.router.navigate(['admin-panel']);
+          }
+        },
+      });
     } else {
-      console.log('data not fetched yet!');
+      console.log('Login not successful');
+      this.userIsValid.set(false);
     }
   }
-  getLoggedInUser(): User | null {
-    const user = localStorage.getItem('loggedInUser');
-    return user ? JSON.parse(user) : null;
+  isLoggedIn() {
+    return this.userIsValid();
   }
-
-  isLoggedIn(): boolean {
-    return !!this.getLoggedInUser();
-  }
-
-  logout(): void {
-    localStorage.removeItem('loggedInUser');
-  }
-
   get userValid() {
     return this.userIsValid();
   }

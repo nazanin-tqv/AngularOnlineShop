@@ -26,6 +26,7 @@ import { AuthService } from './auth.service';
 import { TypeTitlePipe } from './type-title.pipe';
 import { Admin, Customer, User } from '../../user/user.model';
 import { response } from 'express';
+import { UsersService } from '../../user/users.service';
 
 @Component({
   selector: 'shared-login',
@@ -38,8 +39,6 @@ import { response } from 'express';
     InputTextModule,
     StyleClass,
     TypeTitlePipe,
-    RouterLink,
-    RouterLinkActive,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -60,46 +59,12 @@ export class SharedLoginComponent {
     const enteredPassword = this.loginForm.value.password as string;
     console.log(`Email: ${enteredEmail} password: ${enteredPassword}`);
 
-    if (this.userType() === 'admin') {
-      const observable = this.dataService.fetchAdminListObservable();
-      observable.subscribe({
-        next: (response) => {
-          this.dataService.setAdmins(response as Admin[]);
-          this.authService.authenticateUser(
-            {
-              email: enteredEmail,
-              password: enteredPassword,
-            },
-            this.dataService.getAdmins,
-            'admin'
-          );
-        },
-      });
-
-      console.log('Authenticated as admin');
-    } else {
-      this.dataService.fetchCustomerListObservable().subscribe({
-        next: (response) => {
-          this.dataService.setCustomers(response as Customer[]);
-
-          this.authService.authenticateUser(
-            {
-              email: enteredEmail,
-              password: enteredPassword,
-            },
-            this.dataService.getCustomers,
-            'customer'
-          );
-        },
-      });
-
-      console.log('Authenticated as customer');
-    }
-    const log = this.authService.getLoggedInUser();
-    if (log) {
-      this.loggedInUser = log;
-    }
-
+    this.authService.authenticateUser({
+      email: enteredEmail,
+      password: enteredPassword,
+      type: this.userType(),
+    });
+    
     this.authBoolean.set(this.authService.userValid);
     if (this.authBoolean()) {
       this.form()?.nativeElement.reset();
