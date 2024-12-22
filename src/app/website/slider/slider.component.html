@@ -8,7 +8,9 @@
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template pTemplate="item" let-item>
-      <div class="w-100"><img [src]="item.src" class="img-fluid" /></div>
+      <div class="w-100">
+        <img [src]="item.itemImageSrc" class="img-fluid" />
+      </div>
     </ng-template>
   </p-galleria>
 </div>

@@ -1,1 +1,115 @@
-<p>dashboard works!</p>
+<div class="container mt-5">
+  <!-- Dashboard Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-grid">
+        <h1>صفحه داشبورد</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card p-3">
+        <div class="d-grid text-center">
+          <div><i class="bi bi-gear-fill fs-2 text-primary"></i></div>
+          <h5 class="mt-2">ترافیک سایت</h5>
+          <p>10%</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3">
+        <div class="d-grid text-center">
+          <div>
+            <i class="bi bi-hand-thumbs-up-fill fs-2 text-danger"></i>
+          </div>
+          <h5 class="mt-2">لایک ها</h5>
+          <p>41,410</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3">
+        <div class="d-grid text-center">
+          <div><i class="bi bi-cart-fill fs-2 text-success"></i></div>
+          <h5 class="mt-2">میزان فروش</h5>
+          <p>760</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card p-3">
+        <div class="d-grid text-center">
+          <div><i class="bi bi-people-fill fs-2 text-warning"></i></div>
+          <h5 class="mt-2">تعداد اعضا</h5>
+          <p>2,000</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Recap Report -->
+  <div class="card mb-4">
+    <div class="card-header">گزارش ماهانه</div>
+    <div class="card-body">
+      <h6>میزان فروش در ماه اخیر</h6>
+      <div id="chart" class="row">
+        <div class="col-md-6 p-2"><app-pie-chart></app-pie-chart></div>
+        <div class="col-md-6 p-2">
+          <app-line-chart></app-line-chart>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h5><span class="text-success">&#9650; 17%</span> $35,210.43</h5>
+          <p>سود کل</p>
+        </div>
+        <div class="col-md-6">
+          <h5><span class="text-danger">&#9660; 0%</span> $10,390.90</h5>
+          <p>هزینه کل</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goal Completion -->
+    <div class="card">
+      <div class="card-header">اجرای اهداف</div>
+      <div class="card-body">
+        <div class="row align-items-center mb-3">
+          <div class="col-6">پر کردن انبار</div>
+          <div class="col-6 text-end">160/200</div>
+        </div>
+        <div class="progress mb-3">
+          <div
+            class="progress-bar goal-bar goal-bar-add"
+            style="width: 80%"
+          ></div>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col-6">انجام تبلیغات</div>
+          <div class="col-6 text-end">310/400</div>
+        </div>
+        <div class="progress mb-3">
+          <div
+            class="progress-bar goal-bar goal-bar-complete"
+            style="width: 77%"
+          ></div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col-6">بررسی نظرات</div>
+          <div class="col-6 text-end">250/500</div>
+        </div>
+        <div class="progress">
+          <div
+            class="progress-bar goal-bar goal-bar-inquiries"
+            style="width: 50%"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

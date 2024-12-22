@@ -1,0 +1,22 @@
+body {
+  background-color: #fff;
+}
+.card {
+  background-color: #fff;
+  border: none;
+}
+.goal-bar {
+  height: 10px;
+}
+.goal-bar-add {
+  background-color: #007bff;
+}
+.goal-bar-complete {
+  background-color: #dc3545;
+}
+.goal-bar-visit {
+  background-color: #28a745;
+}
+.goal-bar-inquiries {
+  background-color: #ffc107;
+}
