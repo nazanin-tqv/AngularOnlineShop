@@ -1,6 +1,15 @@
 <div class="container">
   <website-navbar></website-navbar>
   <website-slider></website-slider>
-  <app-carousel></app-carousel>
-  <app-carousel></app-carousel>
-</div>
+  <p-fieldset legend="دسته پوشاک">
+    <app-carousel [products]="clothing"></app-carousel>
+  </p-fieldset>
+
+  <p-fieldset legend="کالاهای دیجیتال">
+    <app-carousel [products]="digital"></app-carousel>
+  </p-fieldset>
+
+  <!-- <p-fieldset legend="کالاهای منتخب">
+    <app-carousel [products]="favorites"></app-carousel>
+  </p-fieldset>
+</div> -->

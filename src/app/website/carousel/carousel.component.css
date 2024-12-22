@@ -1,3 +1,11 @@
 ::ng-deep .p-carousel-content {
   flex-direction: row-reverse !important;
 }
+::ng-deep .p-carousel-item {
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+::ng-deep .p-carousel-item-list {
+  flex-direction: row-reverse !important;
+}

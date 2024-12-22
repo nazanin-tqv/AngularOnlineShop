@@ -1,49 +1,49 @@
-<div class="card m-2">
+<div class="card">
   <p-carousel
-    [value]="products"
+    [value]="products()"
     [numVisible]="3"
     [numScroll]="1"
+    [circular]="true"
     [responsiveOptions]="responsiveOptions"
     class="content"
+    autoplayInterval="3000"
   >
-    <div class="row">
-      <ng-template let-product #item>
-        <div
-          class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
-        >
-          <div class="mb-4">
-            <div class="relative mx-auto">
-              <img
-                [src]="product.image"
-                [alt]="product.name"
-                class="rounded-border img-fluid mb-1"
-              />
-              <p-tag
-                [value]="product.brand"
-                class="absolute"
-                styleClass="dark:!bg-surface-900"
-              />
-            </div>
-          </div>
-          <div class="mb-4">
-            <strong> {{ product.name }}</strong>
-          </div>
-          <div class="flex justify-between items-center">
-            <div class="mt-0 font-semibold text-xl">
-              {{ "$" + product.price }}
-            </div>
-            <span>
-              <p-button
-                icon="pi pi-heart"
-                severity="secondary"
-                [outlined]="true"
-                class="m-1"
-              />
-              <p-button icon="pi pi-shopping-cart" styleClass="m-1" />
-            </span>
+    <ng-template pTemplate="item" let-product>
+      <div
+        class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
+      >
+        <div class="mb-4">
+          <div class="relative mx-auto">
+            <img
+              [src]="product.image || 'assets/images/placeholder.png'"
+              [alt]="product.name"
+              class="rounded-border img-fluid mb-1"
+            />
+            <p-tag
+              [value]="product.brand"
+              class="absolute"
+              styleClass="dark:!bg-surface-900"
+            ></p-tag>
           </div>
         </div>
-      </ng-template>
-    </div>
+        <div class="mb-4">
+          <strong>{{ product.name }}</strong>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="mt-0 font-semibold text-xl">
+            {{ "$" + product.price }}
+          </div>
+          <span>
+            <p-button
+              icon="pi pi-heart"
+              severity="secondary"
+              [outlined]="true"
+              class="m-1"
+            ></p-button>
+            <p-button icon="pi pi-shopping-cart" styleClass="m-1"></p-button>
+          </span>
+        </div>
+      </div>
+    </ng-template>
   </p-carousel>
 </div>

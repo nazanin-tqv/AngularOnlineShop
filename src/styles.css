@@ -3,14 +3,16 @@
   font-family: "samim";
   src: url("/assets/font/Samim.ttf") format("truetype");
 }
-
+::ng-deep .p-rtl {
+  direction: rtl;
+}
 * {
   font-family: "samim", sans-serif;
 }
 
 body {
   direction: rtl;
-  width: 90%;
+  width: 100%;
   display: block;
   margin: 0 auto;
 }

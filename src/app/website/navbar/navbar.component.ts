@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
             icon: 'pi pi-bolt',
             items: [
               { label: 'موبایل', icon: 'pi pi-phone' },
-              { label: 'تبلت', icon: 'pi pi-phone' },
+              { label: 'تبلت', icon: 'pi pi-computer' },
               { label: 'لپتاپ', icon: 'pi pi-phone' },
             ],
           },

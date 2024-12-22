@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, input, OnInit } from '@angular/core';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
@@ -12,7 +12,7 @@ import { DataService } from '../../data.service';
   styleUrl: './carousel.component.css',
 })
 export class CarouselComponent {
-  products: Product[] = [];
+  products = input.required<Product[]>()
 
   responsiveOptions: any[] | undefined;
 
@@ -23,9 +23,8 @@ export class CarouselComponent {
 
   ngOnInit() {
     this.dataServie.fetchProductObservable().subscribe({
-      next: (products) => {
-        this.products = products;
-        console.log(`number of products: ${this.products.length}`);
+      next: (response) => {
+       
         this.cdr.detectChanges();
       },
     });
@@ -33,17 +32,17 @@ export class CarouselComponent {
       {
         breakpoint: '1400px',
         numVisible: 2,
-        numScroll: 1,
+        numScroll: 2,
       },
       {
         breakpoint: '1199px',
         numVisible: 3,
-        numScroll: 1,
+        numScroll: 3,
       },
       {
         breakpoint: '767px',
         numVisible: 2,
-        numScroll: 1,
+        numScroll: 2,
       },
       {
         breakpoint: '575px',
