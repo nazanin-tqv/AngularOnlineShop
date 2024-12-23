@@ -1,23 +1,25 @@
 <div class="container">
-  <website-navbar></website-navbar>
-
   <!-- Search and Filter Controls -->
   <form
     (ngSubmit)="onFilter()"
     [formGroup]="filterForm"
     #form
-    class="row g-1 mb-4 filterForm"
+    class="row g-3 mb-4 align-items-center filterForm"
   >
-    <span class="col-md-3">
+    <!-- Search Input -->
+    <div class="col-lg-3 col-md-6">
       <input
         type="text"
         id="name"
         placeholder="جستجو بر اساس نام"
         formControlName="search"
         pInputText
+        class="form-control"
       />
-    </span>
-    <span class="col-md-3">
+    </div>
+
+    <!-- Categories Tree Select -->
+    <div class="col-lg-3 col-md-6">
       <p-treeSelect
         [options]="categoryList"
         id="categories"
@@ -25,39 +27,41 @@
         [metaKeySelection]="false"
         selectionMode="multiple"
         placeholder="دسته‌بندی"
-        styleClass="w-full"
+        styleClass="w-100"
         (onNodeSelect)="onCategoryChange()"
         formControlName="categories"
-      >
-      </p-treeSelect>
-    </span>
-    <span class="col-md-3">
+      ></p-treeSelect>
+    </div>
+
+    <!-- Brands Select -->
+    <div class="col-lg-3 col-md-6">
       <p-select
         [options]="brands"
         id="brands"
         name="brands"
         #brand
         placeholder="برند محصول"
-        styleClass="w-full"
+        styleClass="w-100"
         formControlName="brand"
-      />
-    </span>
+      ></p-select>
+    </div>
 
-    <span class="col-md-1">
-      <p-button pButtonLabel="فیلتر" icon="pi pi-filter" type="submit"
-        >فیلتر</p-button
-      >
-    </span>
-    <span class="col-md-2">
+    <div class="col-lg-1 col-md-3 col-sm-6 text-center">
       <p-button
-        pButtonLabel="برداشتن فیلتر"
+        label="فیلتر"
         icon="pi pi-filter"
-        (onClick)="reset()"
-        >برداشتن فیلتر</p-button
-      >
-    </span>
-  </form>
+        type="submit"
+        class="btn-full"
+      ></p-button>
+    </div>
 
-  <!-- DataView Component -->
-  <website-thumnail-list [products]="products()"></website-thumnail-list>
+    <div class="col-lg-2 col-md-3 col-sm-6 text-center">
+      <p-button
+        label="برداشتن فیلتر"
+        icon="pi pi-filter-slash"
+        (onClick)="reset()"
+        class="btn-full"
+      ></p-button>
+    </div>
+  </form>
 </div>

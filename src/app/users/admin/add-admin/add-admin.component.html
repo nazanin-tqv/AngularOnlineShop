@@ -1,1 +1,107 @@
-<p>add-admin works!</p>
+<div class="container d-flex justify-content-center align-items-center mt-0">
+  <div class="card p-4 shadow w-100" style="max-width: 500px">
+    <h3 class="text-center mb-4">افزودن ادمین جدید</h3>
+    <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <!-- First Name -->
+        <div class="col-12">
+          <label for="firstName" class="form-label fw-bold">نام</label>
+          <input
+            pInputText
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            class="form-control"
+            placeholder="نام را وارد کنید"
+          />
+          <small
+            *ngIf="
+              adminForm.get('firstName')?.invalid &&
+              adminForm.get('firstName')?.touched
+            "
+            class="text-danger"
+          >
+            نام الزامی است و باید حداقل ۲ کاراکتر باشد.
+          </small>
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-12">
+          <label for="lastName" class="form-label fw-bold">نام خانوادگی</label>
+          <input
+            pInputText
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            class="form-control"
+            placeholder="نام خانوادگی را وارد کنید"
+          />
+          <small
+            *ngIf="
+              adminForm.get('lastName')?.invalid &&
+              adminForm.get('lastName')?.touched
+            "
+            class="text-danger"
+          >
+            نام خانوادگی الزامی است و باید حداقل ۲ کاراکتر باشد.
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="col-12">
+          <label for="email" class="form-label fw-bold">ایمیل</label>
+          <input
+            pInputText
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="ایمیل را وارد کنید"
+          />
+          <small
+            *ngIf="
+              adminForm.get('email')?.invalid && adminForm.get('email')?.touched
+            "
+            class="text-danger"
+          >
+            ایمیل معتبر الزامی است.
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="col-12">
+          <label for="password" class="form-label fw-bold">رمز عبور</label>
+          <input
+            pInputText
+            id="password"
+            type="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="رمز عبور را وارد کنید"
+          />
+          <small
+            *ngIf="
+              adminForm.get('password')?.invalid &&
+              adminForm.get('password')?.touched
+            "
+            class="text-danger"
+          >
+            رمز عبور الزامی است و باید حداقل ۶ کاراکتر باشد.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button
+          pButton
+          type="submit"
+          label="افزودن ادمین"
+          icon="pi pi-check"
+          class="p-button-rounded p-button-success w-100"
+          [disabled]="adminForm.invalid"
+        ></button>
+      </div>
+    </form>
+  </div>
+</div>

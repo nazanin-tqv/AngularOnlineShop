@@ -1,2 +1,24 @@
-<p>admin-list works!</p>
-<router-outlet></router-outlet>
+<div class="card">
+  <p-table
+    [value]="admins"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    selectionMode="single"
+    (onRowSelect)="onAdminSelection($event)"
+    [(selection)]="selectedAdmin"
+  >
+    <ng-template #header>
+      <tr>
+        <th>نام</th>
+        <th>ایمیل</th>
+        <th>رمز</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-admin>
+      <tr [pSelectableRow]="admin">
+        <td>{{ admin.name | formatName }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.password }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -7,7 +7,7 @@ import { SharedProductDetails } from '../../shared/product/product.component';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [ButtonModule, RouterLink, SharedProductDetails],
+  imports: [ButtonModule, SharedProductDetails],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
 })
@@ -16,10 +16,12 @@ export class AdminProductDetails {
 
   private dataService = inject(DataService);
   product?: Product;
+  id?: string;
   ngOnInit() {
     const url = this.router.url;
-    const id = url.split('/').pop();
-    this.dataService.fetchProductObservableById(id ?? '').subscribe({
+    const segments = url.split('/');
+    this.id = segments[segments.length - 2];
+    this.dataService.fetchProductObservableById(this.id ?? '').subscribe({
       next: (response) => {
         console.log(`product response: ${response}`);
         this.product = response;
@@ -35,5 +37,14 @@ export class AdminProductDetails {
       'edit-product',
       this.product?.id,
     ]);
+  }
+
+  onRemoveProduct(): void {
+    if (confirm('آیا از حذف محصول مطمئنید؟')) {
+      // Add logic to remove the admin from the backend here
+      this.dataService.deleteAdmin(this.product?.id ?? '');
+      alert('حذف موفقیت آمیز بود');
+      this.router.navigate(['/admin-panel/products']); // Redirect to the admin list page
+    }
   }
 }

@@ -42,3 +42,9 @@
 .footer i {
   margin-left: 0.5rem;
 }
+/* Ensure the footer sticks to the bottom */
+
+.footer {
+  margin-top: auto; /* Push the footer to the bottom */
+  border-top: 1px solid #ddd; /* Optional border for separation */
+}

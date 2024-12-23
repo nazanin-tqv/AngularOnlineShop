@@ -1,94 +1,153 @@
-<form [formGroup]="productForm" (ngSubmit)="onAddProduct()" #form>
-  <p-card>
-    <div class="control">
-      <label for="name">نام محصول</label>
+<form
+  [formGroup]="productForm"
+  (ngSubmit)="onAddProduct()"
+  #form
+  class="card p-4 shadow-sm"
+>
+  <div class="card-body">
+    <!-- Product Name -->
+    <div class="mb-3">
+      <label for="name" class="form-label fw-bold">نام محصول</label>
       <input
         id="name"
         type="text"
         name="name"
         formControlName="name"
-        pInputText
+        class="form-control"
+        placeholder="نام محصول را وارد کنید"
       />
     </div>
-    <div class="upload-container">
-      <div class="control summary">
-        <label for="summary">خلاصه</label>
+
+    <!-- Summary and Upload -->
+    <div class="row g-3">
+      <!-- Summary -->
+      <div class="col-md-6">
+        <label for="summary" class="form-label fw-bold">خلاصه</label>
         <input
           id="summary"
           type="text"
           name="summary"
           formControlName="summary"
-          pInputText
+          class="form-control"
+          placeholder="خلاصه محصول را وارد کنید"
         />
       </div>
-      <div class="card flex flex-col gap-6 items-center justify-center upload">
-        <p-fileUpload
-          #fileUpload
-          name="image"
-          formControlName="image"
-          [url]="url"
-          formControlName="image"
-          accept="image/*"
-          [auto]="false"
-          appImgUpload
-          chooseLabel="آپلود تصویر"
-          [customUpload]="true"
-          (uploadHandler)="onUpload($event)"
-        >
-        </p-fileUpload>
-      </div>
-    </div>
 
-    <div>
-      <div class="control-row select-container">
-        <div class="control brand">
-          <label for="brand">برند</label>
-          <p-select
-            [options]="brands"
-            id="brands"
-            name="brands"
-            formControlName="brand"
-            placeholder="برند محصول"
-            styleClass="w-full"
-          />
-        </div>
-        <div class="category control">
-          <label for="categories">دسته بندی</label>
-          <p-treeSelect
-            [options]="categoryList"
-            id="categories"
-            formControlName="categories"
-            [metaKeySelection]="false"
-            selectionMode="multiple"
-            placeholder="دسته‌بندی"
-            styleClass="w-full"
-            (onNodeSelect)="onCategoryChange()"
-          >
-          </p-treeSelect>
+      <!-- Image Upload -->
+      <div class="col-md-6">
+        <label for="image" class="form-label fw-bold">آپلود تصویر</label>
+        <div class="card p-3">
+          <p-fileUpload
+            #fileUpload
+            name="image"
+            formControlName="image"
+            [url]="url"
+            accept="image/*"
+            [auto]="false"
+            appImgUpload
+            chooseLabel="آپلود تصویر"
+            [customUpload]="true"
+            (uploadHandler)="onUpload($event)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+          ></p-fileUpload>
         </div>
       </div>
     </div>
 
-    <div class="control-row">
-      <label for="description">توضیحات</label>
+    <!-- Brand and Categories -->
+    <div class="row g-3 mt-3">
+      <!-- Categories -->
+      <div class="col-md-6">
+        <label for="categories" class="form-label fw-bold">دسته بندی</label>
+        <p-treeSelect
+          [options]="categoryList"
+          id="categories"
+          formControlName="categories"
+          [metaKeySelection]="false"
+          selectionMode="multiple"
+          placeholder="انتخاب دسته‌بندی"
+          class="form-select"
+          (onNodeSelect)="onCategoryChange()"
+        ></p-treeSelect>
+      </div>
+      <!-- Brand -->
+      <div class="col-md-6">
+        <label for="brand" class="form-label fw-bold">برند</label>
+        <p-select
+          [options]="brands"
+          id="brands"
+          name="brand"
+          formControlName="brand"
+          placeholder="برند محصول"
+          class="form-select"
+        ></p-select>
+      </div>
+    </div>
 
+    <!-- Price and Quantity -->
+    <div class="row g-3 mt-3">
+      <!-- Price -->
+      <div class="col-md-6">
+        <label for="price" class="form-label fw-bold">قیمت</label>
+        <input
+          id="price"
+          type="number"
+          name="price"
+          formControlName="price"
+          class="form-control"
+          placeholder="قیمت محصول را وارد کنید"
+        />
+      </div>
+
+      <!-- Quantity -->
+      <div class="col-md-6">
+        <label for="quantity" class="form-label fw-bold">تعداد در انبار</label>
+        <input
+          id="quantity"
+          type="number"
+          name="quantity"
+          formControlName="quantity"
+          class="form-control"
+          placeholder="تعداد موجودی را وارد کنید"
+        />
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mt-3">
+      <label for="description" class="form-label fw-bold">توضیحات</label>
       <textarea
-        class="control"
         rows="5"
-        cols="30"
-        pInputTextarea
+        class="form-control"
         name="description"
         formControlName="description"
         id="description"
+        placeholder="توضیحات محصول را وارد کنید"
       ></textarea>
     </div>
 
-    <p class="form-actions">
-      <p-button label="پاک کردن فرم" [link]="true" (click)="onReset()" />
-      <p-button label="ثبت نام" type="submit" />
-    </p>
-    @if (productForm.touched&& productForm.dirty && productForm.invalid) {
-    <p class="center">لطفا از ورودیهای معتبر استفاده کنید</p>
-    }
-  </p-card>
+    <!-- Actions -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <p-button
+        label="پاک کردن فرم"
+        [link]="true"
+        class="btn btn-outline-secondary"
+        (click)="onReset()"
+      ></p-button>
+      <p-button
+        label="ثبت محصول"
+        type="submit"
+        class="btn btn-primary"
+      ></p-button>
+    </div>
+
+    <!-- Validation Feedback -->
+    <div
+      *ngIf="productForm.touched && productForm.dirty && productForm.invalid"
+      class="alert alert-danger mt-3 text-center"
+    >
+      لطفا از ورودی‌های معتبر استفاده کنید
+    </div>
+  </div>
 </form>

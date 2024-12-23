@@ -169,7 +169,7 @@ export class DataService {
   FetchAdminById(id: string) {
     this.FetchAdminObservableById(id).subscribe({
       next: (response) => {
-        this.chosenCustomer.set(response);
+        this.chosenAdmin.set(response);
         console.log('Admin:', this.chosenAdmin());
       },
       error: (error: Error) => this.error.set(error.message),
@@ -185,29 +185,17 @@ export class DataService {
             new Error(`Something went wrong while fetching admin with id ${id}`)
         )
       ),
-      map((response) =>
-        response.documents.map(
-          (doc: {
-            name: string;
-            fields: {
-              fname: { stringValue: string };
-              lname: { stringValue: string };
-              email: { stringValue: string };
-              password: { stringValue: string };
-            };
-          }) => {
-            return {
-              id: doc['name'].split('/').pop(),
-              name: {
-                fname: doc['fields'].fname.stringValue,
-                lname: doc['fields'].lname.stringValue,
-              },
-              email: doc['fields'].email.stringValue,
-              password: doc['fields'].password.stringValue,
-            } as Admin;
-          }
-        )
-      )
+      map((response) => {
+        return {
+          id: response['name'].split('/').pop(),
+          name: {
+            fname: response['fields'].fname.stringValue,
+            lname: response['fields'].lname.stringValue,
+          },
+          email: response['fields'].email.stringValue,
+          password: response['fields'].password.stringValue,
+        } as Admin;
+      })
     );
   }
 
@@ -262,24 +250,13 @@ export class DataService {
           () => new Error('Something went wrong while fetching admins')
         )
       ),
-      map((response) =>
-        response.documents.map(
-          (doc: {
-            name: string;
-            fields: {
-              email: { stringValue: string };
-              password: { stringValue: string };
-              type: { stringValue: 'admin' | 'customer' };
-            };
-          }) => {
-            return {
-              email: doc['fields'].email.stringValue,
-              password: doc['fields'].password.stringValue,
-              type: doc['fields'].type.stringValue,
-            };
-          }
-        )
-      )
+      map((response) => {
+        return {
+          email: response['fields'].email.stringValue,
+          password: response['fields'].password.stringValue,
+          type: response['fields'].type.stringValue,
+        };
+      })
     );
   }
   FetchProductById(id: string) {
@@ -427,6 +404,27 @@ export class DataService {
         }
       });
   }
+  addAdminHTTP(admin: Admin) {
+    const prev = this.admins();
+    return this.firestoreService
+      .addAdmin(admin)
+      .pipe(
+        catchError((error) =>
+          throwError(
+            () =>
+              new Error(
+                `Something went wrong while adding admin ${admin.name['fname']} ${admin.name['lname']}`
+              )
+          )
+        )
+      )
+      .subscribe((response) => {
+        console.log('Admin added:', response);
+        if (!prev.some((u) => u.id === admin.id)) {
+          this.admins.update((prev) => [...prev, admin]);
+        }
+      });
+  }
   addProductHTTP(product: Product) {
     const prevProducts = this.products();
     return this.firestoreService
@@ -450,11 +448,11 @@ export class DataService {
       });
   }
   deleteProduct(pId: string) {
+    console.log(`delete id: ${pId}`);
     const prevProducts = this.products();
     return this.firestoreService
       .deleteProduct(pId)
       .pipe(
-        map((resData) => resData.users),
         catchError((error) =>
           throwError(
             () =>
@@ -471,8 +469,29 @@ export class DataService {
         }
       });
   }
+  deleteAdmin(id: string) {
+    console.log(`delete id: ${id}`);
+    const prevAdmins = this.admins();
+    return this.firestoreService
+      .deleteAdmin(id)
+      .pipe(
+        catchError((error) =>
+          throwError(
+            () =>
+              new Error(
+                `Something went wrong while deleting admin with id ${id}`
+              )
+          )
+        )
+      )
+      .subscribe((response) => {
+        console.log('Admin deleted:', response);
+        if (prevAdmins.some((p) => p.id === id)) {
+          this.admins.set(prevAdmins.filter((pr) => pr.id !== id));
+        }
+      });
+  }
   logOut() {
-    const prevProducts = this.products();
     return this.firestoreService
       .deleteLogIn()
       .pipe(

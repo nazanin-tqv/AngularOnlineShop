@@ -1,55 +1,68 @@
-<div class="container card p-3">
-  <div class="product-details row">
+<div class="container card shadow p-4 mb-4 w-100">
+  <div class="product-details row g-4">
     <!-- Product Image -->
-    <div class="col-sm-6">
-      <img class="w-100" [src]="product?.image" alt="test" />
+    <div class="col-md-4 mr-0">
+      <img
+        class="img-fluid rounded border"
+        [src]="product?.image"
+        alt="Product Image"
+      />
     </div>
 
     <!-- Product Info -->
-    <div class="product-info col-sm-6">
-      <div class="w-100">
-        <h4>
-          <strong>{{ product?.name }}</strong>
-        </h4>
+    <div class="product-info col-md-7">
+      <!-- Product Name -->
+      <div class="mb-3">
+        <h2 class="fw-bold text-success">{{ product?.name }}</h2>
       </div>
-      <p><strong>خلاصه</strong> {{ product?.summary }}</p>
 
-      <div class="row">
-        <div class="col-sm-4">
-          <p><strong>برند</strong> {{ product?.brand }}</p>
-        </div>
+      <!-- Summary -->
+      <p class="text-muted mb-4">
+        <strong>خلاصه:</strong> {{ product?.summary }}
+      </p>
 
-        <!-- Categories -->
-        <div class="col-sm-8">
-          <p>
-            <strong>دسته‌بندی</strong>
+      <!-- Brand and Categories -->
+      <div class="row mb-4">
+        <div class="col-sm-6">
+          <p class="mb-2">
+            <strong>برند:</strong>
+            <span class="text-secondary">{{ product?.brand }}</span>
           </p>
-
-          <p class="mr-2">{{ product?.categories ?? [] | categoryFormat }}</p>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <strong>دسته‌بندی:</strong>
+            <span>{{ product?.categories ?? [] | categoryFormat }}</span>
+          </p>
         </div>
       </div>
 
       <!-- Price and Quantity -->
-      <div class="row">
-        <div class="col-sm-4">
+      <div class="row mb-4">
+        <div class="col-sm-6">
           <p>
-            <strong>قیمت</strong>
-            <span class="price">${{ product?.price }}</span>
+            <strong>قیمت:</strong>
+            <span class="text-success fs-5">{{
+              product?.price ?? 1000 | moneyFormat
+            }}</span>
           </p>
         </div>
-        <div class="col-sm-8">
-          <p><strong>تعداد موجود در انبار</strong> {{ product?.quantity }}</p>
+        <div class="col-sm-6">
+          <p>
+            <strong>تعداد موجود در انبار:</strong>
+            <span class="text-danger">{{ product?.quantity }}</span>
+          </p>
         </div>
       </div>
 
       <!-- Description -->
-      <div class="description">
-        <p><strong>توضیحات</strong></p>
-        <p>{{ product?.description }}</p>
+      <div class="description mb-4">
+        <p><strong>توضیحات:</strong></p>
+        <p class="text-justify text-muted">{{ product?.description }}</p>
       </div>
-      <div class="b-container mt-2">
-        <ng-content></ng-content>
-      </div>
+
+      <!-- Add to Cart Button -->
+      <ng-content></ng-content>
     </div>
   </div>
 </div>

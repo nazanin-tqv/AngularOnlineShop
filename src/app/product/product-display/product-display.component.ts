@@ -94,11 +94,14 @@ export class ProductDisplayComponent {
       image: this.selectedProduct?.image,
     } as Product;
     this.productService.setSelectedProduct(product);
+    const formattedName = product.name.replace(/\s+/g, '-'); // Replace spaces with hyphens for clean URLs
+
     this.router.navigate([
       'admin-panel',
       'products',
       'display-products',
       product.id,
+      formattedName,
     ]);
   }
 

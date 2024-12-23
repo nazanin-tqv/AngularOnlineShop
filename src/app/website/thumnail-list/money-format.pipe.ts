@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class MoneyFormatPipe implements PipeTransform {
-  transform(value: string): string {
-    return `${value} تومان`;
+  transform(value: string | number): string {
+    return `${value.toString()} تومان`;
   }
 }

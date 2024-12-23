@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { User } from './user.model';
+import { inject, Injectable, signal } from '@angular/core';
+import { Admin, User } from './user.model';
 import { DataService } from '../data.service';
 import CryptoJS from 'crypto-js';
 
@@ -10,6 +10,15 @@ export class UsersService {
   private dataService = inject(DataService);
   private customers = this.dataService.getCustomers;
   private admins = this.dataService.getAdmins;
+  private selectedTableAdmin = signal<Admin | null>(null);
+
+  setSelectedAdmin(admin: Admin) {
+    this.selectedTableAdmin.set(admin);
+  }
+  getSelectedAdmin() {
+    return this.selectedTableAdmin();
+  }
+
   generateCustomerId(email: string): string {
     // Concatenate name and brand with a separator to avoid ambiguity
     const input = `${email.trim().toLowerCase()}`;

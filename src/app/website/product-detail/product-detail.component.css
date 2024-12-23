@@ -1,7 +1,3 @@
-strong {
-  color: darkslategray;
-}
-.b-container {
-  display: flex;
-  justify-content: flex-end;
+::ng-deep .p-button {
+  width: 100%;
 }

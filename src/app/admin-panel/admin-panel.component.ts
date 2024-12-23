@@ -1,21 +1,18 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { SidebarComponent } from "./sidebar/sidebar.component";
-import { NavbarComponent } from "./navbar/navbar.component";
-import { FooterComponent } from "../footer/footer.component";
+import { SidebarComponent } from './sidebar/sidebar.component';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [PanelMenuModule, RouterOutlet, SidebarComponent, NavbarComponent, FooterComponent],
+  imports: [PanelMenuModule, RouterOutlet, SidebarComponent],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
 export class AdminPanelComponent {
   items?: MenuItem[];
-
   ngOnInit() {
     this.items = [
       {
@@ -30,7 +27,7 @@ export class AdminPanelComponent {
           {
             label: 'محصولات موجود',
             icon: 'pi pi-fw pi-plus',
-            routerLink: 'products',
+            routerLink: 'products/display-products',
           },
           {
             label: 'اضافه کردن محصول جدید',
@@ -45,7 +42,7 @@ export class AdminPanelComponent {
           {
             label: 'ویرایش محصول',
             icon: 'pi pi-fw pi-pencil',
-            routerLink: 'products/edit-product',
+            routerLink: 'products/edit-product/',
           },
         ],
       },
@@ -56,7 +53,7 @@ export class AdminPanelComponent {
           {
             label: 'لیست ادمین ها',
             icon: 'pi pi-fw pi-user-plus',
-            routerLink: 'admins',
+            routerLink: 'admins/display-admins',
           },
           {
             label: 'اضافه کردن ادمین جدید',

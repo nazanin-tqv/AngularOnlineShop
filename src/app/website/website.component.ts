@@ -5,11 +5,17 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { Fieldset } from 'primeng/fieldset';
 import { categoryList, Product } from '../product/product.model';
 import { DataService } from '../data.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-website',
   standalone: true,
-  imports: [NavbarComponent, SliderComponent, CarouselComponent, Fieldset],
+  imports: [
+    SliderComponent,
+    CarouselComponent,
+    Fieldset,
+    RouterOutlet,
+  ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',
 })

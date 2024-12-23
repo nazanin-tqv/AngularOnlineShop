@@ -22,6 +22,7 @@ import { Select } from 'primeng/select';
 import { TreeSelect } from 'primeng/treeselect';
 import { FileUpload, FileUploadHandlerEvent } from 'primeng/fileupload';
 import { SharedModule, TreeNode } from 'primeng/api';
+import { NgIf } from '@angular/common';
 function isEmpty(control: AbstractControl) {
   if (control.value.length > 0) {
     return null;
@@ -40,6 +41,7 @@ function isEmpty(control: AbstractControl) {
     FormsModule,
     FileUpload,
     SharedModule,
+    NgIf,
   ],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css',
@@ -59,9 +61,16 @@ export class EditProductComponent implements OnInit {
   fileupload = viewChild<FileUpload>('fileUpload');
 
   editForm = new FormGroup({
-    summary: new FormControl<string>('', { validators: [isEmpty] }),
-    description: new FormControl<string>('', { validators: [isEmpty] }),
-    image: new FormControl<string>(''),
+    summary: new FormControl<string>(this.product?.summary ?? '', {
+      validators: [isEmpty],
+    }),
+    description: new FormControl<string>(this.product?.description ?? '', {
+      validators: [isEmpty],
+    }),
+    image: new FormControl<string>(this.product?.image ?? ''),
+    quantity: new FormControl<number>(this.product?.price ?? 10),
+    price: new FormControl<number>(this.product?.price ?? 1000),
+    categories: new FormControl<Category[]>(this.product?.categories ?? []),
   });
   ngOnInit(): void {
     const id = this.router.url.split('/').pop();
@@ -101,6 +110,9 @@ export class EditProductComponent implements OnInit {
     console.log('Selected Brands:', this.brands);
     const enteredSummary = val.summary;
     const enteredDescription = val.description;
+    const enteredPrice = val.price;
+    const enteredQuantity = val.quantity;
+    const enteredCategories = this.editForm.get('categories')?.value;
 
     console.log(`Description: ${enteredDescription}`);
     if (uploadedFiles && uploadedFiles.length > 0) {
@@ -128,11 +140,11 @@ export class EditProductComponent implements OnInit {
                 summary: enteredSummary as string,
                 brand: this.product?.brand as string,
                 description: enteredDescription as string,
-                categories: this.product?.categories as Category[],
+                categories: enteredCategories as Category[],
                 image: enteredImage as string,
                 id: this.product?.id,
-                price: 1000,
-                quantity: 10,
+                price: enteredPrice as number,
+                quantity: enteredQuantity as number,
               } as Product;
 
               this.dataService.addProductHTTP(this.editedProduct);
@@ -145,7 +157,11 @@ export class EditProductComponent implements OnInit {
       });
     }
   }
-
+  private notEmpty(entered: string, prev: string) {
+    if (entered === '') {
+      return prev;
+    } else return entered;
+  }
   // Helper to convert a File to Base64
   private fileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

@@ -197,6 +197,10 @@ export class FirestoreService {
     const url = `${this.firestoreBaseUrl}products/${documentId}`;
     return this.http.delete(url);
   }
+  deleteAdmin(documentId: string): Observable<any> {
+    const url = `${this.firestoreBaseUrl}admins/${documentId}`;
+    return this.http.delete(url);
+  }
   deleteLogIn(): Observable<any> {
     const url = `${this.firestoreBaseUrl}metadata/loggedInUser`;
     return this.http.delete(url);

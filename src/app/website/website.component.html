@@ -1,5 +1,7 @@
 <div class="container">
-  <website-navbar></website-navbar>
+  <div class="content">
+    <router-outlet/>
+  </div>
   <website-slider></website-slider>
   <p-fieldset legend="دسته پوشاک">
     <app-carousel [products]="clothing"></app-carousel>

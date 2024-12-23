@@ -1,25 +1,45 @@
-.panel-container {
-  /* width: 80%;
-  display: grid;
-  grid-template-columns: repeat(8, auto); */
+::ng-deep .p-panelmenu-submenu-icon {
+  display: none !important;
 }
-.wrapper {
-  margin-top: 3rem;
-  display: grid;
-  grid-template-columns: repeat(6, auto);
+::ng-deep.p-panelmenu-submenu-icon:not(.p-selected) {
+  display: none !important;
 }
-.w-sidebar {
-  width: 100%;
-  grid-column: 0 / span 2;
+/* Hide the arrow icon for items with submenus */
+.custom-panel-menu .p-panelmenu-icon {
+  display: none !important;
 }
-.content-wrapper {
-  width: 100%;
-  margin-right: 2rem;
-  grid-column: 2 / span 4;
+
+/* Adjust panel menu styles */
+.p-panelMenu-wrapper {
+  margin-bottom: 1rem;
 }
-/* .panel-sidemenu {
-  grid-column: 1 / span 2;
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .content-wrapper {
+    margin-top: 1rem;
+  }
 }
-.panel-content {
-  grid-column: 3 / span 5;
-} */
+
+/* Adjust sidebar styles */
+.custom-panel-menu ::ng-deep .p-panelmenu-header {
+  font-size: 1rem;
+  padding: 0.8rem;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.custom-panel-menu ::ng-deep .p-panelmenu-header:hover {
+  background-color: #e9ecef;
+  transition: background-color 0.2s;
+}
+::ng-deep .p-icon-wrapper {
+  order: 1;
+  margin-inline-start: auto;
+}

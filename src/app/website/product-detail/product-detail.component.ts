@@ -8,7 +8,7 @@ import { Product } from '../../product/product.model';
 @Component({
   selector: 'website-product-detail',
   standalone: true,
-  imports: [SharedProductDetails, ButtonModule, RouterLink],
+  imports: [SharedProductDetails, ButtonModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css',
 })
@@ -17,7 +17,8 @@ export class WebsiteProductDetails {
   constructor(private router: Router, private dataService: DataService) {}
   ngOnInit() {
     const url = this.router.url;
-    const id = url.split('/').pop();
+    const segments = url.split('/');
+    const id = segments[segments.length - 2];
     this.dataService.fetchProductObservableById(id ?? '').subscribe({
       next: (response) => {
         console.log(`product response: ${response}`);

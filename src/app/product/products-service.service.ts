@@ -57,11 +57,9 @@ export class ProductsService {
     }
     return this.onDisplayProducts;
   }
-  generateProductId(name: string, brand: string, categories: string): string {
+  generateProductId(name: string, brand: string): string {
     // Concatenate name and brand with a separator to avoid ambiguity
-    const input = `${name.trim().toLowerCase()}-${brand
-      .trim()
-      .toLowerCase()}-${categories.trim().toLowerCase()}`;
+    const input = `${name.trim().toLowerCase()}-${brand.trim().toLowerCase()}`;
 
     // Generate a SHA-256 hash of the input
     const hash = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);

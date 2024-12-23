@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { Product } from '../../product/product.model';
 import { DataService } from '../../data.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-carousel',
   standalone: true,
@@ -12,22 +13,16 @@ import { DataService } from '../../data.service';
   styleUrl: './carousel.component.css',
 })
 export class CarouselComponent {
-  products = input.required<Product[]>()
-
+  products = input.required<Product[]>();
   responsiveOptions: any[] | undefined;
 
   constructor(
     private dataServie: DataService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.dataServie.fetchProductObservable().subscribe({
-      next: (response) => {
-       
-        this.cdr.detectChanges();
-      },
-    });
     this.responsiveOptions = [
       {
         breakpoint: '1400px',
@@ -50,5 +45,9 @@ export class CarouselComponent {
         numScroll: 1,
       },
     ];
+  }
+  navigateToProduct(productId: string, productName: string): void {
+    const formattedName = productName.replace(/\s+/g, '-'); // Replace spaces with hyphens for clean URLs
+    this.router.navigate(['/product', productId, formattedName]);
   }
 }

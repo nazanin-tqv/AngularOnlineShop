@@ -114,6 +114,7 @@ export class SignUpComponent implements OnInit {
     console.log(newCustomer);
     this.subscription = this.dataService.addCustomerHTTP(newCustomer);
     //this.destroyRef.nativeElement.OnDestroy(this.subscription.unsubscribe());
+    this.form()?.nativeElement.reset();
   }
   onReset() {
     this.form()?.nativeElement.reset();

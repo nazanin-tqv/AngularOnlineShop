@@ -19,6 +19,9 @@ import { AdminProductDetails } from './product/product-details/product-details.c
 import { ThumnailListComponent } from './website/thumnail-list/thumnail-list.component';
 import { WebsiteProductDetails } from './website/product-detail/product-detail.component';
 import { WebsiteProductsComponent } from './website/products/products.component';
+import { AdminOutletComponent } from './users/admin/admin-outlet/admin-outlet.component';
+import { NavFilterComponent } from './website/navbar/nav-filter/nav-filter.component';
+import { NavOutletComponent } from './website/navbar/nav-outlet/nav-outlet.component';
 
 export const routes: Routes = [
   { path: '', component: WebsiteComponent, canActivate: [AuthGuard] },
@@ -26,13 +29,6 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLoginComponent,
-    children: [
-      {
-        path: 'panel',
-        component: AdminPanelComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
   },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
@@ -41,11 +37,56 @@ export const routes: Routes = [
     path: 'product-list',
     component: WebsiteProductsComponent,
   },
-  { path: 'product/:id', component: WebsiteProductDetails },
+  {
+    path: 'categories',
+    component: NavOutletComponent,
+    children: [
+      {
+        path: 'digital',
+        component: NavOutletComponent,
+        children: [
+          {
+            path: 'mobile',
+            component: NavFilterComponent,
+          },
+          {
+            path: 'tablet',
+            component: NavFilterComponent,
+          },
+          {
+            path: 'laptop',
+            component: NavFilterComponent,
+          },
+        ],
+      },
+      {
+        path: 'clothing',
+        component: NavOutletComponent,
+        children: [
+          { path: 'women', component: NavFilterComponent },
+          { path: 'men', component: NavFilterComponent },
+          { path: 'children', component: NavFilterComponent },
+        ],
+      },
+      {
+        path: 'culture',
+        component: NavOutletComponent,
+        children: [
+          { path: 'books', component: NavFilterComponent },
+          { path: 'note', component: NavFilterComponent },
+        ],
+      },
+    ],
+  },
+
+  {
+    path: 'product/:id/:name',
+    component: WebsiteProductDetails,
+  },
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       {
@@ -56,18 +97,22 @@ export const routes: Routes = [
             path: 'display-products',
             component: ProductDisplayComponent,
           },
-          { path: 'display-products/:id', component: AdminProductDetails },
+          {
+            path: 'display-products/:id/:name',
+            component: AdminProductDetails,
+          },
           { path: 'add-product', component: NewProductComponent },
           { path: 'remove-product', component: RemoveProductComponent },
-          { path: 'edit-product/:id', component: EditProductComponent },
+          { path: 'edit-product/:id/:name', component: EditProductComponent },
         ],
       },
       {
         path: 'admins',
-        component: AdminListComponent,
+        component: AdminOutletComponent,
         children: [
+          { path: 'display-admins', component: AdminListComponent },
           { path: 'add-admin', component: AddAdminComponent },
-          { path: 'remove-admin', component: RemoveAdminComponent },
+          { path: 'remove-admin/:id/:name', component: RemoveAdminComponent },
         ],
       },
       {

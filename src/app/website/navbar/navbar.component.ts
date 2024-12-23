@@ -1,8 +1,9 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
+import { NavbarService } from './navbar.service';
 @Component({
   selector: 'website-navbar',
   standalone: true,
@@ -12,7 +13,7 @@ import { Menubar } from 'primeng/menubar';
 })
 export class NavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
-
+  private navService = inject(NavbarService);
   ngOnInit() {
     this.items = [
       {
@@ -23,50 +24,70 @@ export class NavbarComponent implements OnInit {
       {
         label: 'محصولات',
         icon: 'pi pi-star',
-        routerLink: ['/product-list'],
+        routerLink: ['product-list'],
       },
       {
         label: 'دسته بندی',
         icon: 'pi pi-search',
+        routerLink: ['categories'],
         items: [
           {
             label: 'کالای دیجیتال',
             icon: 'pi pi-bolt',
+            routerLink: ['categories', 'digital'],
             items: [
-              { label: 'موبایل', icon: 'pi pi-phone' },
-              { label: 'تبلت', icon: 'pi pi-computer' },
-              { label: 'لپتاپ', icon: 'pi pi-phone' },
+              {
+                label: 'موبایل',
+                icon: 'pi pi-phone',
+                routerLink: ['categories', 'digital', 'mobile'],
+              },
+              {
+                label: 'تبلت',
+                icon: 'pi pi-tablet',
+                routerLink: ['categories', 'digital', 'tablet'],
+              },
+              {
+                label: 'لپتاپ',
+                icon: 'pi pi-laptop',
+                routerLink: ['categories', 'digital', 'laptop'],
+              },
             ],
           },
           {
             label: 'پوشاک',
             icon: 'pi pi-server',
+            routerLink: ['categories', 'clothing'],
             items: [
-              { label: 'زنانه', icon: 'pi pi-phone' },
-              { label: 'مردانه', icon: 'pi pi-phone' },
-              { label: 'بجگانه', icon: 'pi pi-phone' },
+              {
+                label: 'زنانه',
+                icon: 'pi pi-female',
+                routerLink: ['categories', 'clothing', 'women'],
+              },
+              {
+                label: 'مردانه',
+                icon: 'pi pi-male',
+                routerLink: ['categories', 'clothing', 'men'],
+              },
+              {
+                label: 'بچگانه',
+                icon: 'pi pi-child',
+                routerLink: ['categories', 'clothing', 'children'],
+              },
             ],
-          },
-          {
-            label: 'فرهنگی',
-            icon: 'pi pi-pencil',
-            items: [
-              { label: 'کتاب', icon: 'pi pi-phone' },
-              { label: 'لوازم تحریر', icon: 'pi pi-phone' },
-            ],
-          },
-          {
-            label: 'درباره ما',
-            icon: 'pi pi-palette',
-            routerLink: [''],
           },
         ],
       },
       {
+        label: 'درباره ما',
+        icon: 'pi pi-info-circle',
+        routerLink: ['about-us'],
+      },
+      {
         label: 'تماس با ما',
         icon: 'pi pi-envelope',
-        routerLink: [''],
+        routerLink: ['contact-us'],
       },
     ];
+    this.navService.setItems(this.items);
   }
 }

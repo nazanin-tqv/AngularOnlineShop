@@ -4,13 +4,13 @@
     [value]="products"
     dataKey="id"
     [rows]="5"
-    [rowsPerPageOptions]="[10, 25, 50]"
     [paginator]="true"
     [globalFilterFields]="['name', 'brand', 'categories']"
     [tableStyle]="{ 'min-width': '75rem' }"
     selectionMode="single"
     [(selection)]="selectedProduct"
     (onRowSelect)="onProductSelection($event)"
+    [autoLayout]="true"
   >
     <ng-template pTemplate="caption">
       <div class="flex">
@@ -30,7 +30,7 @@
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 22%">نام محصول</th>
-        <th style="width: 22%">برند</th>
+        <th style="width: 12%">برند</th>
         <th style="width: 22%">دسته‌بندی</th>
         <th style="width: 22%">خلاصه</th>
         <th style="width: 12%">تعداد</th>

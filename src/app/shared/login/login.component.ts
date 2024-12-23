@@ -46,7 +46,6 @@ import { UsersService } from '../../user/users.service';
 export class SharedLoginComponent {
   private form = viewChild<ElementRef<HTMLFormElement>>('form');
   private authService = inject(AuthService);
-  private dataService = inject(DataService);
   userType = input.required<'admin' | 'customer'>();
   loggedInUser: User | null = null;
   authBoolean = signal<boolean>(true);

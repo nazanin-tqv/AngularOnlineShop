@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -21,6 +27,7 @@ import { TreeNode } from 'primeng/api';
 import { SharedModule } from './shared.module';
 import { ProductsService } from '../products-service.service';
 import { DataService } from '../../data.service';
+import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-new-product',
   standalone: true,
@@ -34,6 +41,7 @@ import { DataService } from '../../data.service';
     FormsModule,
     FileUpload,
     SharedModule,
+    NgIf,
   ],
   templateUrl: './new-product.component.html',
   styleUrl: './new-product.component.css',
@@ -50,7 +58,7 @@ export class NewProductComponent {
   categoryList: TreeNode[] = categoryList;
   categoryBrandMapping = categoryBrandMapping;
   selectedCategories: TreeNode[] = [];
-  form = viewChild<HTMLFormElement>('form');
+  form = viewChild<ElementRef<HTMLFormElement>>('form');
   fileupload = viewChild<FileUpload>('fileUpload');
   productForm = new FormGroup({
     name: new FormControl<string>('', { validators: [Validators.required] }),
@@ -65,6 +73,8 @@ export class NewProductComponent {
       validators: [Validators.required],
     }),
     categories: new FormControl<Category[]>([]),
+    price: new FormControl<number>(1000),
+    quantity: new FormControl<number>(10),
   });
 
   onCategoryChange() {
@@ -95,7 +105,7 @@ export class NewProductComponent {
   }
 
   onReset() {
-    this.form()?.reset();
+    this.form()?.nativeElement.reset();
   }
 
   onUpload(event: FileUploadHandlerEvent): void {
@@ -116,9 +126,10 @@ export class NewProductComponent {
     const enteredCategories = this.productForm.get('categories')?.value;
     this.pId = this.productService.generateProductId(
       enteredName ?? '',
-      enteredBrand ?? '',
-      enteredCategories?.join(',') ?? ''
+      enteredBrand ?? ''
     );
+    const enteredPrice = val.price;
+    const enteredQuantity = val.quantity;
     console.log(`Product name: ${enteredName} brand: ${enteredBrand}`);
     console.log(`Categories: ${enteredCategories?.map((v) => v.value)}`);
     console.log(`Description: ${enteredDescription}`);
@@ -148,8 +159,8 @@ export class NewProductComponent {
               categories: enteredCategories as Category[],
               image: enteredImage as string,
               id: this.pId,
-              price: 1000,
-              quantity: 10,
+              price: enteredPrice,
+              quantity: enteredQuantity,
             } as Product;
 
             this.dataService.addProductHTTP(this.createdProduct);
@@ -159,7 +170,7 @@ export class NewProductComponent {
           },
         });
       });
-      this.form()?.reset();
+      this.form()?.nativeElement.reset();
     }
   }
 

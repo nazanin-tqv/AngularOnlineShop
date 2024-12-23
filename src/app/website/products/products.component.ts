@@ -21,7 +21,7 @@ import { TreeSelect } from 'primeng/treeselect';
 import { DataService } from '../../data.service';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
-import { NavbarComponent } from "../navbar/navbar.component";
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-products',
@@ -39,8 +39,8 @@ import { NavbarComponent } from "../navbar/navbar.component";
     ReactiveFormsModule,
     ThumnailListComponent,
     InputTextModule,
-    NavbarComponent
-],
+    NavbarComponent,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -59,7 +59,8 @@ export class WebsiteProductsComponent {
     brand: new FormControl<string>(''),
     categories: new FormControl<Category[]>([]),
   });
-  constructor(private dataService: DataService, private router: Router) {}
+  routeCategories: string[] = [];
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.dataService.fetchProductObservable().subscribe((data) => {

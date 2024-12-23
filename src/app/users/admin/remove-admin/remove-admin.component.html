@@ -1,1 +1,44 @@
-<p>remove-admin works!</p>
+<div class="container mt-5 d-flex justify-content-center align-items-center">
+  <div class="card p-4 shadow-lg w-100" style="max-width: 600px">
+    <h3 class="text-center mb-4">Admin Details</h3>
+    <!-- First Name -->
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <label class="form-label fw-bold">نام</label>
+        <p class="border rounded p-2 bg-light">{{ admin?.name?.fname }}</p>
+      </div>
+
+      <!-- Last Name -->
+      <div class="col-12 col-md-6">
+        <label class="form-label fw-bold">نام خانوادگی</label>
+        <p class="border rounded p-2 bg-light">{{ admin?.name?.lname }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <label class="form-label fw-bold">ایمیل</label>
+        <p class="border rounded p-2 bg-light">{{ admin?.email }}</p>
+      </div>
+
+      <!-- Password -->
+      <div class="col-12 col-md-6">
+        <label class="form-label fw-bold">رمز عبور</label>
+        <p class="border rounded p-2 bg-light">{{ admin?.password }}</p>
+      </div>
+    </div>
+    <!-- Email -->
+
+    <!-- Delete Admin Button -->
+    <div class="col-12 text-center">
+      <button
+        pButton
+        type="button"
+        label="حذف ادمین"
+        icon="pi pi-trash"
+        class="p-button p-button-danger w-100"
+        (click)="removeAdmin()"
+      ></button>
+    </div>
+  </div>
+</div>
