@@ -1,17 +1,15 @@
+<app-slider></app-slider>
+
 <div class="container">
-  <div class="content">
-    <router-outlet/>
-  </div>
-  <website-slider></website-slider>
-  <p-fieldset legend="دسته پوشاک">
-    <app-carousel [products]="clothing"></app-carousel>
-  </p-fieldset>
+  <!-- <div class="content">
+    <router-outlet />
+  </div> -->
 
   <p-fieldset legend="کالاهای دیجیتال">
     <app-carousel [products]="digital"></app-carousel>
   </p-fieldset>
 
-  <!-- <p-fieldset legend="کالاهای منتخب">
-    <app-carousel [products]="favorites"></app-carousel>
+  <p-fieldset legend="کالاهای منتخب">
+    <app-carousel [products]="products"></app-carousel>
   </p-fieldset>
-</div> -->
+</div>

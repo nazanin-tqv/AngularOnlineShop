@@ -1,6 +1,6 @@
 import { Category, Product } from '../product.model';
 import { DataService } from '../../data.service';
-import { Component, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
 import { Table, TableRowSelectEvent } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -45,8 +45,17 @@ interface TableProduct {
   templateUrl: './product-display.component.html',
   styleUrl: './product-display.component.css',
 })
-export class ProductDisplayComponent {
+export class ProductDisplayComponent implements AfterViewInit {
   private dt = viewChild<Table>('dt');
+  translations: { [key: string]: string } = {
+    'Starts with': 'شروع با',
+    Contains: 'شامل',
+    'Not contains': 'شامل نمی‌شود',
+    'Ends with': 'پایان با',
+    Equals: 'برابر است',
+    'Not equals': 'برابر نیست',
+    'No Filter': 'بدون فیلتر',
+  };
   selectedProduct?: TableProduct;
   products: TableProduct[] = [];
   private productService = inject(ProductsService);
@@ -55,7 +64,22 @@ export class ProductDisplayComponent {
   cols!: Column[];
 
   constructor(private dataService: DataService, private router: Router) {}
+  ngAfterViewInit(): void {
+    const constraintList = this.dt()?.el.nativeElement.querySelector(
+      '.p-datatable-filter-constraint-list'
+    );
 
+    if (constraintList) {
+      const items = constraintList.querySelectorAll('li');
+      items.forEach((item: HTMLElement) => {
+        const text = item.textContent?.trim();
+        if (text && this.translations[text]) {
+          item.textContent = this.translations[text];
+          console.log('found');
+        }
+      });
+    }
+  }
   ngOnInit() {
     this.dataService.fetchProductObservable().subscribe({
       next: (response) => {

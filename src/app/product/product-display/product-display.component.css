@@ -1,3 +1,6 @@
 ::ng-deep .p-paginator {
   flex-direction: row-reverse;
 }
+/* ::ng-deep .p-datatable-filter-constraint {
+  display: none;
+} */

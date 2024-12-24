@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Customer } from '../../../user/user.model';
 import { DataService } from '../../../data.service';
-import { UserNamePipe } from '../../name.pipe';
+import { UserNamePipe } from './customer-list.pipe';
 @Component({
   selector: 'app-customer-list',
   standalone: true,

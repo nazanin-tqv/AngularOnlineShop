@@ -5,10 +5,11 @@ import { Tag } from 'primeng/tag';
 import { Product } from '../../product/product.model';
 import { DataService } from '../../data.service';
 import { Router } from '@angular/router';
+import { MoneyFormatPipe } from "../thumnail-list/money-format.pipe";
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [Carousel, ButtonModule, Tag],
+  imports: [Carousel, ButtonModule, Tag, MoneyFormatPipe],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.css',
 })

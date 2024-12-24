@@ -1,43 +1,50 @@
-<header>
-  <div class="grid-container">
-    <img
-      routerLink=""
-      src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
-      height="40"
-      class="p-mr-2"
-      alt="brand logo"
-    />
+<header class="bg-dark py-3 shadow-sm w-100">
+  <div class="container d-flex align-items-center justify-content-between">
+    <!-- Logo -->
+    <a routerLink="" class="d-flex align-items-center">
+      <img
+        src="https://setaksoft.com/ui-img/setaksoft-logo.svg"
+        height="40"
+        class="me-3"
+        alt="brand logo"
+      />
+    </a>
 
-    <!-- TODO ADD USERID TO SHOPPING CART -->
-    <form #form>
-      <p-iconfield iconPosition="left">
-        <p-inputicon styleClass="pi pi-search" />
+    <!-- Search Form -->
+    <form class="d-flex flex-grow-1 mx-3">
+      <div class="input-group">
         <input
           type="text"
           pInputText
           placeholder="جستجو"
           name="searchInput"
-          #searchInput
+          [formControl]="searchControl"
+          class="form-control border-start-0"
           (keydown.enter)="onSearch()"
         />
-      </p-iconfield>
+        <!-- <span class="input-group-text bg-white border-end-0 m-0">
+          <i class="pi pi-search text-muted"></i>
+        </span> -->
+      </div>
     </form>
-    <div class="access-button">
+
+    <!-- Access Buttons -->
+    <div class="d-flex align-items-center ms-auto">
       <p-button
         routerLink="login"
         icon="pi pi-user"
-        class="mr-2"
+        class="btn me-3"
         text
         severity="secondary"
-      />
+      ></p-button>
       <p-button
         [routerLink]="['userId', 'cart']"
         routerLinkActive="router-link-active"
         icon="pi pi-shopping-cart"
-        class="mr-2"
+        class="btn"
         text
         severity="secondary"
-      />
+      ></p-button>
     </div>
   </div>
 </header>

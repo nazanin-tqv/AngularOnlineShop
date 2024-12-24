@@ -8,6 +8,8 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { categoryList, Product } from '../../../product/product.model';
+import { DataService } from '../../../data.service';
 
 @Component({
   selector: 'app-basic-chart',
@@ -17,78 +19,62 @@ import { ChartModule } from 'primeng/chart';
   styleUrl: './basic-chart.component.css',
 })
 export class BasicChartComponent implements OnInit {
-  basicData: any;
-
-  basicOptions: any;
+  products?: Product[];
+  data: any;
+  options: any;
 
   platformId = inject(PLATFORM_ID);
 
-
-  constructor(private cd: ChangeDetectorRef) {}
-
+  constructor(
+    private cd: ChangeDetectorRef,
+    private dataService: DataService
+  ) {}
 
   ngOnInit() {
-    this.initChart();
+    this.dataService.fetchProductObservable().subscribe({
+      next: (response) => {
+        this.products = response;
+        this.initChart();
+      },
+    });
+  }
+  getCategorySize(category: string) {
+    return this.products?.filter((p) =>
+      p.categories.some((c) => c.label === category)
+    ).length;
   }
 
   initChart() {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue(
-        '--p-text-muted-color'
-      );
-      const surfaceBorder = documentStyle.getPropertyValue(
-        '--p-content-border-color'
-      );
-
-      this.basicData = {
-        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+      const textColor = documentStyle.getPropertyValue('--text-color');
+      const labels = categoryList.map((c) => c.label);
+      const data = labels.map((c) => this.getCategorySize(c));
+      this.data = {
+        labels: labels,
         datasets: [
           {
-            label: 'Sales',
-            data: [540, 325, 702, 620],
+            data: data,
             backgroundColor: [
-              'rgba(249, 115, 22, 0.2)',
-              'rgba(6, 182, 212, 0.2)',
-              'rgb(107, 114, 128, 0.2)',
-              'rgba(139, 92, 246, 0.2)',
+              documentStyle.getPropertyValue('--p-cyan-500'),
+              documentStyle.getPropertyValue('--p-orange-500'),
+              documentStyle.getPropertyValue('--p-gray-500'),
             ],
-            borderColor: [
-              'rgb(249, 115, 22)',
-              'rgb(6, 182, 212)',
-              'rgb(107, 114, 128)',
-              'rgb(139, 92, 246)',
+            hoverBackgroundColor: [
+              documentStyle.getPropertyValue('--p-cyan-400'),
+              documentStyle.getPropertyValue('--p-orange-400'),
+              documentStyle.getPropertyValue('--p-gray-400'),
             ],
-            borderWidth: 1,
           },
         ],
       };
 
-      this.basicOptions = {
+      this.options = {
         plugins: {
           legend: {
             labels: {
+              usePointStyle: true,
               color: textColor,
-            },
-          },
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
             },
           },
         },

@@ -1,25 +1,27 @@
 import {
   Component,
   ElementRef,
-  inject,
-  input,
-  NgModule,
-  output,
+  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Menubar } from 'primeng/menubar';
+
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { HeaderService } from './header.service';
-import { ProductsService } from '../product/products-service.service';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { EventEmitter } from 'stream';
-import { NgFor } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
+import { DataService } from '../data.service';
+import { Product } from '../product/product.model';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -28,28 +30,41 @@ import { NgFor } from '@angular/common';
     //Menubar,
     ButtonModule,
     InputTextModule,
-    IconField,
-    InputIcon,
     FormsModule,
     RouterLink,
     RouterLinkActive,
+    ReactiveFormsModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent {
-  //items: MenuItem[] | undefined;
-  enteredSearch =
-    viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
+export class HeaderComponent implements OnInit {
+  searchControl = new FormControl('');
+  products = signal<Product[]>([]);
+
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private headerService: HeaderService
+  ) {}
+  ngOnInit(): void {
+    this.searchControl.valueChanges
+      .pipe(debounceTime(700)) // 500ms delay
+      .subscribe({
+        next: (value) => {
+          this.headerService.setEnteredSearchInput = value ?? '';
+        },
+      });
+  }
+
   private form = viewChild<ElementRef<NgForm>>('form'); // added for resetting purpose
-  private headerService = inject(HeaderService);
+
   onSearch() {
+    const searchInput = this.headerService.getSearchInput;
+    this.router.navigate(['search', searchInput]);
+
     this.headerService.setSearchDone = true;
-    this.headerService.setEnteredSearchInput =
-      this.enteredSearch()?.nativeElement.value;
-    console.log(
-      `Searched Item is: ${this.enteredSearch().nativeElement.value}`
-    );
+    console.log(`Searched Item is: ${searchInput}`);
     this.form()?.nativeElement.reset();
   }
 }

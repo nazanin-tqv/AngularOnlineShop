@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { Admin } from '../../../user/user.model';
 import { DataService } from '../../../data.service';
-import { UserNamePipe } from '../../name.pipe';
+import { UserNamePipe } from '../../customer/customer-list/customer-list.pipe';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-list',

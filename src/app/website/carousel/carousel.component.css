@@ -9,3 +9,6 @@
 ::ng-deep .p-carousel-item-list {
   flex-direction: row-reverse !important;
 }
+img {
+  border: 1px solid #dee2e6; /* Subtle border */
+}

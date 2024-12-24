@@ -73,7 +73,8 @@ export class EditProductComponent implements OnInit {
     categories: new FormControl<Category[]>(this.product?.categories ?? []),
   });
   ngOnInit(): void {
-    const id = this.router.url.split('/').pop();
+    const segments = this.router.url.split('/');
+    const id = segments[segments.length - 2];
     this.url = `https://firestore.googleapis.com/v1/projects/onlineshop-6dac9/databases/(default)/documents/assets/${id}`;
     this.dataService.fetchProductObservableById(id ?? '').subscribe({
       next: (response) => {
@@ -157,11 +158,7 @@ export class EditProductComponent implements OnInit {
       });
     }
   }
-  private notEmpty(entered: string, prev: string) {
-    if (entered === '') {
-      return prev;
-    } else return entered;
-  }
+
   // Helper to convert a File to Base64
   private fileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

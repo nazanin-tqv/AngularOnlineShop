@@ -1,12 +1,10 @@
 <div class="container">
-  <!-- Search and Filter Controls -->
   <form
     (ngSubmit)="onFilter()"
     [formGroup]="filterForm"
     #form
     class="row g-3 mb-4 align-items-center filterForm"
   >
-    <!-- Search Input -->
     <div class="col-lg-3 col-md-6">
       <input
         type="text"
@@ -34,7 +32,7 @@
     </div>
 
     <!-- Brands Select -->
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-2 col-md-6">
       <p-select
         [options]="brands"
         id="brands"
@@ -46,22 +44,25 @@
       ></p-select>
     </div>
 
-    <div class="col-lg-1 col-md-3 col-sm-6 text-center">
+    <div class="col-lg-2 col-md-3 col-sm-6 text-center ml-1">
       <p-button
         label="فیلتر"
         icon="pi pi-filter"
-        type="submit"
         class="btn-full"
+        type="submit"
       ></p-button>
     </div>
 
-    <div class="col-lg-2 col-md-3 col-sm-6 text-center">
+    <div class="col-lg-2 col-md-3 col-sm-6 text-center mr-1">
       <p-button
-        label="برداشتن فیلتر"
+        label="لغو فیلتر"
         icon="pi pi-filter-slash"
         (onClick)="reset()"
         class="btn-full"
       ></p-button>
     </div>
   </form>
+  <div class="container">
+    <website-thumnail-list [products]="products()"></website-thumnail-list>
+  </div>
 </div>

@@ -31,11 +31,14 @@ export class AdminProductDetails {
     console.log(this.product);
   }
   onEditProduct() {
+    const formattedName = this.product?.name.replace(/\s+/g, '-'); // Replace spaces with hyphens for clean URLs
+
     this.router.navigate([
       'admin-panel',
       'products',
       'edit-product',
       this.product?.id,
+      formattedName,
     ]);
   }
 

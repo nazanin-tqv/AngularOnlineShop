@@ -118,7 +118,7 @@ export class DataService {
       },
       error: (error: Error) => this.error.set(error.message),
       complete: () => this.isFetching.set(false),
-    });
+    })
   }
   fetchCustomerListObservable() {
     this.isFetching.set(true);
@@ -337,6 +337,7 @@ export class DataService {
               quantity: { doubleValue: number };
             };
           }) => {
+            console.log('mapping')
             return {
               id: doc['name'].split('/').pop(),
               name: doc['fields'].name.stringValue,
@@ -510,7 +511,6 @@ export class DataService {
     return this.firestoreService
       .updateProduct(pId, updatedProduct)
       .pipe(
-        map((resData) => resData.users),
         catchError((error) =>
           throwError(
             () =>

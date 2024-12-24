@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ProductsService } from '../product/products-service.service';
+import { Product } from '../product/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,10 +7,18 @@ import { ProductsService } from '../product/products-service.service';
 export class HeaderService {
   private searchDone = signal<boolean>(false);
   private enteredSearchInput = signal<string>('');
+  private foundProducts = signal<Product[]>([]);
+
+  setFoundProducts(products: Product[]) {
+    this.foundProducts.set(products);
+  }
+  get foundProductsGetter() {
+    return this.foundProducts();
+  }
   set setSearchDone(b: boolean) {
     this.searchDone.set(b);
   }
-  
+
   get getSearchDone() {
     return this.searchDone();
   }

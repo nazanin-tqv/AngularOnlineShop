@@ -63,9 +63,17 @@ export class WebsiteProductsComponent {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.dataService.fetchProductObservable().subscribe((data) => {
-      this.products.set(data);
-    });
+    if (this.dataService.getProducts.length === 0) {
+      console.log('recieving');
+      this.dataService.fetchProductObservable().subscribe((data) => {
+        this.products.set(data);
+        this.dataService.setProducts(data);
+      });
+    } else {
+      console.log('already have ir');
+      this.products.set(this.dataService.getProducts);
+    }
+
     this.original.set(this.products());
   }
   onCategoryChange() {

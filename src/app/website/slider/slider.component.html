@@ -1,11 +1,13 @@
 <div class="card w-100">
   <p-galleria
+    *ngIf="images"
     [value]="images"
     [numVisible]="5"
     [circular]="true"
     [showItemNavigators]="true"
     [showThumbnails]="false"
     [responsiveOptions]="responsiveOptions"
+    class="w-full"
   >
     <ng-template pTemplate="item" let-item>
       <div class="w-100">
