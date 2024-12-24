@@ -6,7 +6,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [PanelMenuModule, RouterOutlet, SidebarComponent],
+  imports: [PanelMenuModule, RouterOutlet],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation

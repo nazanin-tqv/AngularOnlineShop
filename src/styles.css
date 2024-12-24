@@ -164,4 +164,5 @@ input.ng-invalid.ng-touched.ng-dirty {
 html,
 body {
   height: 100%;
+  width: 100%;
 }
