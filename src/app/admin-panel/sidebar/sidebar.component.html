@@ -1,9 +1,52 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <div class="sidebar">
-    <ng-content
-      class="nav nav-pills"
-      data-widget="treeview"
-      role="menu"
-    ></ng-content>
-  </div>
-</aside>
+<div class="d-flex flex-column flex-shrink-0 p-3 sidebar">
+  <h4 class="text-center text-white">پنل مدیریت</h4>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <!-- Loop through items -->
+    <li *ngFor="let item of items" class="nav-item">
+      <!-- Parent Item -->
+      <a
+        class="nav-link d-flex align-items-center text-white"
+        [routerLink]="item.routerLink || null"
+        (click)="toggleSubmenu(item)"
+        [class.active]="isSubmenuOpen(item)"
+        [attr.aria-expanded]="isSubmenuOpen(item)"
+        *ngIf="!item.items"
+      >
+        <i class="{{ item.icon }} me-2"></i>
+        {{ item.label }}
+      </a>
+
+      <!-- Dropdown with Subitems -->
+      <div *ngIf="item.items" class="dropdown">
+        <a
+          class="nav-link d-flex align-items-center text-white"
+          href="#"
+          (click)="toggleSubmenu(item)"
+        >
+          <i class="{{ item.icon }} me-2"></i>
+          {{ item.label }}
+          <i
+            class="pi pi-chevron-down ms-auto"
+            [class.rotate]="isSubmenuOpen(item)"
+          ></i>
+        </a>
+        <div
+          *ngIf="isSubmenuOpen(item)"
+          class="submenu"
+        >
+          <ul class="nav flex-column">
+            <li *ngFor="let subItem of item.items">
+              <a
+                class="nav-link text-white"
+                [routerLink]="subItem.routerLink"
+              >
+                <i class="{{ subItem.icon }} me-2"></i>
+                {{ subItem.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

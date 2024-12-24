@@ -1,0 +1,47 @@
+/* Sidebar Styles */
+.sidebar {
+  width: 280px;
+  background-color: #343a40;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.sidebar h4 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.nav-link {
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  background-color: #495057;
+}
+
+.nav-link.active {
+  background-color: #198754;
+}
+
+.nav-link i {
+  font-size: 1.25rem;
+}
+
+.submenu {
+  padding-left: 1rem;
+}
+
+.submenu .nav-link {
+  font-size: 0.9rem;
+}
+
+.pi-chevron-down {
+  transition: transform 0.2s ease-in-out;
+}
+
+.pi-chevron-down.rotate {
+  transform: rotate(180deg);
+}

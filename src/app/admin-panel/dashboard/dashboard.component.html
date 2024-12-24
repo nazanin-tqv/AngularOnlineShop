@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 card p-3">
   <!-- Dashboard Header -->
   <div class="row mb-4">
     <div class="col-12">
@@ -11,36 +11,40 @@
     <div class="col-sm-6 col-lg-3">
       <div class="card shadow-sm bg-light">
         <div class="card-body">
-          <i class="bi bi-gear-fill fs-1 text-primary"></i>
-          <h5 class="card-title mt-3">تعداد محصولات</h5>
-          <p class="card-text fs-4 fw-bold text-primary">{{ productSize }}</p>
+          <i class="text-primary"></i>
+          <p class="card-text fs-1 text-primary">{{ productSize }}</p>
+
+          <h5 class="card-title font-bold fw-bold mt-3">تعداد محصولات</h5>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card shadow-sm bg-light">
         <div class="card-body">
-          <i class="bi bi-hand-thumbs-up-fill fs-1 text-danger"></i>
-          <h5 class="card-title mt-3">لایک ها</h5>
-          <p class="card-text fs-4 fw-bold text-danger">41,410</p>
+          <i class="fs-2 text-danger"></i>
+          <p class="card-text fs-1 text-danger">41</p>
+
+          <h5 class="card-title font-bold fw-bold mt-3">تعداد برندها</h5>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card shadow-sm bg-light">
         <div class="card-body">
-          <i class="bi bi-cart-fill fs-1 text-success"></i>
-          <h5 class="card-title mt-3">میزان فروش</h5>
-          <p class="card-text fs-4 fw-bold text-success">760</p>
+          <i class="text-success"></i>
+          <p class="card-text fs-1 text-success">76</p>
+
+          <h5 class="card-title fw-bold mt-3">میزان فروش</h5>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card shadow-sm bg-light">
         <div class="card-body">
-          <i class="bi bi-people-fill fs-1 text-warning"></i>
-          <h5 class="card-title mt-3">تعداد اعضا</h5>
-          <p class="card-text fs-4 fw-bold text-warning">{{ customerSize }}</p>
+          <i class="text-warning"></i>
+          <p class="card-text fs-1 text-warning">{{ customerSize }}</p>
+
+          <h5 class="card-title fw-bold mt-3">تعداد اعضا</h5>
         </div>
       </div>
     </div>
@@ -100,25 +104,24 @@
     </div>
   </div>
 
-  <!-- Total Revenue, Cost, and Profit -->
   <div class="row text-center">
     <div class="col-md-4">
       <h5 class="text-success fw-bold">
         <i class="bi bi-arrow-up"></i> 17% $35,210.43
       </h5>
-      <p class="text-muted">Total Revenue</p>
+      <p class="text-muted">درآمد کل</p>
     </div>
     <div class="col-md-4">
       <h5 class="text-warning fw-bold">
         <i class="bi bi-arrow-down"></i> 0% $10,390.90
       </h5>
-      <p class="text-muted">Total Cost</p>
+      <p class="text-muted">هزینه کل</p>
     </div>
     <div class="col-md-4">
       <h5 class="text-info fw-bold">
         <i class="bi bi-arrow-up"></i> 20% $24,813.53
       </h5>
-      <p class="text-muted">Total Profit</p>
+      <p class="text-muted">سود کل</p>
     </div>
   </div>
 </div>

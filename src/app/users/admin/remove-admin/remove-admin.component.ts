@@ -30,7 +30,6 @@ export class RemoveAdminComponent implements OnInit {
 
   removeAdmin(): void {
     if (confirm('آیا از حذف ادمین مطمئنید؟')) {
-      // Add logic to remove the admin from the backend here
       this.dataService.deleteAdmin(this.admin?.id ?? '');
       alert('حذف موفقیت آمیز بود');
       this.router.navigate(['/admin-panel/admins']); // Redirect to the admin list page

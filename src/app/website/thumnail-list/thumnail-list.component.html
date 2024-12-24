@@ -1,4 +1,4 @@
-<p-dataview [value]="products()" [rows]="5" [paginator]="true">
+<p-dataview [value]="products()" [rows]="5" [paginator]="true" emptyMessage=" ">
   <ng-template #list let-items>
     <div class="row g-3">
       <div class="col-12" *ngFor="let item of items; let first = first">
@@ -18,7 +18,6 @@
             </div>
             <div class="col-12 col-md-9">
               <div class="row g-3">
-                <!-- Details section -->
                 <div class="col-12 col-md-8">
                   <div>
                     <span class="text-secondary small fw-bold">{{
@@ -33,7 +32,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-4 text-md-end">
-                  <span class="h5 fw-semibold text-dark">{{
+                  <span class="fw-bold h5 text-dark">{{
                     item.price | moneyFormat
                   }}</span>
                   <div class="row g-2 mt-2">
@@ -54,6 +53,17 @@
           </div>
         </div>
       </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="empty">
+    <div class="text-center">
+      <img
+        src="assets/images/notfound.webp"
+        alt="No Products"
+        style="max-width: 200px"
+      />
+      <h3>محصولی یافت نشد</h3>
+      <p>هیچ محصولی در دسترس نیست. لطفاً بعداً دوباره امتحان کنید.</p>
     </div>
   </ng-template>
 </p-dataview>

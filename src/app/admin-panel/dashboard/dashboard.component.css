@@ -20,3 +20,7 @@ body {
 .goal-bar-inquiries {
   background-color: #ffc107;
 }
+h5 {
+  display: block;
+  margin: 0 auto;
+}

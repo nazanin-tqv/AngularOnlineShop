@@ -70,7 +70,6 @@ export class AuthService {
     }
   }
   isLoggedInAdmin() {
-    var logb: boolean = false;
 
     var log: {
       email: string;
@@ -80,12 +79,13 @@ export class AuthService {
     this.dataSerivce.fetchLogInObservable().subscribe({
       next: (response) => {
         log = response;
-        if (log && log?.type === 'admin') {
-          logb = true;
+        if (log && log.type === 'admin') {
+          console.log(log);
+          this.userIsValid.set(true);
         }
       },
     });
-    return logb;
+    return this.userIsValid();
   }
   isLoggedInCustomer() {
     var logb: boolean = false;

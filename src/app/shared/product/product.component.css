@@ -5,3 +5,26 @@ strong {
   display: flex;
   justify-content: flex-end;
 }
+.product-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.product-image {
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.product-name {
+  font-size: 1.8rem;
+}
+
+.product-description {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.text-justify {
+  text-align: justify;
+}

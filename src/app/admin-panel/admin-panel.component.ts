@@ -1,18 +1,20 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DataService } from '../data.service';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [PanelMenuModule, RouterOutlet],
+  imports: [PanelMenuModule, RouterOutlet, SidebarComponent],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
 export class AdminPanelComponent {
   items?: MenuItem[];
+  constructor(private dataService: DataService, private router: Router) {}
   ngOnInit() {
     this.items = [
       {
@@ -72,6 +74,18 @@ export class AdminPanelComponent {
         icon: 'pi pi-fw pi-user',
         routerLink: 'customers',
       },
+      {
+        label: 'خروج',
+        icon: 'pi pi-fw pi-exit',
+        command: () => this.onMenuItemClick(),
+      },
     ];
+  }
+  onMenuItemClick(): void {
+    if (confirm('آیا میخواهید از پنل ادمین خارج شوید؟')) {
+      this.dataService.logOut();
+      alert('خروج موفقیت آمیز بود');
+      this.router.navigate(['/']); // Redirect to the admin list page
+    }
   }
 }
